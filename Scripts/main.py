@@ -59,8 +59,9 @@ while run :
             if start_button.collidepoint(mouse_pos):
                 intro()
             elif descrip_button.collidepoint(mouse_pos):
-                description(run, screen, WHITE)                
-        
-    pygame.display.update()
+                run = description(run, screen, WHITE)                
+
+    if run==True:
+        pygame.display.update()
         
 pygame.quit()
