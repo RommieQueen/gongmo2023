@@ -18,9 +18,11 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+run = True
+
 def menu():
     #변수선언
-    background = pygame.image.load('Images/start_background.png')
+    background = pygame.image.load('Images/background/start_background.png')
 
     title_font = pygame.font.Font('Fonts/NeoDunggeunmoPro-Regular.ttf', 60)
     title_text = title_font.render("본격! 외계인 침공은 있던적이 없던거야!", True, BLACK)
@@ -37,8 +39,8 @@ def menu():
     start_button = pygame.Rect((WIDTH_CENTER - 75), (HEIGHT_CENTER - 40), 150, 80)
     descrip_button = pygame.Rect((WIDTH_CENTER - 75), (HEIGHT_CENTER + 70), 150, 80)
     
-    #실행
     run = True
+    #실행
     while run :                    
         screen.blit(background,(0, 0))
         screen.blit(title_text, title_text_rect)
@@ -69,8 +71,8 @@ def intro():
     
     alpha = 0
     timer = 0
-    intro_img1 = pygame.image.load('Images/intro_park.png')
-    intro_img2 = pygame.image.load('Images/intro_park2.png')
+    intro_img1 = pygame.image.load('Images/background/intro_park.png')
+    intro_img2 = pygame.image.load('Images/background/intro_park2.png')
     intro_font = pygame.font.Font('Fonts/NeoDunggeunmoPro-Regular.ttf', 50)
     intro_text1 = intro_font.render("2023년 7월 3일", True, WHITE)
     intro_text2 = intro_font.render("공원에 오신것을 환영합니다.",True,WHITE)
@@ -100,6 +102,11 @@ def intro():
         if timer >= 450:
             timer = 450
             screen.blit(intro_img2,(0,0))
-        pygame.display.update()
+            
+        if run==True:    
+            pygame.display.update()
     pygame.quit()
-menu()
+    return run
+
+if run == True:  
+    menu()
