@@ -18,8 +18,6 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
-run = True
-
 def menu():
     #변수선언
     background = pygame.image.load('Images/background/start_background.png')
@@ -39,8 +37,8 @@ def menu():
     start_button = pygame.Rect((WIDTH_CENTER - 75), (HEIGHT_CENTER - 40), 150, 80)
     descrip_button = pygame.Rect((WIDTH_CENTER - 75), (HEIGHT_CENTER + 70), 150, 80)
     
-    run = True
     #실행
+    run = True
     while run :                    
         screen.blit(background,(0, 0))
         screen.blit(title_text, title_text_rect)
@@ -108,5 +106,4 @@ def intro():
     pygame.quit()
     return run
 
-if run == True:  
-    menu()
+menu()
