@@ -13,8 +13,8 @@ def intro():
             
     dialog = pygame.image.load('./../Images/dialog.png')
         
-    intro_img_1 = pygame.image.load('./../Images/intro_park.png')
-    intro_img_2 = pygame.image.load('./../Images/intro_park2.png')
+    intro_img_1 = pygame.image.load('./../Images/background/intro_park.png')
+    intro_img_2 = pygame.image.load('./../Images/background/intro_park2.png')
         
     intro_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 50)
     sys_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 15)
