@@ -23,11 +23,12 @@ BLUE = (0, 0, 255)
 
 def main_window():
 
-    background = pygame.image.load('./../Images/background/start_background.png')
+    start_background = pygame.image.load('./../Images/background/start_background.png')
+    start_background = pygame.transform.scale(start_background, (1280, 720))
 
     title_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 60)
     title_text = title_font.render("본격! 외계인 침공은 있던적이 없던거야!", True, BLACK)
-    title_text_rect = title_text.get_rect(center=(WIDTH_CENTER, HEIGHT_CENTER - 200))
+    title_text_rect = title_text.get_rect(center = (WIDTH_CENTER, HEIGHT_CENTER - 200))
 
     start_button = pygame.image.load('./../Images/start_button.png')
     
@@ -41,12 +42,11 @@ def main_window():
             if event.type == pygame.QUIT:
                 running = False
 
-        screen.blit(background,(0, 0))
+        screen.blit(start_background,(0, 0))
         screen.blit(title_text, title_text_rect)
         button(screen, WIDTH_CENTER - 128, HEIGHT_CENTER - 67, start_button, 256, 134, intro)
 
-        if running == True:
-            pygame.display.update()
+        pygame.display.update()
         
     pygame.quit()
 
