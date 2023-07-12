@@ -8,7 +8,7 @@ FPS = pygame.time.Clock()
 
 WIDTH_SCREEN = 1280
 HEIGHT_SCREEN = 720
-screen = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN))
+screen = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN), pygame.FULLSCREEN)
 pygame.display.set_caption("본격! 외계인 침공은 있던적이 없던거야!")
 
 WIDTH_CENTER = WIDTH_SCREEN // 2
