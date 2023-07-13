@@ -1,6 +1,6 @@
 import pygame
 from game_manager import button
-from intro_1 import intro
+from intro_1 import intro, intro2
 
 pygame.init()
 
@@ -49,5 +49,4 @@ def main_window():
         pygame.display.update()
         
     pygame.quit()
-
-main_window()
+intro2()
