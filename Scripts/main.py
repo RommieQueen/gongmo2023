@@ -8,7 +8,7 @@ FPS = pygame.time.Clock()
 
 WIDTH_SCREEN = 1280
 HEIGHT_SCREEN = 720
-screen = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN))
 pygame.display.set_caption("본격! 외계인 침공은 있던적이 없던거야!")
 
 WIDTH_CENTER = WIDTH_SCREEN // 2
@@ -23,14 +23,14 @@ BLUE = (0, 0, 255)
 
 def main_window():
 
-    start_background = pygame.image.load('./Images/background/start_background.png')
+    start_background = pygame.image.load('./../Images/background/start_background.png')
     start_background = pygame.transform.scale(start_background, (1280, 720))
 
-    title_font = pygame.font.Font('./Fonts/NeoDunggeunmoPro-Regular.ttf', 60)
+    title_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 60)
     title_text = title_font.render("본격! 외계인 침공은 있던적이 없던거야!", True, BLACK)
     title_text_rect = title_text.get_rect(center = (WIDTH_CENTER, HEIGHT_CENTER - 200))
 
-    start_button = pygame.image.load('./Images/start_button.png')
+    start_button = pygame.image.load('./../Images/ui/start_button.png')
     
     running = True
 
