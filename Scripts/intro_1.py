@@ -25,7 +25,7 @@ def intro():
 
     #인물 이름 설정할 수 있음
     def character_name(get_text):
-        character_name_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 20)
+        character_name_font = pygame.font.Font('./Fonts/NeoDunggeunmoPro-Regular.ttf', 20)
         character_name_line = character_name_font.render(get_text, True, WHITE)
         screen.blit(character_name_line, get_line_pos(character_name_line, 1))
         
@@ -33,13 +33,13 @@ def intro():
     # 대화상자에서 출력하고 싶은 라인, 원하는 색, 인물 대화 입력
     def character_text(get_line, get_color, get_text):
         
-        character_text_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 20)
+        character_text_font = pygame.font.Font('./Fonts/NeoDunggeunmoPro-Regular.ttf', 20)
         character_line = character_text_font.render(get_text, True, get_color)
         screen.blit(character_line, get_line_pos(character_line, get_line))
 
     # 대화상자에서 다음으로 넘기기를 알려줌
     def system_help():
-        system_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 16)
+        system_font = pygame.font.Font('./Fonts/NeoDunggeunmoPro-Regular.ttf', 16)
         system_line_help = system_font.render("▼SPACE를 눌러 진행▼", True, WHITE)
         screen.blit(system_line_help, get_line_pos(system_line_help, 4))        
 
@@ -60,7 +60,7 @@ def intro():
 
     background_pos = (0, 0)
 
-    spaceship_background = pygame.image.load('./../Images/background/spaceship.jpg')
+    spaceship_background = pygame.image.load('./Images/background/spaceship.jpg')
     spaceship_background = pygame.transform.scale(spaceship_background, (1280, 720))
 
     running = True
@@ -82,7 +82,7 @@ def intro():
         screen.fill(BLACK)
             
                 
-        alpha += 1.5
+        alpha += 1.8
                 
         if alpha > 255:
             alpha = 255
@@ -90,7 +90,7 @@ def intro():
         spaceship_background.set_alpha(alpha)
         screen.blit(spaceship_background, background_pos)
             
-        if alpha == 255 and story == 0:
+        if alpha == 150 and story == 0:
             dialog_box()
             System()
             character_text(2,WHITE,"(외계인들은 16진수로 대화하지만)")
@@ -100,7 +100,7 @@ def intro():
             dialog_box()
             Alien()
             character_text(2, WHITE, "사령관님 우리 이제 또 어디가야 하나요?")
-            character_text(3, WHITE, "이제 들릴 곳은 다 간 것 같은데요...")
+            character_text(3, WHITE, "이제 들릴 때는 다 간 것 같은데요...")
             system_help()
             
         elif story == 2:
@@ -108,13 +108,6 @@ def intro():
             Alien_Leader()
             character_text(2, WHITE, "대장님께서 무슨 계획인지 모르겠지만 지구를 택하셨지... 후훗")
             system_help()
-
-        elif story ==3:
-            dialog_box()
-            Alien_Leader()
-            character_text(2,WHITE, "우린 지구를 Aso9q23s2 하는 것이 목표다!")
-            character_text(3, WHITE, "착륙 준비!")
-            
                 
         pygame.display.update()
     pygame.quit()
