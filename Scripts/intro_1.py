@@ -1,8 +1,11 @@
 import pygame
-from import_image import *
+import import_image as images
+
 pygame.init()
-player = pygame.transform.scale(player,(256,256))
-ailen = pygame.transform.scale(ailen,(250,250))
+
+player = pygame.transform.scale(images.player,(256,256))
+ailen = pygame.transform.scale(images.ailen,(250,250))
+spaceship_background = pygame.transform.scale(images.spaceship_background, (250,250))
 def intro():
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS
     # main 파일에서 변수, 상수, 메소드 불러오기
@@ -163,11 +166,11 @@ def intro2():
         if ailen_y > 300:
             ailen_y = 300
             if story==0:
-                draw_dialog(boy_portrait)
+                draw_dialog(images.boy_portrait)
                 dialog_text("와우! 저 흰색 고양이 엄청 크..")
 
             elif story==1:
-                draw_dialog(alien_portrait)
+                draw_dialog(images.alien_portrait)
                 dialog_text("먀먐! 누구야?!")
 
             elif story==2:
@@ -176,7 +179,7 @@ def intro2():
                     alpha = 255
                 mark_box.set_alpha(alpha)
                 screen.blit(mark_box,(360,220))
-                draw_dialog(boy_portrait)
+                draw_dialog(images.boy_portrait)
                 dialog_text("으악!")
 
         pygame.display.update()
