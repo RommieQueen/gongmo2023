@@ -49,4 +49,4 @@ def main_window():
         pygame.display.update()
         
     pygame.quit()
-intro2()
+main_window()

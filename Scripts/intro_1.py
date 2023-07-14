@@ -3,9 +3,10 @@ import import_image as images
 
 pygame.init()
 
-player = pygame.transform.scale(images.player,(256,256))
+player = pygame.transform.scale(images.player,(80,184))
 ailen = pygame.transform.scale(images.ailen,(250,250))
-spaceship_background = pygame.transform.scale(images.spaceship_background, (250,250))
+spaceship_background = pygame.transform.scale(images.spaceship_background, (1280,720))
+
 def intro():
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS
     # main 파일에서 변수, 상수, 메소드 불러오기
@@ -34,8 +35,7 @@ def intro():
         
     # 인물들의 말을 출력할 수 있도록 함
     # 대화상자에서 출력하고 싶은 라인, 원하는 색, 인물 대화 입력
-    def character_text(get_line, get_color, get_text):
-        
+    def character_text(get_line, get_color, get_text):        
         character_text_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 20)
         character_line = character_text_font.render(get_text, True, get_color)
         screen.blit(character_line, get_line_pos(character_line, get_line))
@@ -53,17 +53,15 @@ def intro():
         character_name("사라")
 
     def Alien_Leader():
-        character_name("eca1b0eca78020eba788eba5b4ed81acec8aa420eb8390ec98b9ec9db4")
+        character_name("eca1b0eca285ec82ac20eb8c80ec9ea5")
         
     def Alien():
-        character_name("???")
+        character_name("eca1b0eca285ec82ac")
         
     alpha = 0
-    story=0
+    story = 0
 
     background_pos = (0, 0)
-
-    #spaceship_background = pygame.transform.scale(spaceship_background, (1280, 720)) #왜 이건 load 빼면 에러?
 
     running = True
 
@@ -92,34 +90,48 @@ def intro():
         spaceship_background.set_alpha(alpha)
         screen.blit(spaceship_background, background_pos)
             
-        if alpha == 150 and story == 0:
+        if alpha == 255 and story == 0:
             dialog_box()
             System()
             character_text(2,WHITE,"(외계인들은 유니코드로 대화하지만..)")
             character_text(3,WHITE,"(특별히 해석 해드리겠습니다.)")
+            system_help()
                 
-        elif story == 1:
+        elif alpha >= 0 and story == 1:
+            alpha = 255
             dialog_box()
             Alien()
             character_text(2, WHITE, "사령관님 우리 이제 또 어디가야 하나요?")
             character_text(3, WHITE, "이제 들릴 데는 다 간 것 같은데요...")
             system_help()
             
-        elif story == 2:
+        elif alpha >= 0 and story == 2:
+            alpha = 255
             dialog_box()
             Alien_Leader()
-            character_text(2, WHITE, "대장님께서 무슨 계획인지 모르겠지만 지구를 택하셨지... 후훗")
+            character_text(2, WHITE, '대장님께서 무슨 계획인지 모르겠지만 [지구]라는 곳을 택하셨더군... 후훗')
+            character_text(3, WHITE, "그러니 우리는 [지구]라는 곳에 간다...!!")
             system_help()
-        elif story == 3:
+            
+        elif alpha >= 0 and story == 3:
+            alpha = 255
+            dialog_box()
+            Alien()
+            character_text(2, WHITE, '넵! 그럼 바로 [지구]로 이동하겠습니다!')
+            character_text(3, WHITE, "(저 씹덕같은 말은 좀 바꾸면 안 되나..?)")
+            system_help()
+            
+        elif alpha == 255 and story == 4:
             intro2()
+            
         pygame.display.update()
+        
     pygame.quit()
     
 def intro2():
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS
+    
     def draw_dialog(portrait):
-        from main import screen
-
         dialog_box = pygame.image.load('./../Images/ui/dialog_box.png')
         dialog_box = pygame.transform.scale(dialog_box, (1100,200))
         portrait = pygame.transform.scale(portrait, (140, 140))
@@ -144,9 +156,10 @@ def intro2():
     ailen_x = 700
     ailen_y = 30
 
-    story =0
+    story = 0
     alpha = 0
     running = True
+    
     while running:
         
         deltaTime = FPS.tick(60)
@@ -163,9 +176,10 @@ def intro2():
         screen.blit(ailen, (ailen_x, ailen_y))
 
         ailen_y += 3
-        if ailen_y > 300:
-            ailen_y = 300
-            if story==0:
+        if ailen_y > 230:
+            ailen_y = 230
+            
+            if story == 0:
                 draw_dialog(images.boy_portrait)
                 dialog_text("와우! 저 흰색 고양이 엄청 크..")
 
