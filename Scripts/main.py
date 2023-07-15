@@ -1,7 +1,7 @@
 import sys
 import pygame
 from game_manager import button
-from intro_part import intro2
+from intro_part import intro
 
 pygame.init()
 
@@ -48,7 +48,7 @@ def main_window():
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    running = intro2()
+                    running = intro()
                      
         screen.blit(start_background, (0, 0))
         screen.blit(title_text, title_text_rect)
