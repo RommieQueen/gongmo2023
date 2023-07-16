@@ -2,7 +2,7 @@ import sys
 import pygame
 from game_manager import button
 from intro_part import intro
-
+from stage import stage1
 pygame.init()
 
 FPS = pygame.time.Clock()
@@ -62,4 +62,4 @@ def main_window():
         
     pygame.quit()
     
-main_window()
+stage1()

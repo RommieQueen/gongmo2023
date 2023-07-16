@@ -130,7 +130,7 @@ tree = pygame.transform.scale(images.tree,(500, 500))
 
 def intro2():
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
-    
+    from stage import stage1
     def draw_dialog(portrait):    
         portrait = pygame.transform.scale(portrait, (140, 140))
 
@@ -277,6 +277,7 @@ def intro2():
             character_text(2, WHITE, "그럼 이제 모든 인간을 없앤다!")
             system_help()
             alpha = 1000
+            stage1()
 
         pygame.display.update()
     pygame.quit()
