@@ -1,4 +1,3 @@
-import sys
 import pygame
 from game_manager import button
 from intro_part import intro
@@ -58,8 +57,5 @@ def main_window():
             pygame.display.update()
         else:
             pygame.quit()
-            sys.exit()
-        
     pygame.quit()
-    
 stage1()
