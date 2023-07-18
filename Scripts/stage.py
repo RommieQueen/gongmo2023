@@ -1,6 +1,10 @@
 import pygame
+import random
 import import_image as images
+import Enemy as e
+
 pygame.init()
+
 from Player import Player
 
 def drawBackground(image, x, y, plusX, range_last):
@@ -13,7 +17,11 @@ player = Player(50, 200)
 
 def stage1():
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
+    
     SKYBLUE = (178,235,244)
+    
+    
+    
     running = True
     while running:
         screen.fill(SKYBLUE)
@@ -36,10 +44,15 @@ def stage1():
 
         player.update()
         player.draw(screen)
+        
+        if random.randint(1, 400) < 5:
+            enemy = e.Enemy()
+            e.enemies.add(enemy)
 
-        if running == True:
-            pygame.display.update()
-        else:
-            pygame.quit()
+        e.enemies.update()
+        e.enemies.draw(screen)
+
+        pygame.display.update()
+
     pygame.quit()
 
