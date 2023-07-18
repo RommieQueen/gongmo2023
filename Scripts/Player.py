@@ -122,5 +122,5 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self, screen):
 
-        screen.blit(self.image,(self.pos_x, 300))
+        screen.blit(self.image,(self.pos_x, 400))
 

@@ -35,6 +35,10 @@ player_stand_attak = pygame.image.load('./../Images/sprites/player/player_stand_
 # ui #
 dialog_box = pygame.image.load('./../Images/ui/dialog_box.png')
 mark_box = pygame.image.load('./../Images/ui/ImanorBalloon.png')
+scope_normal = pygame.image.load('./../Images/ui/scope_normal.png')
+scope_collide = pygame.image.load('./../Images/ui/scope_collide.png')
+scope_normal = pygame.transform.scale(scope_normal,(50,50))
+scope_collide = pygame.transform.scale(scope_collide,(50,50))
 
 # 배경 #
 spaceship_background = pygame.image.load('./../Images/background/spaceship.jpg')

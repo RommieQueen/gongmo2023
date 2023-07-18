@@ -6,22 +6,20 @@ import Enemy as e
 pygame.init()
 
 from Player import Player
+from Scope import Scope
 
+player = Player(50, 200)
+scope = Scope()
 def drawBackground(image, x, y, plusX, range_last):
     from main import screen
     for i in range(1,range_last):
         screen.blit(image, (x,y))
         x += plusX
-
-player = Player(50, 200)
-
 def stage1():
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
     
     SKYBLUE = (178,235,244)
-    
-    
-    
+
     running = True
     while running:
         screen.fill(SKYBLUE)
@@ -44,15 +42,34 @@ def stage1():
 
         player.update()
         player.draw(screen)
-        
+
         if random.randint(1, 400) < 5:
             enemy = e.Enemy()
             e.enemies.add(enemy)
 
         e.enemies.update()
         e.enemies.draw(screen)
-
+        scope.update()
         pygame.display.update()
 
+    pygame.quit()
+
+def stage2():
+    running = True
+    while running:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                player.move(event)
+            if event.type == pygame.KEYUP:
+                player.stop_move(event)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                player.gun(event)
+            if event.type == pygame.MOUSEBUTTONUP:
+                player.stop_gun(event)
+
+        pygame.display.update()
     pygame.quit()
 
