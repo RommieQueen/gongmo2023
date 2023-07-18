@@ -10,6 +10,7 @@ class Player(pygame.sprite.Sprite):
 
         self.is_left = False
         self.is_right = False
+        self.is_same_press = False
         self.is_walk = False
         self.is_sit = False
         self.is_attack = False
@@ -43,14 +44,12 @@ class Player(pygame.sprite.Sprite):
     def move(self, event):
         if event.key == pygame.K_d:
             self.is_right = True
-            self.is_left = False
             self.is_walk = True
-
+            self.is_left = False
         elif event.key == pygame.K_a:
             self.is_left = True
-            self.is_right = False
             self.is_walk = True
-
+            self.is_right = False
         elif event.key == pygame.K_s:
             self.is_sit = True
     def stop_move(self, event):
@@ -61,30 +60,30 @@ class Player(pygame.sprite.Sprite):
             self.is_sit = False
 
     def gun(self, event):
-        if event.button == 1:
+        if event.button == 3:
             self.is_attack = True
     def stop_gun(self, event):
-        if event.button == 1:
+        if event.button == 3:
             self.is_attack = False
 
     def update(self):
         speed = 5
 
         #왼, 오 누르고 있을 때 위치이동
-        if self.is_walk:
+        if self.is_walk or self.is_same_press:
             if self.is_left:
                 self.pos_x -= speed
-                self.walk_index += 1
+                self.walk_index += 0.25
                 if self.walk_index >= 5:
                     self.walk_index = 0
-                self.image = self.left_list[self.walk_index]
+                self.image = self.left_list[int(self.walk_index)]
 
-            elif self.is_right:
+            elif self.is_right or self.is_same_press:
                 self.pos_x += speed
-                self.walk_index += 1
+                self.walk_index += 0.25
                 if self.walk_index > 5:  # 걷기 애니메이션만
                     self.walk_index = 0
-                self.image = self.right_list[self.walk_index]
+                self.image = self.right_list[int(self.walk_index)]
 
         #앉기 애니
         elif self.is_sit:
@@ -107,7 +106,11 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.left_list[self.walk_index]
             elif self.is_right:
                 self.image = self.right_list[self.walk_index]
-
+        else:
+            if self.is_left:
+                self.image = images.player_idle_left
+            elif self.is_right:
+                self.image = images.player_idle
         if self.is_sit and self.is_attack: #외 elif 않되>?
             self.walk_index = 10
             if self.walk_index == 10:
@@ -116,6 +119,7 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.left_list[self.walk_index]
             elif self.is_right:
                 self.image = self.right_list[self.walk_index]
+
     def draw(self, screen):
 
         screen.blit(self.image,(self.pos_x, 300))

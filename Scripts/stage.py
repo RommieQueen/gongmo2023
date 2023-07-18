@@ -12,7 +12,6 @@ def drawBackground(image, x, y, plusX, range_last):
 player = Player(50, 200)
 
 def stage1():
-
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
     SKYBLUE = (178,235,244)
     running = True
@@ -30,6 +29,7 @@ def stage1():
                 player.gun(event)
             if event.type == pygame.MOUSEBUTTONUP:
                 player.stop_gun(event)
+
         drawBackground(images.shadow_trees1, -200, 190, 400, 6)
         drawBackground(images.shadow_trees2, 0, 230, 400, 5)
         drawBackground(images.stage1_ground, 0, 160, 550, 4)
@@ -37,6 +37,9 @@ def stage1():
         player.update()
         player.draw(screen)
 
-        pygame.display.update()
+        if running == True:
+            pygame.display.update()
+        else:
+            pygame.quit()
     pygame.quit()
 
