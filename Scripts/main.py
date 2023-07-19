@@ -58,4 +58,5 @@ def main_window():
         else:
             pygame.quit()
     pygame.quit()
-stage1()
+    
+main_window()

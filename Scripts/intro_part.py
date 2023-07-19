@@ -117,6 +117,7 @@ def intro():
             
         elif story == 4:            
             running = intro2()
+            return running
             
         pygame.display.update()
         
