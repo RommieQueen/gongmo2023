@@ -46,8 +46,9 @@ scope_normal = pygame.transform.scale(scope_normal,(50,50))
 scope_collide = pygame.transform.scale(scope_collide,(50,50))
 
 # 배경 #
-spaceship_background = pygame.image.load('./../Images/background/spaceship.jpg')
+intro1_background = pygame.image.load('./../Images/background/spaceship.jpg')
 intro2_background = pygame.image.load('./../Images/background/intro2_1.png')
+intro3_background = pygame.image.load('./../Images/background/meeting_room.jpg')
 stage1_ground = pygame.image.load('./../Images/background/ground1.png')
 stage1_ground = pygame.transform.scale(stage1_ground, (600,600))
 # 배경 요소 #
@@ -58,3 +59,5 @@ shadow_trees1 = pygame.image.load('./../Images/background/shadow_trees1.png')
 shadow_trees1 = pygame.transform.scale(shadow_trees1, (500,500))
 shadow_trees2 = pygame.image.load('./../Images/background/shadow_trees2.png')
 shadow_trees2 = pygame.transform.scale  (shadow_trees2,(400,400))
+
+start_button = pygame.image.load('./../Images/ui/start_button.png')

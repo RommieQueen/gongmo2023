@@ -1,5 +1,4 @@
 import pygame
-from game_manager import button
 from intro_part import intro
 from stage import stage1
 pygame.init()

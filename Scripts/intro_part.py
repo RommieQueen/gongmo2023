@@ -3,11 +3,11 @@ import import_image as images
 
 pygame.init()
 
-spaceship_background = pygame.transform.scale(images.spaceship_background, (1280,720))
-
 def intro():
-    from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
     # main 파일에서 변수, 상수, 메소드 불러오기
+    from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
+
+    intro1_background = pygame.transform.scale(images.intro1_background, (1280,720))
     
     def dialog_box():
         pygame.draw.rect(screen, BLACK, [0, 620, 1280, 100])
@@ -62,8 +62,6 @@ def intro():
     background_pos = (0, 0)
 
     while running:
-
-        deltaTime = FPS.tick(60)
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -81,8 +79,8 @@ def intro():
         if alpha > 255:
             alpha = 255
                     
-        spaceship_background.set_alpha(alpha)
-        screen.blit(spaceship_background, background_pos)
+        intro1_background.set_alpha(alpha)
+        screen.blit(intro1_background, background_pos)
             
         if alpha == 255 and story == 0:
             dialog_box()
@@ -120,18 +118,17 @@ def intro():
             return running
             
         pygame.display.update()
-        
-
-ailen = pygame.transform.scale(images.ailen,(250, 250))
-dialog_box = pygame.transform.scale(images.dialog_box, (1100, 200))
-intro2_background = pygame.transform.scale(images.intro2_background, (1280, 720))
-mark_box = pygame.transform.scale(images.mark_box,(70, 70))
-boy = pygame.transform.scale(images.boy,(200, 200))
-tree = pygame.transform.scale(images.tree,(500, 500)) 
 
 def intro2():
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
-    from stage import stage1
+
+    ailen = pygame.transform.scale(images.ailen,(250, 250))
+    dialog_box = pygame.transform.scale(images.dialog_box, (1100, 200))
+    intro2_background = pygame.transform.scale(images.intro2_background, (1280, 720))
+    mark_box = pygame.transform.scale(images.mark_box,(70, 70))
+    boy = pygame.transform.scale(images.boy,(200, 200))
+    tree = pygame.transform.scale(images.tree,(500, 500)) 
+    
     def draw_dialog(portrait):    
         portrait = pygame.transform.scale(portrait, (140, 140))
 
@@ -187,8 +184,6 @@ def intro2():
     boy_y = 300
     
     while running:
-        
-        deltaTime = FPS.tick(60)
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -278,8 +273,140 @@ def intro2():
             character_text(2, WHITE, "그럼 이제 모든 인간을 없앤다!")
             system_help()
             alpha = 1000
-            stage1()
+        elif alpha >= 0 and story == 7:
+            running = intro3()
+            return running
 
+        pygame.display.update()
+    pygame.quit()
+
+def intro3():
+    from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running, main_window
+    from game_manager import button
+
+
+    intro3_background = pygame.transform.scale(images.intro3_background, (1280, 720))
+
+    def intro_load(get_intro):
+        intro = pygame.image.load(get_intro)
+        screen.blit(intro, (0, 0))
+
+    story = 0
+    alpha = 0
+    
+    while running:
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                return running
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and alpha == 1000:
+                    alpha = 0
+                    story += 1
+                    print(story)
+
+        screen.fill(BLACK)
+
+        alpha += 1.8
+
+        if alpha > 255:
+            alpha = 255
+
+        intro3_background.set_alpha(alpha)
+        screen.blit(intro3_background, (0, 0))
+ 
+        if alpha == 255 and story == 0:
+            intro_load('./../Images/intro/intro3_1.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 1:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_2.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 2:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_3.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 3:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_4.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 4:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_5.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 5:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_6.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 6:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_7.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 7:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_8.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 8:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_9.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 9:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_10.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 10:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_11.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 11:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_12.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 12:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_13.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 13:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_14.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 14:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_15.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 15:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_16.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 16:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_17.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 17:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_18.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 18:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_19.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 19:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_20.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 20:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_21.jpg')
+            alpha = 1000
+        elif alpha >= 0 and story == 21:
+            alpha = 255
+            intro_load('./../Images/intro/intro3_22.jpg')
+            # input_screen, x_pos, y_pos, input_image, image_width, image_height, action = None #
+            button(screen, WIDTH_CENTER - 128, HEIGHT_CENTER + 170, images.start_button, 256, 134, main_window)
+            alpha = 999        
+        
         pygame.display.update()
     pygame.quit()
             
