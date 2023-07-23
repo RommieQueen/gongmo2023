@@ -23,7 +23,6 @@ BLUE = (0, 0, 255)
 running = True
 
 def main_window():
-
     start_background = pygame.image.load('./../Images/background/start_background.png')
 
     title_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 60)
@@ -58,4 +57,4 @@ def main_window():
             pygame.quit()
     pygame.quit()
     
-main_window()
+stage1()

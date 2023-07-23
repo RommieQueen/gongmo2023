@@ -13,49 +13,42 @@ screen_height = 720
 clock = pygame.time.Clock()
 FPS = 60
 
-enemy_walk_1 = images.enemy_right1
-enemy_walk_1 = pygame.transform.scale(enemy_walk_1, (300, 300))
-enemy_walk_2 = images.enemy_right2
-enemy_walk_2 = pygame.transform.scale(enemy_walk_2, (300, 300))
-enemy_walk_3 = images.enemy_right3
-enemy_walk_3 = pygame.transform.scale(enemy_walk_3, (300, 300))
+rect = pygame.rect.Rect
 
 # 적 클래스
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, y, health, speed, *images):
         super().__init__()
         self.images = []
 
-        self.images.append(enemy_walk_1)
-        self.images.append(enemy_walk_2)
-        self.images.append(enemy_walk_3)
-        
-        self.rect = self.images[0].get_rect()
-        self.rect.x = screen_width
-        self.rect.y = 300
-        self.speed = random.randrange(5, 6)
-        self.health = 3
+        # 애니메이션 리스트에 가변인자 자동대입
+        i = 0
+        for i in range(0, len(self.images)):
+            self.images[i] = images[i]
+        self.image = images[0]
+
+        rect = self.image.get_rect()
+        rect.x = screen_width  # position
+        rect.y = y
+
+        self.speed = random.randrange(speed, speed+3)
+        self.health = health
         self.is_hit = False
         self.hit_alpha = 100
         self.hit_timer = 0
         self.frame = 0
 
     def update(self):
+
         if self.is_hit:
             if pygame.time.get_ticks() - self.hit_timer > 500:  # 0.5초 동안 유지
                 self.is_hit = False
                 self.hit_alpha = 100
                 self.image.set_alpha(255)
         else:
-            self.rect.x -= self.speed
-            if self.rect.right < 0:
+            rect.x -= self.speed
+            if rect.right < 0:
                 self.kill()
-
-        self.frame += 1
-        if self.frame >= len(self.images) * 10:
-            self.frame = 0
-        self.image = self.images[self.frame // 10]
-
     def hit(self):
         if not self.is_hit:
             self.health -= 1
@@ -66,7 +59,6 @@ class Enemy(pygame.sprite.Sprite):
                 self.hit_alpha = 100
                 self.hit_timer = pygame.time.get_ticks()
                 self.image.set_alpha(self.hit_alpha)
-
 # 적 그룹
 enemies = pygame.sprite.Group()
 

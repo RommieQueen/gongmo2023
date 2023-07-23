@@ -1,7 +1,7 @@
 import pygame
 import random
 import import_image as images
-import Enemy as e
+from Enemy import Enemy
 
 pygame.init()
 
@@ -10,6 +10,8 @@ from Scope import Scope
 
 player = Player(50, 200)
 scope = Scope()
+
+catAlien = Enemy(300, 3, 5,images.ailen, images.alien_left1, images.alien_left2, images.alien_left3)
 def drawBackground(image, x, y, plusX, range_last):
     from main import screen
     for i in range(1,range_last):
@@ -44,12 +46,9 @@ def stage1():
         player.draw(screen)
 
         if random.randint(1, 400) < 5:
-            enemy = e.Enemy()
-            e.enemies.add(enemy)
+            catAlien.update()
 
-        e.enemies.update()
-        e.enemies.draw(screen)
-        scope.update()
+        scope.update(screen)
         pygame.display.update()
 
     pygame.quit()

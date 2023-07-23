@@ -1,6 +1,6 @@
 import pygame
 import import_image as images
-
+import stage as stage
 pygame.init()
 
 def intro():
@@ -404,7 +404,7 @@ def intro3():
             alpha = 255
             intro_load('./../Images/intro/intro3_22.jpg')
             # input_screen, x_pos, y_pos, input_image, image_width, image_height, action = None #
-            button(screen, WIDTH_CENTER - 128, HEIGHT_CENTER + 170, images.start_button, 256, 134, main_window)
+            button(screen, WIDTH_CENTER - 128, HEIGHT_CENTER + 170, images.start_button, 256, 134, stage.stage1)
             alpha = 999        
         
         pygame.display.update()

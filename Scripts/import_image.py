@@ -33,9 +33,9 @@ player_sit_attak = pygame.image.load('./../Images/sprites/player/player_sit_atta
 player_stand_attak = pygame.image.load('./../Images/sprites/player/player_stand_attack.png')
 
 # 적 #
-enemy_right1 = pygame.image.load('./../Images/sprites/enemy/alien_left1.png')
-enemy_right2 = pygame.image.load('./../Images/sprites/enemy/alien_left2.png')
-enemy_right3 = pygame.image.load('./../Images/sprites/enemy/alien_left3.png')
+alien_left1 = pygame.image.load('./../Images/sprites/enemy/alien_left1.png')
+alien_left2 = pygame.image.load('./../Images/sprites/enemy/alien_left2.png')
+alien_left3 = pygame.image.load('./../Images/sprites/enemy/alien_left3.png')
 
 # ui #
 dialog_box = pygame.image.load('./../Images/ui/dialog_box.png')

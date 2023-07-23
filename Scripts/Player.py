@@ -35,7 +35,7 @@ class Player(pygame.sprite.Sprite):
         #왼쪽 걸음 애니메이션 반전, 인덱스 같음
         self.left_list = [pygame.transform.flip(image, True, False) for image in self.right_list]
 
-        self.walk_index = 0  # 애니인덱스
+        self.walk_index = 0  # 애니인 덱스
 
         self.image = self.right_list[self.walk_index]
         self.player_rect = self.image.get_rect()
