@@ -44,12 +44,15 @@ class Player(pygame.sprite.Sprite):
 
         # 앉아서 공격하는 상태 17 ~ 18
         images.append(pygame.image.load('./../Images/sprites/player/player_sit_attack.png'))
-                
-        # rect 만들기
-        self.rect = pygame.Rect(position, size)
 
         # Rect 크기와 Image 크기 맞추기. pygame.transform.scale
         self.images = [pygame.transform.scale(image, size) for image in images]
+
+        # rect 만들기
+        self.rect = pygame.Rect(position, size)
+
+        # masks 만들기
+        self.masks = [pygame.mask.from_surface(image) for image in self.images]
 
         # 원본 캐릭터 이미지들
         self.images_right = images
@@ -87,8 +90,10 @@ class Player(pygame.sprite.Sprite):
     # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
     def update(self, mt):
 
+        #키보드로 player 이동
         keys = pygame.key.get_pressed()
         if self.isAiming == False:
+            # 왼쪽으로 이동가능
             if keys[pygame.K_a]:
                 self.direction = "left"
                 self.state = 1
@@ -97,6 +102,7 @@ class Player(pygame.sprite.Sprite):
                     self.isMove = False
                 else:
                     self.isMove = True
+            # 오른쪽으로 이동가능
             if keys[pygame.K_d]:
                 self.direction = "right"
                 self.state = 1
@@ -105,6 +111,7 @@ class Player(pygame.sprite.Sprite):
                     self.isMove = False
                 else:
                     self.isMove = True
+            # 앉기 가능
             if keys[pygame.K_s]:
                 self.state = 2
         

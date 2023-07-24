@@ -3,28 +3,23 @@ pygame.init()
 import import_image as images
 import enemy as e
 
-class Scope():
+class Scope(pygame.sprite.Sprite):
     def __init__(self):
-        self.scope_list = [images.scope_normal, images.scope_collide]
-        self.scope = self.scope_list[0]
-        self.mouse_pos = pygame.mouse.get_pos()
-        self.scope_pos = (self.mouse_pos[0] - 50//2, self.mouse_pos[1] - 50//2)
-        self.rect = self.scope_list[0].get_rect()
+        super().__init__()
+        self.image = pygame.image.load('./../Images/ui/scope_normal.png')
+        self.image = pygame.transform.scale(self.image, (60, 60))
+        self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)  
+        self.masks = [self.mask]  # Scope 클래스에도 masks 속성 추가
 
-        self.is_onEnemy = False
-    def update(self, screen):
+    def toMouse(self, mouse_x, mouse_y):
+        self.rect.center = (mouse_x, mouse_y)
 
-        self.mouse_pos = pygame.mouse.get_pos()
-        self.scope_pos = [self.mouse_pos[0] - 50 // 2, self.mouse_pos[1] - 50 // 2]
-
-        if enemy.rect.topleft<self.scope_pos and enemy.rect.bottomright> self.scope_pos:
-            self.is_onEnemy = True
-        else:
-            self.is_onEnemy = False
-
-        if self.is_onEnemy:
-            self.scope = self.scope_list[1]
-        else:
-            self.scope = self.scope_list[0]
-        screen.blit(self.scope, self.scope_pos)
+    def update(self):
+        pass
+    
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+        
+    
         

@@ -9,7 +9,7 @@ screen_width, screen_height = 1280, 720
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('./../Images/sprites/enemy/alien_stand.png')
+        self.image = pygame.image.load('./../Images/sprites/enemy/alien_stand.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (160, 160))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(50, screen_width - 50), random.randint(0, screen_height - 600))
@@ -17,12 +17,14 @@ class Enemy(pygame.sprite.Sprite):
         self.original_speed = self.speed
         self.direction = random.choice(["right", "left"])
         self.is_on_ground = False
+        self.mask = pygame.mask.from_surface(self.image)  
+        self.masks = [self.mask]  # Enemy 클래스에도 masks 속성 추가
 
     def update(self, player_is_move, player_rect_x, player_speed):
         if not self.is_on_ground:
             self.rect.y += self.speed
         else:
-            self.speed = random.randint(1, 3)
+            self.speed = random.randint(1, 2)
 
             if random.random() < 0.01:
                 self.direction = random.choice(["right", "left"])
