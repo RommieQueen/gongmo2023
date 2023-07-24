@@ -1,6 +1,5 @@
 import pygame
 from intro_part import intro
-from stage import stage1
 
 pygame.init()
 
@@ -59,4 +58,4 @@ def main():
     pygame.quit()    
 
 if __name__ == '__main__':
-    stage1()
+    main()
