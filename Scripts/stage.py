@@ -4,6 +4,7 @@ import random
 import time
 import player as p
 import enemy as e
+import ground as g
 
 # 스크린 전체 크기 지정
 
@@ -26,6 +27,8 @@ CYAN = pygame.Color('cyan')
 
 def main():
 
+    ground = g.Ground('./../Images/background/ground1.png')
+    
     # 적(Enemy) 그룹 생성
     enemy_group = pygame.sprite.Group()
 
@@ -38,7 +41,7 @@ def main():
     running = True
     while running:
 
-        print(player.isMove)
+        print(ground.x_pos)
         # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
         # 1000을 나누어줘서 초단위로 변경한다.
         mt = clock.tick(60) / 1000
@@ -76,14 +79,17 @@ def main():
 
         # all_sprites 그룹안에 든 모든 Sprite update
         player_sprites.update(mt)
-        # 배경색
-        SCREEN.fill(CYAN)
-
+        
+        # 땅 그리기
+        ground.update(player.isMove, player.rect.right, player.velocity_x)
+        ground.draw(SCREEN)
+    
         # 적 그리기
         enemy_group.draw(SCREEN)
         
         # 모든 sprite 화면에 그려주기
         player_sprites.draw(SCREEN)
+        
         pygame.display.update()
 
     pygame.quit()
