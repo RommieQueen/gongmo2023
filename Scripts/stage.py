@@ -1,74 +1,92 @@
 import pygame
+import sys
 import random
-import import_image as images
-from Enemy import Enemy
+import time
+import player as p
+import enemy as e
 
+# 스크린 전체 크기 지정
+
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
+
+# pygame 초기화
 pygame.init()
 
-from Player import Player
-from Scope import Scope
+# 스크린 객체 저장
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("player ex")
 
-player = Player(50, 200)
-scope = Scope()
+# FPS를 위한 Clock 생성
+clock = pygame.time.Clock()
 
-catAlien = Enemy(300, 3, 5,images.ailen, images.alien_left1, images.alien_left2, images.alien_left3)
-def drawBackground(image, x, y, plusX, range_last):
-    from main import screen
-    for i in range(1,range_last):
-        screen.blit(image, (x,y))
-        x += plusX
-def stage1():
-    from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
+FPS = 60
+
+CYAN = pygame.Color('cyan')
+
+def main():
+
+    # 적(Enemy) 그룹 생성
+    enemy_group = pygame.sprite.Group()
+
+    # player 생성
+    player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
     
-    SKYBLUE = (178,235,244)
-
+    # 생성된 player를 그룹에 넣기
+    player_sprites = pygame.sprite.Group(player)
+    
     running = True
     while running:
-        screen.fill(SKYBLUE)
+
+        print(player.isMove)
+        # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
+        # 1000을 나누어줘서 초단위로 변경한다.
+        mt = clock.tick(60) / 1000
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYDOWN:
-                player.move(event)
-            if event.type == pygame.KEYUP:
-                player.stop_move(event)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                player.gun(event)
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                player.isAiming = True
+                pygame.mouse.set_visible(False)
+                if player.state == 2:
+                    player.state = 4
+                else:
+                    player.state = 3
+
             if event.type == pygame.MOUSEBUTTONUP:
-                player.stop_gun(event)
+                if event.button == 3:
+                    pygame.mouse.set_visible(True)
+                    player.state = 0
+                    player.isAiming = False
+                                 
+            if event.type == pygame.KEYUP:
+                if not(player.state == 3 or player.state == 4):
+                    if event.key == pygame.K_d or event.key == pygame.K_a or event.key == pygame.K_s:
+                        player.velocity_x = 0
+                        player.state = 0
 
-        drawBackground(images.shadow_trees1, -200, 190, 400, 6)
-        drawBackground(images.shadow_trees2, 0, 230, 400, 5)
-        drawBackground(images.stage1_ground, 0, 160, 550, 4)
+        # 적 생성 및 업데이트         
+        if len(enemy_group) < 10 and random.random() < 0.01:
+            enemy = e.Enemy()
+            enemy_group.add(enemy)
+            
+        enemy_group.update(player.isMove, player.rect.right, player.velocity_x)
 
-        player.update()
-        player.draw(screen)
+        # all_sprites 그룹안에 든 모든 Sprite update
+        player_sprites.update(mt)
+        # 배경색
+        SCREEN.fill(CYAN)
 
-        if random.randint(1, 400) < 5:
-            catAlien.update()
-
-        scope.update(screen)
+        # 적 그리기
+        enemy_group.draw(SCREEN)
+        
+        # 모든 sprite 화면에 그려주기
+        player_sprites.draw(SCREEN)
         pygame.display.update()
 
     pygame.quit()
-
-def stage2():
-    running = True
-    while running:
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                player.move(event)
-            if event.type == pygame.KEYUP:
-                player.stop_move(event)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                player.gun(event)
-            if event.type == pygame.MOUSEBUTTONUP:
-                player.stop_gun(event)
-
-        pygame.display.update()
-    pygame.quit()
-
+ 
+if __name__ == '__main__':
+    main()

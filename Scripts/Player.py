@@ -1,126 +1,156 @@
 import pygame
+
 pygame.init()
-import import_image as images
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y):
+    def __init__(self, position):
         super(Player, self).__init__()
-        self.pos_x = pos_x
-        self.pos_y = pos_y
 
-        self.is_left = False
-        self.is_right = False
-        self.is_same_press = False
-        self.is_walk = False
-        self.is_sit = False
-        self.is_attack = False
+        # 이미지를 Rect안에 넣기 위해 Rect의 크기 지정
+        # 이미지의 크기와 같게 하거나, 크기를 다르게 한다면 pygame.transform.scale을 사용하여 rect 안에
+        # 이미지를 맞추도록 한다.
+        size = (92, 184) 
 
-        self.idle = images.player_idle
-        self.idle_left = images.player_idle_left
+        # 여러장의 이미지를 리스트로 저장한다. 이미지 경로는 자신들의 경로를 사용한다.
+        images = []
 
-        # 0~5 걷기 / 6~8 앉기 /9 어택 / 10 앉아어택
-        self.right_list = []
-        self.right_list.append(images.player_right1)
-        self.right_list.append(images.player_right2)
-        self.right_list.append(images.player_right3)
-        self.right_list.append(images.player_right4)
-        self.right_list.append(images.player_right5)
-        self.right_list.append(images.player_right6)
-        self.right_list.append(images.player_sit1)
-        self.right_list.append(images.player_sit2)
-        self.right_list.append(images.player_sit3)
-        self.right_list.append(images.player_attak)
-        self.right_list.append(images.player_attatk_sit)
+        # 서있는 상태 0 ~ 6
+        images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
 
-        #왼쪽 걸음 애니메이션 반전, 인덱스 같음
-        self.left_list = [pygame.transform.flip(image, True, False) for image in self.right_list]
+        # 걷기 7 ~ 13
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_1.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_1.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_2.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_2.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_3.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_3.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_4.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_4.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_5.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_5.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_6.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_walk_6.png'))
 
-        self.walk_index = 0  # 애니인 덱스
+        # 앉는 상태 14 ~ 15
+        images.append(pygame.image.load('./../Images/sprites/player/player_sit.png'))
 
-        self.image = self.right_list[self.walk_index]
-        self.player_rect = self.image.get_rect()
-        self.player_rect.topleft = [pos_x,pos_y]
+        # 서서 공격하는 상태 16 ~ 17
+        images.append(pygame.image.load('./../Images/sprites/player/player_stand_attack.png'))
 
-    def move(self, event):
-        if event.key == pygame.K_d:
-            self.is_right = True
-            self.is_walk = True
-            self.is_left = False
-        elif event.key == pygame.K_a:
-            self.is_left = True
-            self.is_walk = True
-            self.is_right = False
-        elif event.key == pygame.K_s:
-            self.is_sit = True
-    def stop_move(self, event):
-        self.image = self.idle
-        if event.key == pygame.K_d or event.key == pygame.K_a:
-            self.is_walk = False
-        if event.key == pygame.K_s:
-            self.is_sit = False
+        # 앉아서 공격하는 상태 17 ~ 18
+        images.append(pygame.image.load('./../Images/sprites/player/player_sit_attack.png'))
+                
+        # rect 만들기
+        self.rect = pygame.Rect(position, size)
 
-    def gun(self, event):
-        if event.button == 3:
-            self.is_attack = True
-    def stop_gun(self, event):
-        if event.button == 3:
-            self.is_attack = False
+        # Rect 크기와 Image 크기 맞추기. pygame.transform.scale
+        self.images = [pygame.transform.scale(image, size) for image in images]
 
-    def update(self):
-        speed = 5
+        # 원본 캐릭터 이미지들
+        self.images_right = images
+        
+        # 캐릭터 이미지가 오른쪽을 보고 있는데, 왼쪽으로 보도록 하기 위해서는
+        # 이미지를 세로 기준으로 좌우로 뒤집이 준다. pygame.transform.flip 메서드 사용
+        self.images_left = [pygame.transform.flip(image, True, False) for image in images]
 
-        #왼, 오 누르고 있을 때 위치이동
-        if self.is_walk or self.is_same_press:
-            if self.is_left:
-                self.pos_x -= speed
-                self.walk_index += 0.25
-                if self.walk_index >= 5:
-                    self.walk_index = 0
-                self.image = self.left_list[int(self.walk_index)]
+        # 캐릭터의 현재 상태
+        # 0 - idle 상태, 1 - 걷고 있는 상태
+        self.state = 0
+        
+        # 방향
+        self.direction = 'right'
+        
+        # 속도
+        self.velocity_x = 0
 
-            elif self.is_right or self.is_same_press:
-                self.pos_x += speed
-                self.walk_index += 0.25
-                if self.walk_index > 5:  # 걷기 애니메이션만
-                    self.walk_index = 0
-                self.image = self.right_list[int(self.walk_index)]
+        # 캐릭터의 첫번째 이미지
+        self.index = 0
+        self.image = images[self.index]
 
-        #앉기 애니
-        elif self.is_sit:
-            for i in range(6,9): #인덱스 6~8 : 앉기
-                self.walk_index = i
-            if self.walk_index == 8:
-                self.walk_index = 8
-            if self.is_left:
-                self.image = self.left_list[self.walk_index]
-            elif self.is_right:
-                self.image = self.right_list[self.walk_index]
+        # 1초에 보여줄 1장의 이미지 시간을 계산, 소수점 3자리까지 반올림
+        self.animation_time = round(100 / len(self.images * 100), 2)
 
-         # 총쏘기
-        elif self.is_attack:
-            self.walk_index = 9
-            if self.walk_index == 9:
-                self.walk_index = 9
+        # mt와 결합하여 animation_time을 계산할 시간 초기화
+        self.current_time = 0
 
-            if self.is_left:
-                self.image = self.left_list[self.walk_index]
-            elif self.is_right:
-                self.image = self.right_list[self.walk_index]
-        else:
-            if self.is_left:
-                self.image = images.player_idle_left
-            elif self.is_right:
-                self.image = images.player_idle
-        if self.is_sit and self.is_attack: #외 elif 않되>?
-            self.walk_index = 10
-            if self.walk_index == 10:
-                walk_index = 10
-            if self.is_left:
-                self.image = self.left_list[self.walk_index]
-            elif self.is_right:
-                self.image = self.right_list[self.walk_index]
+        # player가 움직이는 확인
+        self.isMove = False
 
-    def draw(self, screen):
+        # player가 조준중인지 확인
+        self.isAiming = False
 
-        screen.blit(self.image,(self.pos_x, 400))
+    # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
+    def update(self, mt):
 
+        keys = pygame.key.get_pressed()
+        if self.isAiming == False:
+            if keys[pygame.K_a]:
+                self.direction = "left"
+                self.state = 1
+                if self.rect.right > 160:
+                    self.rect.x -= self.velocity_x
+                    self.isMove = False
+                else:
+                    self.isMove = True
+            if keys[pygame.K_d]:
+                self.direction = "right"
+                self.state = 1
+                if self.rect.right < 1220:
+                    self.rect.x += self.velocity_x
+                    self.isMove = False
+                else:
+                    self.isMove = True
+            if keys[pygame.K_s]:
+                self.state = 2
+        
+        # 현재 상태에 따라 반복해줄 이미지의 index 설정과 속도
+        if self.state == 0:
+            count = 6
+            start_Index = 0
+            self.velocity_x = 0
+        elif self.state == 1:
+            count = 6
+            start_Index = 6
+            self.velocity_x = 6
+        elif self.state == 2:
+            count = 1
+            start_Index = 18
+            self.velocity_x = 0
+        elif self.state == 3:
+            count = 1
+            start_Index = 19
+            self.velocity_x = 0
+        elif self.state == 4:
+            count = 1
+            start_Index = 20
+            self.velocity_x = 0
+
+        # 방향이 오른쪽이면, 오른쪽 이미지 선택
+        if self.direction == 'right':
+            self.images = self.images_right
+        # 방향이 왼쪽이면 왼쪽 이미지 선택
+        elif self.direction == 'left':
+            self.images = self.images_left
+
+        # loop 시간 더하기
+        self.current_time += mt
+
+        # loop time 경과가 animation_time을 넘어서면 새로운 이미지 출력 
+        if self.current_time >= self.animation_time:
+            self.current_time = 0
+
+            # 상태에 따라 이미지 index 범위를 다르게 설정한다.
+
+            # idle 상태는 0 ~ 6, 걷기 상태는 7 ~ 13
+            self.index = (self.index % count) + start_Index
+
+            self.image = self.images[self.index]
+            self.index += 1
+
+            if self.index >= len(self.images):
+                self.index = 0

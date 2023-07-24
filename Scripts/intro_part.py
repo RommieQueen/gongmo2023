@@ -281,9 +281,8 @@ def intro2():
     pygame.quit()
 
 def intro3():
-    from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running, main_window
+    from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
     from game_manager import button
-
 
     intro3_background = pygame.transform.scale(images.intro3_background, (1280, 720))
 

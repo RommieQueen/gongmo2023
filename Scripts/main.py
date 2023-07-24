@@ -1,6 +1,7 @@
 import pygame
 from intro_part import intro
 from stage import stage1
+
 pygame.init()
 
 FPS = pygame.time.Clock()
@@ -22,15 +23,15 @@ BLUE = (0, 0, 255)
 
 running = True
 
-def main_window():
-    start_background = pygame.image.load('./../Images/background/start_background.png')
+def main():
+    start_background = pygame.image.load('../Images/background/start_background.png')
 
-    title_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 60)
+    title_font = pygame.font.Font('../Fonts/NeoDunggeunmoPro-Regular.ttf', 60)
     
     title_text = title_font.render("본격! 외계인 침공은 있던적이 없던거야!", True, BLACK)
     title_text_rect = title_text.get_rect(center = (WIDTH_CENTER, HEIGHT_CENTER - 200))
     
-    start_text = title_font.render("*엔터를 빠르게 두번 누르면 시작합니다*", True, BLACK)
+    start_text = title_font.render("*엔터를 누르면 시작합니다*", True, BLACK)
     start_text_rect = start_text.get_rect(center = (WIDTH_CENTER, HEIGHT_CENTER))
 
     global running
@@ -55,6 +56,7 @@ def main_window():
             pygame.display.update()
         else:
             pygame.quit()
-    pygame.quit()
-    
-stage1()
+    pygame.quit()    
+
+if __name__ == '__main__':
+    stage1()

@@ -1,7 +1,7 @@
 import pygame
 pygame.init()
 import import_image as images
-import Enemy as enemy
+import enemy as e
 
 class Scope():
     def __init__(self):
