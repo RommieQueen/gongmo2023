@@ -161,3 +161,13 @@ class Player(pygame.sprite.Sprite):
 
             if self.index >= len(self.images):
                 self.index = 0
+
+    def hit():
+        # player 히트 구현
+        pass
+
+
+
+
+
+
