@@ -29,11 +29,11 @@ FPS = 60
 CYAN = pygame.Color('cyan')
 
 # 충돌 확인 함수
-def check_collision(player, enemy):
-    for enemy_mask in enemy.masks:
-        for player_mask in player.masks:
-            offset = (enemy.rect.x - player.rect.x, enemy.rect.y - player.rect.y)
-            if player_mask.overlap(enemy_mask, offset) is not None:
+def check_collision(entity_1, entity_2):
+    for entity_1_mask in entity_1.masks:
+        for entity_2_mask in entity_2.masks:
+            offset = (entity_1.rect.x - entity_2.rect.x, entity_1.rect.y - entity_2.rect.y)
+            if entity_2_mask.overlap(entity_1_mask, offset) is not None:
                 return True
     return False
 
@@ -42,6 +42,7 @@ def main():
     check = 0
     
     ground = g.Ground(images.stage1_tile)
+
     # 적(Enemy) 그룹 생성
     enemy_group = pygame.sprite.Group()
 
@@ -88,7 +89,6 @@ def main():
                 if not(player.state == 3 or player.state == 4):
                     if event.key == pygame.K_d or event.key == pygame.K_a or event.key == pygame.K_s:
                         player.velocity_x = 0
-                        player.state = 0
 
         # 마우스 좌표값                        
         mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -109,14 +109,26 @@ def main():
             
         enemy_group.update(player.isMove, player.rect.right, player.velocity_x)
 
-        # 충돌 확인
-        for enemy in enemy_group:
-            if check_collision(scope, enemy):
-                check = 1
-                print(check)
+        # 마우스 좌표값                        
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        # player의 위치와 마우스 포인터의 위치 사이의 라디안 각도를 계산
+        angle = math.atan2(mouse_y  - 0, mouse_x - player.rect.x)
+
+        # 라디안 값을 각도로 변환
+        angle = math.degrees(angle)                
 
         # all_sprites 그룹안에 든 모든 Sprite update
         player_sprites.update(mt)
+
+        #충돌 확인
+        for enemy in enemy_group:
+            #scope와 enemy 충돌 확인.
+            if check_collision(enemy, scope):
+                pass
+            #player와 enemy 충돌 확인.
+            if check_collision(enemy, player):
+                pass
     
         # 적 그리기
         enemy_group.draw(SCREEN)
@@ -126,8 +138,12 @@ def main():
 
         # player가 조준중인지 확인
         if player.isAiming == True:
+            # scope를 마우스 좌표로 이동
+            scope.toMouse(mouse_x, mouse_y)
+            
             # scope 그리기
             scope.draw(SCREEN)
+            
             # player를 기준으로 마우스 포인터가 오른쪽에 있는지 왼쪽에 있는지를 확인
             if -90 <= angle <= 90:
                 player.direction = "right"

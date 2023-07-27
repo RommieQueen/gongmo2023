@@ -46,3 +46,9 @@ class Enemy(pygame.sprite.Sprite):
                 self.rect.x += player_speed
             elif player_rect_x >= 1220:
                 self.rect.x -= player_speed
+
+    def hit():
+        #체력, 맞으면 색깔은 빨간색인데 알파값이 약간 섞인 듯한 색깔, 0.3초 동안 일시정지 그 후 다시 원래 색으로 돌아오기
+        #체력이 0이 되면 반짝이면서 사라지기
+        #kill로 이미지 삭제.
+        pass
