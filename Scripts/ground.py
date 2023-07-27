@@ -8,7 +8,7 @@ screen_width, screen_height = 1280, 720
 class Ground(pygame.sprite.Sprite):
     def __init__(self, ground_image_path):
         super().__init__()
-        self.image = pygame.image.load(ground_image_path)
+        self.image = ground_image_path
         self.image_width = self.image.get_width()
         self.x_pos = 0
 
@@ -21,11 +21,11 @@ class Ground(pygame.sprite.Sprite):
                 self.x_pos -= player_speed
 
     def draw(self, screen):
-        screen.blit(self.image, (self.x_pos, 0))
+        screen.blit(self.image, (self.x_pos, 620))
         if self.x_pos >= 0:
-            screen.blit(self.image, (self.x_pos - self.image_width, 0))
+            screen.blit(self.image, (self.x_pos - self.image_width, 620))
         elif self.x_pos <= 1280:
-            screen.blit(self.image, (self.x_pos + self.image_width, 0))
+            screen.blit(self.image, (self.x_pos + self.image_width, 620))
 
         if self.x_pos >= 1280:
             self.x_pos = 0

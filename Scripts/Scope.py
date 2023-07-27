@@ -1,7 +1,7 @@
 import pygame
 pygame.init()
 import import_image as images
-import enemy as e
+import Enemy as e
 
 class Scope(pygame.sprite.Sprite):
     def __init__(self):

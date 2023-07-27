@@ -3,10 +3,11 @@ import sys
 import random
 import time
 import math
-import player as p
-import enemy as e
+import Player as p
+import Enemy as e
 import ground as g
-import scope as s
+import Scope as s
+import import_image as images
 
 # 스크린 전체 크기 지정
 
@@ -40,8 +41,7 @@ def main():
 
     check = 0
     
-    ground = g.Ground('./../Images/background/ground1.png')
-    
+    ground = g.Ground(images.stage1_tile)
     # 적(Enemy) 그룹 생성
     enemy_group = pygame.sprite.Group()
 
@@ -97,7 +97,7 @@ def main():
         scope.toMouse(mouse_x, mouse_y)
 
         # player의 위치와 마우스 포인터의 위치 사이의 라디안 각도를 계산
-        angle = math.atan2(mouse_y  - 0, mouse_x - player.rect.x)
+        angle = math.atan2(mouse_y - 0, mouse_x - player.rect.x)
 
         # 라디안 값을 각도로 변환
         angle = math.degrees(angle)        
