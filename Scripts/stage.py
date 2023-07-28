@@ -3,10 +3,10 @@ import sys
 import random
 import time
 import math
-import Player as p
-import Enemy as e
+import player as p
+import enemy as e
 import ground as g
-import Scope as s
+import scope as s
 import import_image as images
 
 # 스크린 전체 크기 지정
