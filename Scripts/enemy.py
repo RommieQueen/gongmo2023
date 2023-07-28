@@ -2,6 +2,8 @@ import pygame
 import sys
 import random
 import time
+import stage as stage
+from scope import Scope
 
 screen_width, screen_height = 1280, 720
 
@@ -19,6 +21,11 @@ class Enemy(pygame.sprite.Sprite):
         self.is_on_ground = False
         self.mask = pygame.mask.from_surface(self.image)  
         self.masks = [self.mask]  # Enemy 클래스에도 masks 속성 추가
+        self.health = 3
+
+        #hit
+        self.is_mouse = False
+        self.scope = Scope()
 
     def update(self, player_is_move, player_rect_x, player_speed):
         if not self.is_on_ground:
@@ -47,8 +54,14 @@ class Enemy(pygame.sprite.Sprite):
             elif player_rect_x >= 1220:
                 self.rect.x -= player_speed
 
-    def hit():
-        #체력, 맞으면 색깔은 빨간색인데 알파값이 약간 섞인 듯한 색깔, 0.3초 동안 일시정지 그 후 다시 원래 색으로 돌아오기
+    #내가만든 hit함수 너를위해 구웠지
+    def hit(self):
+
+        print("i")
+        timer = pygame.time.get_ticks()
+        self.health -= 1
+
+       #체력, 맞으면 색깔은 빨간색인데 알파값이 약간 섞인 듯한 색깔, 0.3초 동안 일시정지 그 후 다시 원래 색으로 돌아오기
         #체력이 0이 되면 반짝이면서 사라지기
         #kill로 이미지 삭제.
-        pass
+

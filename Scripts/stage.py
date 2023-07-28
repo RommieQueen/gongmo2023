@@ -29,14 +29,6 @@ FPS = 60
 CYAN = pygame.Color('cyan')
 
 # 충돌 확인 함수
-def check_collision(entity_1, entity_2):
-    for entity_1_mask in entity_1.masks:
-        for entity_2_mask in entity_2.masks:
-            offset = (entity_1.rect.x - entity_2.rect.x, entity_1.rect.y - entity_2.rect.y)
-            if entity_2_mask.overlap(entity_1_mask, offset) is not None:
-                return True
-    return False
-
 def main():
 
     check = 0
@@ -69,10 +61,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                # 충돌확인
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:                                  
                 player.isAiming = True
-                pygame.mouse.set_visible(False)                
+                pygame.mouse.set_visible(False)
                 
                 if player.state == 2:
                     player.state = 4
@@ -120,15 +113,6 @@ def main():
 
         # all_sprites 그룹안에 든 모든 Sprite update
         player_sprites.update(mt)
-
-        #충돌 확인
-        for enemy in enemy_group:
-            #scope와 enemy 충돌 확인.
-            if check_collision(enemy, scope):
-                pass
-            #player와 enemy 충돌 확인.
-            if check_collision(enemy, player):
-                pass
     
         # 적 그리기
         enemy_group.draw(SCREEN)
