@@ -24,8 +24,8 @@ class Enemy(pygame.sprite.Sprite):
         self.health = 3
 
         #hit
-        self.is_mouse = False
-        self.scope = Scope()
+        #self.is_mouse = False
+        #self.scope = Scope()
 
     def update(self, player_is_move, player_rect_x, player_speed):
         if not self.is_on_ground:
