@@ -138,6 +138,15 @@ def main():
         pygame.display.update()
 
     pygame.quit()
- 
+
+def part2():
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        pygame.display.update()
+    pygame.quit()
 if __name__ == '__main__':
     main()
