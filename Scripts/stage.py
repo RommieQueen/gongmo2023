@@ -26,12 +26,17 @@ clock = pygame.time.Clock()
 
 FPS = 60
 
-CYAN = pygame.Color('cyan')
+def collision_entity(entity_1, entity_2):
+    collisions = pygame.sprite.spritecollide(entity_1, entity_2, False, pygame.sprite.collide_mask)
+    if collisions:
+            return True
+    return False
+    
 
 # 충돌 확인 함수
 def main():
 
-    check = 0
+    check = None
     
     ground = g.Ground(images.stage1_tile)
 
@@ -39,7 +44,7 @@ def main():
     enemy_group = pygame.sprite.Group()
 
     # player 생성
-    player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
+    player = p.Player(position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
     
     # 생성된 player를 그룹에 넣기
     player_sprites = pygame.sprite.Group(player)
@@ -61,7 +66,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                # 충돌확인
+                
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:                                  
                 player.isAiming = True
@@ -81,19 +86,8 @@ def main():
             if event.type == pygame.KEYUP:
                 if not(player.state == 3 or player.state == 4):
                     if event.key == pygame.K_d or event.key == pygame.K_a or event.key == pygame.K_s:
-                        player.velocity_x = 0
-
-        # 마우스 좌표값                        
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-
-        # scope를 마우스 좌표로 이동
-        scope.toMouse(mouse_x, mouse_y)
-
-        # player의 위치와 마우스 포인터의 위치 사이의 라디안 각도를 계산
-        angle = math.atan2(mouse_y - 0, mouse_x - player.rect.x)
-
-        # 라디안 값을 각도로 변환
-        angle = math.degrees(angle)        
+                        player.state = 0
+                        player.velocity_x = 0     
 
         # 적 생성 및 업데이트         
         if len(enemy_group) < 10 and random.random() < 0.01:
@@ -122,11 +116,15 @@ def main():
 
         # player가 조준중인지 확인
         if player.isAiming == True:
-            # scope를 마우스 좌표로 이동
-            scope.toMouse(mouse_x, mouse_y)
+
+            # 충돌확인
+            if collision_entity(scope, enemy_group):
+                scope.collide_enemy()
+            else:
+                scope.normal()
             
-            # scope 그리기
-            scope.draw(SCREEN)
+            # scope를 마우스 좌표로 이동            
+            scope.draw(SCREEN, mouse_x, mouse_y)
             
             # player를 기준으로 마우스 포인터가 오른쪽에 있는지 왼쪽에 있는지를 확인
             if -90 <= angle <= 90:
