@@ -60,7 +60,7 @@ def main():
 
         # 땅 그리기
         ground.update(player.isMove, player.rect.right, player.velocity_x)
-        ground.draw(SCREEN)
+        ground.draw(SCREEN, 128)
 
         # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
         # 1000을 나누어줘서 초단위로 변경한다.

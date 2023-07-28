@@ -4,6 +4,7 @@ import time
 
 screen_width, screen_height = 1280, 720
 
+SKYBLUE = (178,235,244)
 # 땅(Ground) 클래스 정의
 class Ground(pygame.sprite.Sprite):
     def __init__(self, ground_image_path):
@@ -20,8 +21,12 @@ class Ground(pygame.sprite.Sprite):
             elif player_rect_x >= 1220:
                 self.x_pos -= player_speed
 
-    def draw(self, screen):
-        screen.blit(self.image, (self.x_pos, 620))
+    def draw(self, screen, plus_x):
+        screen.fill(SKYBLUE)
+        for i in range(1, 10):
+            screen.blit(self.image, (self.x_pos, 620))
+            self.x_pos += plus_x
+
         if self.x_pos >= 0:
             screen.blit(self.image, (self.x_pos - self.image_width, 620))
         elif self.x_pos <= 1280:
@@ -31,3 +36,8 @@ class Ground(pygame.sprite.Sprite):
             self.x_pos = 0
         elif self.x_pos <= - 1280:
             self.x_pos = 0
+
+    def draw_tree(self, screen, img, x,y, plus_x):
+        for i in range(1,10):
+            screen.blit(img, (x,y))
+            x += plus_x
