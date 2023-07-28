@@ -23,6 +23,7 @@ scope_normal = pygame.image.load('./../Images/ui/scope_normal.png')
 scope_collide = pygame.image.load('./../Images/ui/scope_collide.png')
 scope_normal = pygame.transform.scale(scope_normal,(50,50))
 scope_collide = pygame.transform.scale(scope_collide,(50,50))
+scope_point = pygame.transform.scale(scope_normal,(5,5))
 
 # 배경 #
 intro1_background = pygame.image.load('./../Images/background/spaceship.jpg')

@@ -21,6 +21,8 @@ pygame.init()
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("player ex") 
 
+SKY = (124,150,201)
+
 # FPS를 위한 Clock 생성
 clock = pygame.time.Clock()
 
@@ -29,10 +31,8 @@ FPS = 60
 def collision_entity(entity_1, entity_2):
     collisions = pygame.sprite.spritecollide(entity_1, entity_2, False, pygame.sprite.collide_mask)
     if collisions:
-            return True
+        return True
     return False
-    
-
 # 충돌 확인 함수
 def main():
 
@@ -51,14 +51,16 @@ def main():
 
     # scope 생성
     scope = s.Scope()
+    sp = s.ScopePoint(scope)
 
     running = True
     while running:
 
         # 땅 그리기
+        SCREEN.fill(SKY)
         ground.update(player.isMove, player.rect.right, player.velocity_x)
-        ground.draw(SCREEN, 128)
-
+        ground.draw_thing(SCREEN, player.isMove, player.rect.right, images.shadow_trees1, 0, 250, 300)
+        ground.draw(SCREEN)
         # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
         # 1000을 나누어줘서 초단위로 변경한다.
         mt = clock.tick(60) / 1000
@@ -66,7 +68,6 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:                                  
                 player.isAiming = True
@@ -100,14 +101,14 @@ def main():
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
         # player의 위치와 마우스 포인터의 위치 사이의 라디안 각도를 계산
-        angle = math.atan2(mouse_y  - 0, mouse_x - player.rect.x)
+        angle = math.atan2(mouse_y - 0, mouse_x - player.rect.x)
 
         # 라디안 값을 각도로 변환
         angle = math.degrees(angle)                
 
         # all_sprites 그룹안에 든 모든 Sprite update
         player_sprites.update(mt)
-    
+
         # 적 그리기
         enemy_group.draw(SCREEN)
         
@@ -118,14 +119,16 @@ def main():
         if player.isAiming == True:
 
             # 충돌확인
-            if collision_entity(scope, enemy_group):
+            if collision_entity(sp, enemy_group):
                 scope.collide_enemy()
+                print("ㅏ")
             else:
                 scope.normal()
             
-            # scope를 마우스 좌표로 이동            
+            # scope, scopepoint를 마우스 좌표로 이동
             scope.draw(SCREEN, mouse_x, mouse_y)
-            
+            sp.draw_point(SCREEN)
+
             # player를 기준으로 마우스 포인터가 오른쪽에 있는지 왼쪽에 있는지를 확인
             if -90 <= angle <= 90:
                 player.direction = "right"
