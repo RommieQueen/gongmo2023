@@ -38,6 +38,7 @@ class Ground(pygame.sprite.Sprite):
             self.x_pos = 0
 
     #나무, 풀 같은 배경 뒷요소를 그림. 위 update, draw 역할 모두포함
+    #!!!!!!!!! 플레이어 움직임 움직이기 구현하기!!!!!!!!!!!!!!
     def draw_thing(self, screen, player_is_move, player_rect_x, img, x, y, plus_x):
         for x in range(x,1281, plus_x):
             screen.blit(img, (x,y))
