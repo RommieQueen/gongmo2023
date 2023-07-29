@@ -51,7 +51,9 @@ def main():
 
     # scope 생성
     scope = s.Scope()
-    sp = s.ScopePoint(scope)
+
+    # scope_point 생성
+    scope_point = s.ScopePoint(scope)
 
     running = True
     while running:
@@ -119,7 +121,7 @@ def main():
         if player.isAiming == True:
 
             # 충돌확인
-            if collision_entity(sp, enemy_group):
+            if collision_entity(scope_point, enemy_group):
                 scope.collide_enemy()
                 print("ㅏ")
             else:
@@ -127,7 +129,7 @@ def main():
             
             # scope, scopepoint를 마우스 좌표로 이동
             scope.draw(SCREEN, mouse_x, mouse_y)
-            sp.draw_point(SCREEN)
+            scope_point.draw_point(SCREEN)
 
             # player를 기준으로 마우스 포인터가 오른쪽에 있는지 왼쪽에 있는지를 확인
             if -90 <= angle <= 90:
