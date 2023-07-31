@@ -31,7 +31,7 @@ class Scope(pygame.sprite.Sprite):
         self.rect.center = (mouse_x, mouse_y)
         screen.blit(self.image, self.rect)
 
-class ScopePoint(pygame.sprite.Sprite): #ì‹¤ì œ ì¶©ëŒê°ì§€í•˜ëŠ” ê±°, ì•¼ë§¤
+class ScopePoint(pygame.sprite.Sprite): #?‹¤? œ ì¶©ëŒê°ì???•˜?Š” ê±?, ?•¼ë§?
     def __init__(self, scope):
         super().__init__()
         self.image = images.scope_point.convert_alpha()
@@ -40,11 +40,13 @@ class ScopePoint(pygame.sprite.Sprite): #ì‹¤ì œ ì¶©ëŒê°ì§€í•˜ëŠ” ê±°, ì•¼ë§¤
         
     def draw_point(self, screen):
 
+
         self.image.set_alpha(1)
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
         center_x = self.scope.rect.centerx - self.image.get_width() // 2
         center_y = self.scope.rect.centery - self.image.get_height() // 2
+
 
         self.image.set_alpha(0)
         self.rect = self.image.get_rect()
