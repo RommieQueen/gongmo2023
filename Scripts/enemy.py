@@ -1,12 +1,13 @@
+import time
 import pygame
 import sys
 import random
-import time
+import scope as s
 import stage as stage
-from scope import Scope
 
 screen_width, screen_height = 1280, 720
 
+RED = (219,0,0)
 # 적(Enemy) 클래스 정의
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -22,12 +23,15 @@ class Enemy(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)  
         self.masks = [self.mask]  # Enemy 클래스에도 masks 속성 추가
         self.health = 3
-
-        #hit
-        #self.is_mouse = False
-        #self.scope = Scope()
-
+        self.is_shotable = True
+        self.scope = s.Scope()
+        self.scope_point = s.ScopePoint(self.scope)
+        self.is_collide_scope = False
+        self.hurt_image = self.image
+        self.time = 0
+        self.is_hit = False
     def update(self, player_is_move, player_rect_x, player_speed):
+        from main import screen
         if not self.is_on_ground:
             self.rect.y += self.speed
         else:
@@ -47,21 +51,25 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.is_on_ground = False
             
-        if player_is_move == True:
+        if player_is_move:
             # player 위치가 화면 끝 근처인 경우, 원래 속도를 player 속도로 변경
             if player_rect_x <= 160:
                 self.rect.x += player_speed
             elif player_rect_x >= 1220:
                 self.rect.x -= player_speed
 
+        #체력 0이면 없애기 (작중에선 외계행성으로 이동)
+        if self.health <= 0:
+            self.kill()
+
     #내가만든 hit함수 너를위해 구웠지
-    def hit(self):
-
-        print("i")
-        timer = pygame.time.get_ticks()
+    def hit(self): #이거 왜이래
         self.health -= 1
+    """ def hurt(self, screen):
+        self.hurt_image.fill(RED)
+        self.hurt_image.set_alpha(127)
+        screen.blit(self.hurt_image, self.rect) """
 
-       #체력, 맞으면 색깔은 빨간색인데 알파값이 약간 섞인 듯한 색깔, 0.3초 동안 일시정지 그 후 다시 원래 색으로 돌아오기
+        #체력, 맞으면 색깔은 빨간색인데 알파값이 약간 섞인 듯한 색깔, 0.3초 동안 일시정지 그 후 다시 원래 색으로 돌아오기
         #체력이 0이 되면 반짝이면서 사라지기
         #kill로 이미지 삭제.
-

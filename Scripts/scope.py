@@ -10,17 +10,13 @@ class Scope(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load('./../Images/ui/scope_normal.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (40, 40))
-        
         self.rect = self.image.get_rect()
-        
         self.mask = pygame.mask.from_surface(self.image)
 
     def collide_enemy(self):
         self.image = pygame.image.load('./../Images/ui/scope_collide.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (40, 40))
-        
         self.rect = self.image.get_rect()
-        
         self.mask = pygame.mask.from_surface(self.image)
 
     def normal(self):
@@ -44,11 +40,11 @@ class ScopePoint(pygame.sprite.Sprite): #실제 충돌감지하는 거, 야매
         
     def draw_point(self, screen):
 
-        self.img.set_alpha(1)
-        self.rect = self.img.get_rect()
-        self.mask = pygame.mask.from_surface(self.img)
-        center_x = self.scope.rect.centerx - self.img.get_width() // 2
-        center_y = self.scope.rect.centery - self.img.get_height() // 2
+        self.image.set_alpha(1)
+        self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)
+        center_x = self.scope.rect.centerx - self.image.get_width() // 2
+        center_y = self.scope.rect.centery - self.image.get_height() // 2
 
         self.image.set_alpha(0)
         self.rect = self.image.get_rect()

@@ -24,7 +24,10 @@ scope_collide = pygame.image.load('./../Images/ui/scope_collide.png')
 scope_normal = pygame.transform.scale(scope_normal,(50,50))
 scope_collide = pygame.transform.scale(scope_collide,(50,50))
 scope_point = pygame.transform.scale(scope_normal,(5,5))
-
+heart_full = pygame.image.load('./../Images/ui/heart_full.png')
+heart_full = pygame.transform.scale(heart_full,(50,50))
+heart_bin = pygame.image.load('./../Images/ui/heart_bin.png')
+heart_bin = pygame.transform.scale(heart_bin, (50,50))
 # 배경 #
 intro1_background = pygame.image.load('./../Images/background/spaceship.jpg')
 intro2_background = pygame.image.load('./../Images/background/intro2_1.png')

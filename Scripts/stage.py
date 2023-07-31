@@ -45,12 +45,13 @@ def main():
 
     # player 생성
     player = p.Player(position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
-    
+
     # 생성된 player를 그룹에 넣기
     player_sprites = pygame.sprite.Group(player)
 
-    # scope 생성
+    # 다른 모듈 클래스 인스턴스s
     scope = s.Scope()
+    enemy = e.Enemy()
 
     # scope_point 생성
     scope_point = s.ScopePoint(scope)
@@ -63,6 +64,7 @@ def main():
         ground.update(player.isMove, player.rect.right, player.velocity_x)
         ground.draw_thing(SCREEN, player.isMove, player.rect.right, images.shadow_trees1, 0, 250, 300)
         ground.draw(SCREEN)
+        player.heart(SCREEN)
         # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
         # 1000을 나누어줘서 초단위로 변경한다.
         mt = clock.tick(60) / 1000
@@ -99,7 +101,7 @@ def main():
             
         enemy_group.update(player.isMove, player.rect.right, player.velocity_x)
 
-        # 마우스 좌표값                        
+        # 마우스 좌표값
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
         # player의 위치와 마우스 포인터의 위치 사이의 라디안 각도를 계산
@@ -119,14 +121,15 @@ def main():
 
         # player가 조준중인지 확인
         if player.isAiming == True:
-
+            scope_collision = collision_entity(scope_point, enemy_group)
             # 충돌확인
-            if collision_entity(scope_point, enemy_group):
+            if scope_collision:
                 scope.collide_enemy()
-                print("ㅏ")
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1:
+                    pos = pygame.mouse.get_pos()
             else:
                 scope.normal()
-            
+                enemy.is_collide_scope = False
             # scope, scopepoint를 마우스 좌표로 이동
             scope.draw(SCREEN, mouse_x, mouse_y)
             scope_point.draw_point(SCREEN)
@@ -136,7 +139,12 @@ def main():
                 player.direction = "right"
             else:
                 player.direction = "left"
-        
+
+        #플레이어가 적에 닿으면 체력-
+
+        if collision_entity(player, enemy_group):
+            player.hit()
+
         pygame.display.update()
 
     pygame.quit()

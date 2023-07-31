@@ -1,6 +1,11 @@
 import pygame
-
+import stage as s
+import enemy as e
+import time
+import import_image as imgs
 pygame.init()
+
+enemy = e.Enemy()
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, position):
@@ -87,6 +92,27 @@ class Player(pygame.sprite.Sprite):
         # player가 조준중인지 확인
         self.isAiming = False
 
+        #플레이어 체력
+        self.health = 3
+
+        #적과 닿았는지
+        self.is_hitable = True
+
+        self.time = 0
+
+        #heart
+        self.heart1_img = imgs.heart_full
+        self.heart2_img = imgs.heart_full
+        self.heart3_img = imgs.heart_full
+
+        self.pos1 = (10,10)
+        self.pos2 = (80,10)
+        self.pos3 = (150,10)
+
+        #die
+        self.die_font = pygame.font.Font('Fonts/NeoDunggeunmoPro-Regular.ttf')
+        self.die_msg = self.die_font.render()
+
     # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
     def update(self, mt):
 
@@ -162,12 +188,30 @@ class Player(pygame.sprite.Sprite):
             if self.index >= len(self.images):
                 self.index = 0
 
-    def hit():
-        # player 히트 구현
-        pass
+        #체력 0이면 사망
+        if self.health <= 0:
+            self.die()
+    def hit(self):
+        if self.is_hitable:
+            self.health -= 1
+            self.is_hitable = False
+
+        self.time += 1
+        if self.time > 100:
+            self.is_hitable = True
+
+    def die(self):
+        time.sleep(0.7)
 
 
+    def heart(self,screen):
+        screen.blit(self.heart1_img, self.pos1)
+        screen.blit(self.heart2_img, self.pos2)
+        screen.blit(self.heart3_img, self.pos3)
 
-
-
-
+        if self.health <= 2:
+            self.heart3_img = imgs.heart_bin
+        if self.health <=1:
+            self.heart2_img = imgs.heart_bin
+        if self.health <=0:
+            self.heart1_img = imgs.heart_bin
