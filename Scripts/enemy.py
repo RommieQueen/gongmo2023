@@ -28,8 +28,12 @@ class Enemy(pygame.sprite.Sprite):
         self.scope_point = s.ScopePoint(self.scope)
         self.is_collide_scope = False
         self.hurt_image = self.image
+        
         self.time = 0
-        self.is_hit = False
+        self.is_hitable = True
+
+        self.need_kill = 100
+        
     def update(self, player_is_move, player_rect_x, player_speed):
         from main import screen
         if not self.is_on_ground:
@@ -61,15 +65,27 @@ class Enemy(pygame.sprite.Sprite):
         #체력 0이면 없애기 (작중에선 외계행성으로 이동)
         if self.health <= 0:
             self.kill()
+            self.need_kill -= 1
 
     #내가만든 hit함수 너를위해 구웠지
-    def hit(self): #이거 왜이래
-        self.health -= 1
-    """ def hurt(self, screen):
+    def hit(self): 
+        if self.is_hitable:
+            self.health -= 1
+            self.is_hitable = False
+            
+        self.time += 1
+        if self.time >= 50:
+            self.time = 0
+            self.hitable = True
+        
+    def hurt(self, screen):
         self.hurt_image.fill(RED)
         self.hurt_image.set_alpha(127)
-        screen.blit(self.hurt_image, self.rect) """
-
+        screen.blit(self.hurt_image, self.rect)
+        
+    def kill_mgs(self,screen):
+        pass
+        
         #체력, 맞으면 색깔은 빨간색인데 알파값이 약간 섞인 듯한 색깔, 0.3초 동안 일시정지 그 후 다시 원래 색으로 돌아오기
         #체력이 0이 되면 반짝이면서 사라지기
         #kill로 이미지 삭제.

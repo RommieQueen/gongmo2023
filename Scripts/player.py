@@ -110,8 +110,6 @@ class Player(pygame.sprite.Sprite):
         self.pos3 = (150,10)
 
         #die
-        self.die_font = pygame.font.Font('Fonts/NeoDunggeunmoPro-Regular.ttf')
-        self.die_msg = self.die_font.render()
 
     # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
     def update(self, mt):
@@ -187,31 +185,31 @@ class Player(pygame.sprite.Sprite):
 
             if self.index >= len(self.images):
                 self.index = 0
-
-        #체력 0이면 사망
-        if self.health <= 0:
-            self.die()
+                
     def hit(self):
         if self.is_hitable:
             self.health -= 1
             self.is_hitable = False
 
         self.time += 1
-        if self.time > 100:
+        if self.time > 50:
+            self.time = 0
             self.is_hitable = True
+        print(self.health)
 
-    def die(self):
-        time.sleep(0.7)
-
-
-    def heart(self,screen):
-        screen.blit(self.heart1_img, self.pos1)
-        screen.blit(self.heart2_img, self.pos2)
-        screen.blit(self.heart3_img, self.pos3)
-
+    def heart(self,screen): #죽을때 나머지 하트 안바뀜 ㅜ
+        
         if self.health <= 2:
             self.heart3_img = imgs.heart_bin
         if self.health <=1:
             self.heart2_img = imgs.heart_bin
         if self.health <=0:
             self.heart1_img = imgs.heart_bin
+            time.sleep(1)
+            s.player_die()
+
+        screen.blit(self.heart1_img, self.pos1)
+        screen.blit(self.heart2_img, self.pos2)
+        screen.blit(self.heart3_img, self.pos3)
+
+

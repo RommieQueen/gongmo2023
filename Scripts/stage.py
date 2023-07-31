@@ -22,6 +22,7 @@ SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("player ex") 
 
 SKY = (124,150,201)
+BLACK = (0,0,0)
 
 # FPS를 위한 Clock 생성
 clock = pygame.time.Clock()
@@ -58,6 +59,10 @@ def main():
 
     running = True
     while running:
+
+        #클리어하면 다음 파트
+        if enemy.need_kill <= 0:
+            part()
 
         # 땅 그리기
         SCREEN.fill(SKY)
@@ -156,6 +161,19 @@ def part2():
             if event.type == pygame.QUIT:
                 running = False
 
+        pygame.display.update()
+    pygame.quit()
+
+def player_die():
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        SCREEN.fill(BLACK)
+            
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
