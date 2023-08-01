@@ -8,6 +8,7 @@ import enemy as e
 import ground as g
 import scope as s
 import import_image as images
+import game_manager as manager
 
 # 스크린 전체 크기 지정
 
@@ -62,7 +63,7 @@ def main():
 
         #클리어하면 다음 파트
         if enemy.need_kill <= 0:
-            part()
+            part2()
 
         # 땅 그리기
         SCREEN.fill(SKY)
@@ -92,6 +93,8 @@ def main():
                     pygame.mouse.set_visible(True)
                     player.state = 0
                     player.isAiming = False
+                if event.button == 1:
+                    enemy.hit()
                                  
             if event.type == pygame.KEYUP:
                 if not(player.state == 3 or player.state == 4):
@@ -155,6 +158,8 @@ def main():
     pygame.quit()
 
 def part2():
+    global now_stage
+    now_stage = 2
     running = True
     while running:
         for event in pygame.event.get():
@@ -164,7 +169,20 @@ def part2():
         pygame.display.update()
     pygame.quit()
 
-def player_die():
+def player_die(): #죽으면 뜨는 함수
+    from main import screen, WIDTH_CENTER, HEIGHT_CENTER
+    #현재 스테이지 번수
+    global now_stage
+    now_stage = 1
+
+    die_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 40)
+    die_msg = die_font.render("일어나 Sarah!", True, (255,255,255))
+    alpha = 255
+
+    enemy = e.Enemy()
+    enemy.now_kill = enemy.need_kill #이거되나?
+
+    restart_button = manager.Button(screen, WIDTH_CENTER-160, HEIGHT_CENTER, images.Restart_normal, 250, 180, True, images.Restart_hover, main)
 
     running = True
     while running:
@@ -173,8 +191,14 @@ def player_die():
                 running = False
 
         SCREEN.fill(BLACK)
-            
+
+        time.sleep(0.5)
+
+        #ui update
+        screen.blit(die_msg, (WIDTH_CENTER-150,HEIGHT_CENTER-200))
+        restart_button.update()
+
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    main()
+    player_die()

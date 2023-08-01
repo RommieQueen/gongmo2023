@@ -195,7 +195,6 @@ class Player(pygame.sprite.Sprite):
         if self.time > 50:
             self.time = 0
             self.is_hitable = True
-        print(self.health)
 
     def heart(self,screen): #죽을때 나머지 하트 안바뀜 ㅜ
         
@@ -205,7 +204,7 @@ class Player(pygame.sprite.Sprite):
             self.heart2_img = imgs.heart_bin
         if self.health <=0:
             self.heart1_img = imgs.heart_bin
-            time.sleep(1)
+            time.sleep(1.3)
             s.player_die()
 
         screen.blit(self.heart1_img, self.pos1)
