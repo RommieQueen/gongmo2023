@@ -30,15 +30,14 @@ clock = pygame.time.Clock()
 
 FPS = 60
 
+# 충돌 확인 함수
 def collision_entity(entity_1, entity_2):
     collisions = pygame.sprite.spritecollide(entity_1, entity_2, False, pygame.sprite.collide_mask)
     if collisions:
         return True
     return False
-# 충돌 확인 함수
-def main():
 
-    check = None
+def main():
     
     ground = g.Ground(images.stage1_tile)
 
@@ -60,10 +59,6 @@ def main():
 
     running = True
     while running:
-
-        #클리어하면 다음 파트
-        if enemy.need_kill <= 0:
-            part2()
 
         # 땅 그리기
         SCREEN.fill(SKY)
@@ -149,7 +144,6 @@ def main():
                 player.direction = "left"
 
         #플레이어가 적에 닿으면 체력-
-
         if collision_entity(player, enemy_group):
             player.hit()
 
@@ -182,7 +176,7 @@ def player_die(): #죽으면 뜨는 함수
     enemy = e.Enemy()
     enemy.now_kill = enemy.need_kill #이거되나?
 
-    restart_button = manager.Button(screen, WIDTH_CENTER-160, HEIGHT_CENTER, images.Restart_normal, 250, 180, True, images.Restart_hover, main)
+    
 
     running = True
     while running:
@@ -196,7 +190,7 @@ def player_die(): #죽으면 뜨는 함수
 
         #ui update
         screen.blit(die_msg, (WIDTH_CENTER-150,HEIGHT_CENTER-200))
-        restart_button.update()
+        manager.Button(screen, WIDTH_CENTER - 160, HEIGHT_CENTER, images.Restart_normal, 250, 180, main)
 
         pygame.display.update()
     pygame.quit()
