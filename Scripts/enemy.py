@@ -4,6 +4,7 @@ import sys
 import random
 import scope as s
 import stage as stage
+import game_manager as manager
 
 screen_width, screen_height = 1280, 720
 
@@ -85,15 +86,12 @@ class Enemy(pygame.sprite.Sprite):
         if self.time >= 5:
             self.is_hitable = True
             self.time = 0
-        
-    def hurt(self, screen):
-        self.hurt_image.fill(RED)
-        self.hurt_image.set_alpha(127)
-        screen.blit(self.hurt_image, self.rect)
-        
-    def kill_msg(self,screen):
-        screen.blit(self.now_kill_msg, (1100,20))
-        
-        #체력, 맞으면 색깔은 빨간색인데 알파값이 약간 섞인 듯한 색깔, 0.3초 동안 일시정지 그 후 다시 원래 색으로 돌아오기
-        #체력이 0이 되면 반짝이면서 사라지기
-        #kill로 이미지 삭제.
+
+        #총 맞으면 피 파티클 효과
+        """hit_x = 
+            # TEST : particle
+        for x in range(random.randint(15, 25)):
+            particle = manager.Particle(mouse_x, mouse_y, random.randint(0, 20) / 10, random.randint(-3, -1),
+                                        random.randint(2, 4), (219, 0, 0))
+            manager.particles.append(particle)"""
+
