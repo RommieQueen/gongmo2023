@@ -193,7 +193,7 @@ class Player(pygame.sprite.Sprite):
             self.is_hitable = False
 
         self.time += 1
-        if self.time > 50:
+        if self.time > 20:
             self.time = 0
             self.is_hitable = True
 

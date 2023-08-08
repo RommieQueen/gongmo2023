@@ -133,7 +133,7 @@ def main():
                     clicked_enemies = [enemy for enemy in enemy_group if enemy.rect.collidepoint(pos)]
                     #clicked_enemies 만큼 enemy에 hit 확인.
                     for enemy in clicked_enemies:
-                        enemy.hit()
+                        enemy.hit(pos[0], pos[1])
             else:
                 scope.normal()
                 enemy.is_collide_scope = False

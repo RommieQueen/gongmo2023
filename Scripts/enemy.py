@@ -17,7 +17,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (160, 160))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(50, screen_width - 50), random.randint(0, screen_height - 600))
-        self.speed = random.randint(2, 3)
+        self.speed = random.randint(4, 6)
         self.original_speed = self.speed
         self.direction = random.choice(["right", "left"])
         self.is_on_ground = False
@@ -28,7 +28,6 @@ class Enemy(pygame.sprite.Sprite):
         self.hit_alpha = 100
         self.hit_timer = 0
         self.frame = 0
-        
         
     def update(self, player_is_move, player_rect_x, player_speed):
 
@@ -65,7 +64,8 @@ class Enemy(pygame.sprite.Sprite):
                 self.image.set_alpha(255)
 
     
-    def hit(self):
+    def hit(self,hit_x,hit_y):
+        blood_particle = manager.Particle(hit_x,hit_y,random.randint(0,20)/10, random.randint(-3,-1),random.randint(2,5),RED)
         if not self.is_hit:     #is_hit로 상태 감지 False를 감지하는 이유는 False일 때 감지하고 True로 바꿔서 update에서 작용. 
             self.health -= 1    
             if self.health <= 0:    #health가 0이하면 죽이고 아니면 is_hit를 True로 바꾸고 alpha = 100.
@@ -75,3 +75,5 @@ class Enemy(pygame.sprite.Sprite):
                 self.hit_alpha = 100
                 self.hit_timer = pygame.time.get_ticks()
                 self.image.set_alpha(self.hit_alpha)
+
+
