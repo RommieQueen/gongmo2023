@@ -13,4 +13,26 @@ class Button:
         else:
             input_screen.blit(input_image, (x_pos, y_pos))
 
-        
+class Particle():
+    def __init__(self,x,y, dx, dy, radius, color):
+        self.x = x
+        self.y = y
+        self.dx = dx
+        self.dy = dy
+        self.radius = radius
+        self.color = color
+
+    def render(self, screen):
+        self.x += self.dx
+        self.y += self.dy
+        self.radius -= 0.1
+
+        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+
+particles = []
+def draw_particle():
+    from main import screen
+    for particle in particles:
+        particle.draw(screen)
+        if particle.radius <=0 :
+            particles.remove(particle)

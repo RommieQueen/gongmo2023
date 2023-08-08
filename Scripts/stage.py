@@ -57,6 +57,7 @@ def main():
     # scope_point 생성
     scope_point = s.ScopePoint(scope)
 
+
     running = True
     while running:
 
@@ -68,6 +69,9 @@ def main():
         # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
         # 1000을 나누어줘서 초단위로 변경한다.
         mt = clock.tick(60) / 1000
+
+        # 마우스 좌표값
+        mouse_x, mouse_y = pygame.mouse.get_pos()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -102,9 +106,6 @@ def main():
             enemy_group.add(enemy)
             
         enemy_group.update(player.isMove, player.rect.right, player.velocity_x)
-
-        # 마우스 좌표값
-        mouse_x, mouse_y = pygame.mouse.get_pos()
 
         # player의 위치와 마우스 포인터의 위치 사이의 라디안 각도를 계산
         angle = math.atan2(mouse_y - 0, mouse_x - player.rect.x)
@@ -192,4 +193,4 @@ def player_die(): #죽으면 뜨는 함수
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    player_die()
+    main()
