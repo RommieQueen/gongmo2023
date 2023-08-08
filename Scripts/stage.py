@@ -91,8 +91,6 @@ def main():
                     pygame.mouse.set_visible(True)
                     player.state = 0
                     player.isAiming = False
-                if event.button == 1:
-                    enemy.hit()
                                  
             if event.type == pygame.KEYUP:
                 if not(player.state == 3 or player.state == 4):
@@ -128,8 +126,14 @@ def main():
             # 충돌확인
             if scope_collision:
                 scope.collide_enemy()
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1:
-                    pos = pygame.mouse.get_pos()
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    pos = pygame.mouse.get_pos()  #마우스 위치가 필요함
+                    
+                    #clicked_enemies에 enemy_group에 enemy를 enemy에 저장. 만약 마우스와 enemy가 닿았다면 밑에 코드 실행.
+                    clicked_enemies = [enemy for enemy in enemy_group if enemy.rect.collidepoint(pos)]
+                    #clicked_enemies 만큼 enemy에 hit 확인.
+                    for enemy in clicked_enemies:
+                        enemy.hit()
             else:
                 scope.normal()
                 enemy.is_collide_scope = False
@@ -168,13 +172,11 @@ def player_die(): #죽으면 뜨는 함수
     #현재 스테이지 번수
     global now_stage
     now_stage = 1
+    pygame.mouse.set_visible(True)
 
     die_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 40)
     die_msg = die_font.render("일어나 Sarah!", True, (255,255,255))
     alpha = 255
-
-    enemy = e.Enemy()
-    enemy.now_kill = enemy.need_kill #이거되나?
 
     running = True
     while running:

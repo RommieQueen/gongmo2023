@@ -24,30 +24,18 @@ class Enemy(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)  
         self.masks = [self.mask]  # Enemy 클래스에도 masks 속성 추가
         self.health = 3
-
-        self.scope = s.Scope()
-        self.scope_point = s.ScopePoint(self.scope)
-        self.is_collide_scope = False
-        self.hurt_image = self.image
+        self.is_hit = False
+        self.hit_alpha = 100
+        self.hit_timer = 0
+        self.frame = 0
         
-        self.time = 0
-        self.is_hitable = True
-
-        self.need_kill = 100
-        self.now_kill = self.need_kill
-        self.kill_font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf',30)
-        self.now_kill_msg = self.kill_font.render(f"{self.now_kill}/{self.need_kill}",True, (255,255,255))
         
     def update(self, player_is_move, player_rect_x, player_speed):
-        from main import screen
-
-        #보내버린 적 얼마나?
-        self.kill_msg(screen)
 
         if not self.is_on_ground:
             self.rect.y += self.speed
         else:
-            self.speed = random.randint(1, 2)
+            self.speed = random.randint(8, 12)
 
             if random.random() < 0.01:
                 self.direction = random.choice(["right", "left"])
@@ -70,28 +58,20 @@ class Enemy(pygame.sprite.Sprite):
             elif player_rect_x >= 1220:
                 self.rect.x -= player_speed
 
-        #체력 0이면 없애기 (작중에선 외계행성으로 이동)
-        if self.health <= 0:
-            self.remove()
-            self.now_kill -= 1
+        if self.is_hit:  #is_hit로 상태 감지. 현재 True인 상태를 감지.
+            if pygame.time.get_ticks() - self.hit_timer > 500:  # 0.5초 동안 유지
+                self.is_hit = False
+                self.hit_alpha = 100
+                self.image.set_alpha(255)
 
-    #내가만든 hit함수 너를위해 구웠지
+    
     def hit(self):
-        if self.is_hitable:
-            self.health -= 1
-            print(self.health)
-            self.is_hitable = False
-            
-        self.time += 1
-        if self.time >= 500:
-            self.is_hitable = True
-            self.time = 0
-
-        #총 맞으면 피 파티클 효과
-        """hit_x = 
-            # TEST : particle
-        for x in range(random.randint(15, 25)):
-            particle = manager.Particle(mouse_x, mouse_y, random.randint(0, 20) / 10, random.randint(-3, -1),
-                                        random.randint(2, 4), (219, 0, 0))
-            manager.particles.append(particle)"""
-
+        if not self.is_hit:     #is_hit로 상태 감지 False를 감지하는 이유는 False일 때 감지하고 True로 바꿔서 update에서 작용. 
+            self.health -= 1    
+            if self.health <= 0:    #health가 0이하면 죽이고 아니면 is_hit를 True로 바꾸고 alpha = 100.
+                self.kill()
+            else:
+                self.is_hit = True
+                self.hit_alpha = 100
+                self.hit_timer = pygame.time.get_ticks()
+                self.image.set_alpha(self.hit_alpha)
