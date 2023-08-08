@@ -38,8 +38,6 @@ intro2_background = pygame.image.load('./../Images/background/intro2_1.png')
 intro3_background = pygame.image.load('./../Images/background/meeting_room.jpg')
 stage1_ground = pygame.image.load('./../Images/background/ground1.png')
 stage1_ground = pygame.transform.scale(stage1_ground, (600,600))
-stage1_tile = pygame.image.load('./../Images/background/ground2.jpeg')
-stage1_tile = pygame.transform.scale(stage1_tile, (128,128))
 
 # 배경 요소 #
 trees1 = pygame.image.load('./../Images/background/trees1.png')

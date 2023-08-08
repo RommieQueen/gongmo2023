@@ -39,7 +39,7 @@ def collision_entity(entity_1, entity_2):
 
 def main():
     
-    ground = g.Ground(images.stage1_tile)
+    ground = g.Ground('./../Images/background/ground1.jpg')
 
     # 적(Enemy) 그룹 생성
     enemy_group = pygame.sprite.Group()
@@ -61,10 +61,9 @@ def main():
     while running:
 
         # 땅 그리기
-        SCREEN.fill(SKY)
         ground.update(player.isMove, player.rect.right, player.velocity_x)
-        ground.draw_thing(SCREEN, player.isMove, player.rect.right, images.shadow_trees1, 0, 250, 300)
         ground.draw(SCREEN)
+        
         player.heart(SCREEN)
         # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
         # 1000을 나누어줘서 초단위로 변경한다.
