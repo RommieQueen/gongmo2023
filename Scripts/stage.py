@@ -175,8 +175,6 @@ def player_die(): #죽으면 뜨는 함수
     enemy = e.Enemy()
     enemy.now_kill = enemy.need_kill #이거되나?
 
-    
-
     running = True
     while running:
         for event in pygame.event.get():

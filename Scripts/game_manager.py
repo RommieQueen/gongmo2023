@@ -12,3 +12,5 @@ class Button:
                 action()                            
         else:
             input_screen.blit(input_image, (x_pos, y_pos))
+
+        
