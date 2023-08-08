@@ -42,10 +42,12 @@ stage1_ground = pygame.transform.scale(stage1_ground, (600,600))
 # 배경 요소 #
 trees1 = pygame.image.load('./../Images/background/trees1.png')
 trees1 = pygame.transform.scale(trees1, (400,400))
+back_tree1 = pygame.image.load('./../Images/background/shadow_trees_background1.png')
+back_tree1 = pygame.transform.scale(back_tree1, (1280,720))
 
 shadow_trees1 = pygame.image.load('./../Images/background/shadow_trees1.png')
 shadow_trees1 = pygame.transform.scale(shadow_trees1, (500,500))
 shadow_trees2 = pygame.image.load('./../Images/background/shadow_trees2.png')
-shadow_trees2 = pygame.transform.scale  (shadow_trees2,(400,400))
+shadow_trees2 = pygame.transform.scale(shadow_trees2,(400,400))
 
 start_button = pygame.image.load('./../Images/ui/start_button.png')
