@@ -92,7 +92,7 @@ class Player(pygame.sprite.Sprite):
         # player가 조준중인지 확인
         self.isAiming = False
 
-        #플레이어 체력
+         #플레이어 체력
         self.health = 3
 
         #적과 닿았는지
@@ -185,7 +185,8 @@ class Player(pygame.sprite.Sprite):
 
             if self.index >= len(self.images):
                 self.index = 0
-                
+
+                    
     def hit(self):
         if self.is_hitable:
             self.health -= 1
