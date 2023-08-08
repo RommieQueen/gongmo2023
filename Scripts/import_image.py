@@ -44,6 +44,7 @@ stage1_tile = pygame.transform.scale(stage1_tile, (128,128))
 # 배경 요소 #
 trees1 = pygame.image.load('./../Images/background/trees1.png')
 trees1 = pygame.transform.scale(trees1, (400,400))
+back_tree1 = pygame.image.load('./../Images/background/tr')
 
 shadow_trees1 = pygame.image.load('./../Images/background/shadow_trees1.png')
 shadow_trees1 = pygame.transform.scale(shadow_trees1, (500,500))

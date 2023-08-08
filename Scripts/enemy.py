@@ -63,7 +63,7 @@ class Enemy(pygame.sprite.Sprite):
             self.is_on_ground = False
             
         if player_is_move:
-            # player 위치가 화면 끝 근처인 경우, 원래 속도를 player 속도로 변경
+            # player 위치가 화면 끝 근처인 경우, 원래 속도를 player 속도d로 변경
             if player_rect_x <= 160:
                 self.rect.x += player_speed
             elif player_rect_x >= 1220:
