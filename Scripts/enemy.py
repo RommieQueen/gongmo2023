@@ -71,7 +71,7 @@ class Enemy(pygame.sprite.Sprite):
 
         #체력 0이면 없애기 (작중에선 외계행성으로 이동)
         if self.health <= 0:
-            self.kill()
+            self.remove()
             self.now_kill -= 1
 
     #내가만든 hit함수 너를위해 구웠지
@@ -82,7 +82,7 @@ class Enemy(pygame.sprite.Sprite):
             self.is_hitable = False
             
         self.time += 1
-        if self.time >= 5:
+        if self.time >= 500:
             self.is_hitable = True
             self.time = 0
         
