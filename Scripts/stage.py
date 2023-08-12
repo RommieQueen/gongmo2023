@@ -38,8 +38,8 @@ def collision_entity(entity_1, entity_2):
     return False
 
 def main():
-    
-    ground = g.Ground('./../Images/background/ground1.jpg')
+    from main import screen
+    ground = g.Ground(images.stage1_ground)
 
     # 적(Enemy) 그룹 생성
     enemy_group = pygame.sprite.Group()
@@ -61,10 +61,10 @@ def main():
     running = True
     while running:
 
-        # 땅 그리기
+        # 땅
         ground.update(player.isMove, player.rect.right, player.velocity_x)
         ground.draw(SCREEN)
-        
+
         player.heart(SCREEN)
         # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
         # 1000을 나누어줘서 초단위로 변경한다.
@@ -133,7 +133,7 @@ def main():
                     clicked_enemies = [enemy for enemy in enemy_group if enemy.rect.collidepoint(pos)]
                     #clicked_enemies 만큼 enemy에 hit 확인.
                     for enemy in clicked_enemies:
-                        enemy.hit(pos[0], pos[1])
+                        enemy.hit()
             else:
                 scope.normal()
                 enemy.is_collide_scope = False
@@ -151,18 +151,81 @@ def main():
         if collision_entity(player, enemy_group):
             player.hit()
 
+        #할당치 채우면 다음스테이지로
+        if enemy.now_kill < 1:
+            middle_scene()
+
         pygame.display.update()
 
     pygame.quit()
 
+def middle_scene():
+    from main import screen
+    SKY = (0,34,102)
+    running = True
+    while running:
+
+        screen.fill(SKY)
+        screen.blit(images.shadow_tree_back1, (0,0))
+        screen.blit(images.shadow_tree_back2,(0,0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        pygame.display.update()
+    pygame.quit()
+
 def part2():
+
+    ground = g.Ground(images.stage1_ground)
+    player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
+
+    # 생성된 player를 그룹에 넣기
+    player_sprites = pygame.sprite.Group(player)
+
+    scope = s.Scope()
+    scope_point = s.ScopePoint(scope)
+
     global now_stage
     now_stage = 2
     running = True
     while running:
+        # 땅
+        ground.update(player.isMove, player.rect.right, player.velocity_x)
+        ground.draw(SCREEN)
+
+        mt = clock.tick(60) / 1000
+        player_sprites.draw(SCREEN)
+        player_sprites.update(mt)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    player.dash()
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                player.isAiming = True
+                pygame.mouse.set_visible(False)
+
+                if player.state == 2:
+                    player.state = 4
+                else:
+                    player.state = 3
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 3:
+                    pygame.mouse.set_visible(True)
+                    player.state = 0
+                    player.isAiming = False
+
+            if event.type == pygame.KEYUP:
+                if not (player.state == 3 or player.state == 4):
+                    if event.key == pygame.K_d or event.key == pygame.K_a or event.key == pygame.K_s:
+                        player.state = 0
+                        player.velocity_x = 0
 
         pygame.display.update()
     pygame.quit()
@@ -195,4 +258,4 @@ def player_die(): #죽으면 뜨는 함수
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    main()
+    middle_scene()

@@ -36,8 +36,14 @@ Restart_hover = pygame.transform.scale(Restart_hover,(250,150))
 intro1_background = pygame.image.load('./../Images/background/spaceship.jpg')
 intro2_background = pygame.image.load('./../Images/background/intro2_1.png')
 intro3_background = pygame.image.load('./../Images/background/meeting_room.jpg')
+<<<<<<< Updated upstream
+stage1_ground = pygame.image.load('./../Images/background/ground1.jpg')
+=======
 stage1_ground = pygame.image.load('./../Images/background/ground1.png')
 stage1_ground = pygame.transform.scale(stage1_ground, (600,600))
+stage1_tile = pygame.image.load('./../Images/background/ground2.jpeg')
+stage1_tile = pygame.transform.scale(stage1_tile, (150,150))
+>>>>>>> Stashed changes
 
 # 배경 요소 #
 trees1 = pygame.image.load('./../Images/background/trees1.png')
@@ -50,4 +56,11 @@ shadow_trees1 = pygame.transform.scale(shadow_trees1, (500,500))
 shadow_trees2 = pygame.image.load('./../Images/background/shadow_trees2.png')
 shadow_trees2 = pygame.transform.scale(shadow_trees2,(400,400))
 
+shadow_tree_back1 = pygame.image.load('./../Images/background/shadow_trees_background1.png')
+shadow_tree_back1 = pygame.transform.scale(shadow_tree_back1, (1280, 720))
+shadow_tree_back2 = pygame.image.load('./../Images/background/shadow_trees_background2.png')
+shadow_tree_back2 = pygame.transform.scale(shadow_tree_back2, (1280,720))
 start_button = pygame.image.load('./../Images/ui/start_button.png')
+
+# Items #
+katana = pygame.image.load('./../Images/sprites/sword.png')

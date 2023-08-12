@@ -67,8 +67,10 @@ class Player(pygame.sprite.Sprite):
         self.images_left = [pygame.transform.flip(image, True, False) for image in images]
 
         # 캐릭터의 현재 상태
+        self.keys = pygame.key.get_pressed()
         # 0 - idle 상태, 1 - 걷고 있는 상태
         self.state = 0
+        self.keys = pygame.key.get_pressed()
         
         # 방향
         self.direction = 'right'
@@ -109,16 +111,19 @@ class Player(pygame.sprite.Sprite):
         self.pos2 = (80,10)
         self.pos3 = (150,10)
 
-        #die
+        #dash
+        self.interval = 200
+        self.is_dash = False
+        self.dash_speed = 50
 
     # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
     def update(self, mt):
-
         #키보드로 player 이동
-        keys = pygame.key.get_pressed()
+        self.keys = pygame.key.get_pressed()
         if self.isAiming == False:
             # 왼쪽으로 이동가능
-            if keys[pygame.K_a]:
+            if self.keys[pygame.K_a]:
+
                 self.direction = "left"
                 self.state = 1
                 if self.rect.right > 160:
@@ -127,7 +132,7 @@ class Player(pygame.sprite.Sprite):
                 else:
                     self.isMove = True
             # 오른쪽으로 이동가능
-            if keys[pygame.K_d]:
+            if self.keys[pygame.K_d]:
                 self.direction = "right"
                 self.state = 1
                 if self.rect.right < 1220:
@@ -136,7 +141,7 @@ class Player(pygame.sprite.Sprite):
                 else:
                     self.isMove = True
             # 앉기 가능
-            if keys[pygame.K_s]:
+            if self.keys[pygame.K_s]:
                 self.state = 2
         
         # 현재 상태에 따라 반복해줄 이미지의 index 설정과 속도
@@ -193,7 +198,7 @@ class Player(pygame.sprite.Sprite):
             self.is_hitable = False
 
         self.time += 1
-        if self.time > 20:
+        if self.time > 17:
             self.time = 0
             self.is_hitable = True
 
@@ -212,4 +217,12 @@ class Player(pygame.sprite.Sprite):
         screen.blit(self.heart2_img, self.pos2)
         screen.blit(self.heart3_img, self.pos3)
 
+    # --- 여기부터 part2에 쓰입니다. --- #
+    def dash(self):
+        if self.direction == "right":
+            self.rect.x += self.dash_speed
+            self.rect.x+= self.dash_speed
 
+        elif self.direction == "left":
+            self.rect.x -= self.dash_speed
+            self.rect.x -= self.dash_speedd

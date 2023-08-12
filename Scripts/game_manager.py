@@ -1,5 +1,5 @@
 import pygame
-
+from main import screen
 pygame.init()
 
 class Button:
@@ -14,27 +14,22 @@ class Button:
             input_screen.blit(input_image, (x_pos, y_pos))
 
 class Particle():
-    def __init__(self,x,y, radius, color,gravity=None):
+    def __init__(self,x,y,dx,dy, radius,color,gravity_scale):
         self.x = x
         self.y = y
-
+        self.dx = dx
+        self.dy = dy
         self.radius = radius
         self.color = color
-        self.gravity = gravity
+        self.gravity_scale = gravity_scale
+        self.gravity = 5
+        self.lifetime = 100
+    def draw(self, screen):
+        self.lifetime -=1
+        self.gravity -= self.gravity_scale
+        self.x += self.dx
+        self.y += self.dy * self.gravity
 
-    def render(self, screen,x,y):
-        self.x = x
-        self.y = y
-
-        if self.gravity is not None:
-            self.y += self.gravity
-
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+        pygame.draw.circle(screen, self.color,(self.x,self.y),self.radius)
 
 particles = []
-def draw_particle(x, y):
-    from main import screen
-    for particle in particles:
-        particle.render(screen,x,y)
-        if particle.radius <=0 :
-            particles.remove(particle)
