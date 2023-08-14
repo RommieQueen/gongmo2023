@@ -22,12 +22,12 @@ class Ground(pygame.sprite.Sprite):
                 self.x_pos -= player_speed
 
     def draw(self, screen):
-<<<<<<< Updated upstream
+
         screen.blit(self.image, (self.x_pos, 0))
-=======
+
         screen.fill(SKYBLUE)
         screen.blit(self.image, (self.x_pos, 620))
->>>>>>> Stashed changes
+
         if self.x_pos >= 0:
             screen.blit(self.image, (self.x_pos - self.image_width, 0))
         elif self.x_pos <= 1280:

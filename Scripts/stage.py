@@ -176,8 +176,9 @@ def middle_scene():
     pygame.quit()
 
 def part2():
-
-    ground = g.Ground(images.stage1_ground)
+        
+    ground = g.Ground(images.stage2_ground)
+    mountain = g.Ground(images.stage2_mountain)
     player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
 
     # 생성된 player를 그룹에 넣기
@@ -191,9 +192,9 @@ def part2():
     running = True
     while running:
         # 땅
-        ground.update(player.isMove, player.rect.right, player.velocity_x)
-        ground.draw(SCREEN)
 
+        mountain.update(player.isMove, player.rect.right, player.velocity_x)
+        mountain.draw(SCREEN)
         mt = clock.tick(60) / 1000
         player_sprites.draw(SCREEN)
         player_sprites.update(mt)
@@ -258,4 +259,4 @@ def player_die(): #죽으면 뜨는 함수
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    middle_scene()
+    part2()
