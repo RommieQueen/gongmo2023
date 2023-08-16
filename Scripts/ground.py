@@ -4,7 +4,7 @@ import time
 
 screen_width, screen_height = 1280, 720
 
-SKYBLUE = (178,235,244)
+
 # 땅(Ground) 클래스 정의
 class Ground(pygame.sprite.Sprite):
     def __init__(self, image):
@@ -25,7 +25,6 @@ class Ground(pygame.sprite.Sprite):
 
         screen.blit(self.image, (self.x_pos, 0))
 
-        screen.fill(SKYBLUE)
         screen.blit(self.image, (self.x_pos, 620))
 
         if self.x_pos >= 0:

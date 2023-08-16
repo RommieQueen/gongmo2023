@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         # 여러장의 이미지를 리스트로 저장한다. 이미지 경로는 자신들의 경로를 사용한다.
         images = []
 
-        # 서있는 상태 0 ~ 6
+        # 서있는 상태 0 ~ 5
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
 
-        # 걷기 7 ~ 13
+        # 걷기 6 ~ 18
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_1.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_1.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_2.png'))
@@ -41,14 +41,20 @@ class Player(pygame.sprite.Sprite):
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_6.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_6.png'))
 
-        # 앉는 상태 14 ~ 15
+        # 앉는 상태 19
         images.append(pygame.image.load('./../Images/sprites/player/player_sit.png'))
 
-        # 서서 공격하는 상태 16 ~ 17
+        # 서서 공격하는 상태 20
         images.append(pygame.image.load('./../Images/sprites/player/player_stand_attack.png'))
 
-        # 앉아서 공격하는 상태 17 ~ 18
+        # 앉아서 공격하는 상태 21
         images.append(pygame.image.load('./../Images/sprites/player/player_sit_attack.png'))
+
+        #stage2 _ sword attack 22~25
+        images.append(pygame.image.load('./../Images/sprites/player/player_sword1.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_sword2.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_sword3.png'))
+        images.append(pygame.image.load('./../Images/sprites/player/player_sword4.png'))
 
         # Rect 크기와 Image 크기 맞추기. pygame.transform.scale
         self.images = [pygame.transform.scale(image, size) for image in images]
@@ -111,11 +117,15 @@ class Player(pygame.sprite.Sprite):
         self.pos2 = (80,10)
         self.pos3 = (150,10)
 
-        #dash
+        #stage2 _ dash
         self.interval = 200
         self.is_dash = False
         self.dash_speed = 50
 
+        #stage2 _ sword
+        self.is_sword = False
+        self.is_charging = True
+        self.power = 1
     # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
     def update(self, mt):
         #키보드로 player 이동
@@ -166,6 +176,17 @@ class Player(pygame.sprite.Sprite):
             start_Index = 20
             self.velocity_x = 0
 
+        #sword 충전
+        elif self.state ==5:
+            count = 1
+            start_Index = 22
+            self.velocity_x = 0
+        #sword 휘두르기
+        elif self.state == 6:
+            count = 3
+            start_Index = 23
+            self.velocity_x = 0
+
         # 방향이 오른쪽이면, 오른쪽 이미지 선택
         if self.direction == 'right':
             self.images = self.images_right
@@ -191,7 +212,8 @@ class Player(pygame.sprite.Sprite):
             if self.index >= len(self.images):
                 self.index = 0
 
-                    
+            if self.is_sword:
+                self.sword()
     def hit(self):
         if self.is_hitable:
             self.health -= 1
@@ -226,3 +248,31 @@ class Player(pygame.sprite.Sprite):
         elif self.direction == "left":
             self.rect.x -= self.dash_speed
             self.rect.x -= self.dash_speed
+
+
+    def sword(self):
+        from main import screen, HEIGHT_CENTER
+
+        if self.is_charging:
+            #애니메이션 state 5
+            self.state = 5
+
+            #sword power charging
+            for charging in range(0,32):
+                if charging >10:
+                    self.power =2
+                elif charging > 20:
+                    self.power = 3
+                else:
+                    self.power = 1
+
+                if self.power == 1:
+                    screen.blit(imgs.sword_charging1, (600, HEIGHT_CENTER))
+                elif self.power == 2:
+                    screen.blit(imgs.sword_charging2, (600, HEIGHT_CENTER))
+                elif self.power == 3:
+                    screen.blit(imgs.sword_charging3, (600, HEIGHT_CENTER))
+
+        else:
+            self.state = 6
+
