@@ -225,4 +225,4 @@ class Player(pygame.sprite.Sprite):
 
         elif self.direction == "left":
             self.rect.x -= self.dash_speed
-            self.rect.x -= self.dash_speedd
+            self.rect.x -= self.dash_speed
