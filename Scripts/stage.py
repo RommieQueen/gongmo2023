@@ -38,7 +38,6 @@ def collision_entity(entity_1, entity_2):
     return False
 
 def main():
-    from main import screen
     ground = g.Ground(images.stage1_ground)
 
     # 적(Enemy) 그룹 생성
@@ -64,7 +63,7 @@ def main():
     while running:
 
         # 땅
-        screen.fill(SKYBLUE)
+        SCREEN.fill(SKYBLUE)
         ground.update(player.isMove, player.rect.right, player.velocity_x)
         ground.draw(SCREEN)
 
@@ -163,7 +162,6 @@ def main():
     pygame.quit()
 
 def middle_scene():
-    from main import screen
     SKY = (0,34,102)
     running = True
     while running:
@@ -291,4 +289,4 @@ def player_die(): #죽으면 뜨는 함수
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    part2()
+    main()
