@@ -38,11 +38,16 @@ class Enemy(pygame.sprite.Sprite):
     def update(self, player_is_move, player_rect_x, player_speed):
         from main import screen
 
-        if not self.is_on_ground and not self.is_jump:
+        if not self.is_on_ground:
             self.rect.y += self.speed
 
-        else:
-            print(self.is_on_ground, self.is_jump)
+        # 땅에 닿았는지 확인
+        if self.rect.bottom >= screen_height - 100:
+            self.is_jump = False
+            self.jump_speed = self.speed
+            self.is_on_ground = True
+
+        if self.is_on_ground:
             self.speed = random.randint(5, 7)
 
             if random.random() < 0.02 and not self.is_jump:
@@ -56,22 +61,12 @@ class Enemy(pygame.sprite.Sprite):
             elif self.direction == "left":
                 self.rect.x -= self.speed
 
-            #점프실행
+        #점프실행
         if self.is_jump:
             self.rect.y -= self.jump_speed
 
-            if self.rect.y < screen_height - 450:
-                self.jump_speed = -self.speed
-
-                if self.rect.bottom >= screen_height - 99:
-                    self.is_on_ground = False
-
-
-        # 땅에 닿았는지 확인
-        if self.rect.bottom >= screen_height - 100:
-            self.is_on_ground = True
-        else:
-            self.is_on_ground = False
+            if self.rect.y <= screen_height - 450:
+                self.jump_speed -= self.speed
 
         if player_is_move:
             # player 위치가 화면 끝 근처인 경우, 원래 속도를 player 속도d로 변경
@@ -99,7 +94,7 @@ class Enemy(pygame.sprite.Sprite):
 
             #피 파티클
 
-            if self.health <= 0:    #health가 0이하면 죽이고 아니면 is_hitdddd를 True로 바꾸고 alpha = 100.
+            if self.health <= 0:    #health가 0이하면 죽이고 아니면 is_hit를 True로 바꾸고 alpha = 100.
                 self.kill()
                 self.now_kill -= 1
 
