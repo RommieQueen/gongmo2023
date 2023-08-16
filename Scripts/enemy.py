@@ -64,7 +64,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.jump_speed = -self.speed
 
                 if self.rect.bottom >= screen_height - 99:
-                    self.is_on_ground=False
+                    self.is_on_ground = False
 
 
         # 땅에 닿았는지 확인

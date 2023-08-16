@@ -162,7 +162,6 @@ def main():
     pygame.quit()
 
 def middle_scene():
-    from main import screen
     SKY = (0,34,102)
     running = True
     while running:
@@ -295,4 +294,4 @@ def player_die(): #죽으면 뜨는 함수
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    part2()
+    main()
