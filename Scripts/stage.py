@@ -38,7 +38,6 @@ def collision_entity(entity_1, entity_2):
     return False
 
 def main():
-    from main import screen
     ground = g.Ground(images.stage1_ground)
 
     # 적(Enemy) 그룹 생성
@@ -64,7 +63,7 @@ def main():
     while running:
 
         # 땅
-        screen.fill(SKYBLUE)
+        SCREEN.fill(SKYBLUE)
         ground.update(player.isMove, player.rect.right, player.velocity_x)
         ground.draw(SCREEN)
 
@@ -214,6 +213,7 @@ def part2():
             SCREEN.blit(images.gun_ui,(20,20))
         elif is_sword:
             SCREEN.blit(images.sword_ui, (20,20))
+
         #scope 그리기
         if player.isAiming and is_gun:
             scope.draw(SCREEN, mouse_x, mouse_y)
@@ -244,6 +244,10 @@ def part2():
                         player.state = 4
                     else:
                         player.state = 3
+
+                elif is_sword:
+                    player.is_charging = True
+                    player.state = 5
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 3:

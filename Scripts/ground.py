@@ -25,8 +25,6 @@ class Ground(pygame.sprite.Sprite):
 
         screen.blit(self.image, (self.x_pos, 0))
 
-        screen.blit(self.image, (self.x_pos, 620))
-
         if self.x_pos >= 0:
             screen.blit(self.image, (self.x_pos - self.image_width, 0))
         elif self.x_pos <= 1280:

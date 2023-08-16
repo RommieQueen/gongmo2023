@@ -153,7 +153,7 @@ class Player(pygame.sprite.Sprite):
             # 앉기 가능
             if self.keys[pygame.K_s]:
                 self.state = 2
-        
+
         # 현재 상태에 따라 반복해줄 이미지의 index 설정과 속도
         if self.state == 0:
             count = 6
@@ -249,30 +249,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= self.dash_speed
             self.rect.x -= self.dash_speed
 
+        self.is_dash = True
+        for cool_time in range(0, 10):
+            continue
+
 
     def sword(self):
-        from main import screen, HEIGHT_CENTER
-
-        if self.is_charging:
-            #애니메이션 state 5
-            self.state = 5
-
-            #sword power charging
-            for charging in range(0,32):
-                if charging >10:
-                    self.power =2
-                elif charging > 20:
-                    self.power = 3
-                else:
-                    self.power = 1
-
-                if self.power == 1:
-                    screen.blit(imgs.sword_charging1, (600, HEIGHT_CENTER))
-                elif self.power == 2:
-                    screen.blit(imgs.sword_charging2, (600, HEIGHT_CENTER))
-                elif self.power == 3:
-                    screen.blit(imgs.sword_charging3, (600, HEIGHT_CENTER))
-
-        else:
-            self.state = 6
+        pass
 
