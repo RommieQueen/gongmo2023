@@ -67,3 +67,12 @@ start_button = pygame.image.load('./../Images/ui/start_button.png')
 
 stage2_mountain = pygame.image.load('./../Images/background/stage2_mountain.png')
 stage2_mountain = pygame.transform.scale(stage2_mountain,(1280,720))
+
+# effect #
+power1 = pygame.image.load('./../Images/sprites/power1.png')
+power2 = pygame.image.load('./../Images/sprites/power2.png')
+power3 = pygame.image.load('./../Images/sprites/power3.png')
+
+power1.set_alpha(127)
+power2.set_alpha(127)
+power3.set_alpha(127)

@@ -163,7 +163,7 @@ def middle_scene():
     running = True
     while running:
 
-        screen.fill(SKY)
+        SCREEN.fill(SKY)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -173,10 +173,11 @@ def middle_scene():
 
 def part2():
 
+    # 좌표, ui, 인스턴스 등 생성
     SKY = (225,128,72)
     ground = g.Ground(images.stage2_ground)
     player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
-
+    power_bar_pos = (SCREEN_WIDTH/2-images.power1.get_rect().right, 600)
     # 생성된 player를 그룹에 넣기
     player_sprites = pygame.sprite.Group(player)
 
@@ -215,9 +216,20 @@ def part2():
             scope.draw(SCREEN, mouse_x, mouse_y)
             scope_point.draw_point(SCREEN)
 
+        # draw power_bar
+        if player.charging ==1 :
+            SCREEN.blit(images.sword_charging1, power_bar_pos)
+        elif player.charging == 2 :
+            SCREEN.blit(images.sword_charging2, power_bar_pos)
+        elif player.charging == 3:
+            SCREEN.blit(images.sword_charging3, power_bar_pos)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+            MOUSE_RIGHT = event.type == pygame.MOUSEBUTTONDOWN and event.button == 3
+            MOUSE_LEFT = event.type == pygame.MOUSEBUTTONDOWN and event.button == 1
 
             #대쉬, 무기변경
             if event.type == pygame.KEYDOWN:
@@ -231,28 +243,36 @@ def part2():
                         is_gun = True
                         is_sword = False
 
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+            # ** 무기는 우클릭 시 player.무기함수 호출 ** #
+            # gun
+            if is_gun and MOUSE_RIGHT:
                 pygame.mouse.set_visible(False)
-                if is_gun: # 총 일때
-                    player.isAiming = True
+                player.isAiming = True
 
-                    if player.state == 2:
-                        player.state = 4
-                    else:
-                        player.state = 3
+                if player.state == 2:
+                    player.state = 4
+                else:
+                    player.state = 3
 
-                elif is_sword:
+            # sword
+            elif is_sword:
+                if MOUSE_RIGHT:
+                    pygame.mouse.set_visible(False)
+                    player.sword_charging()
                     player.is_charging = True
-                    player.state = 5
 
+            if MOUSE_LEFT:
+                if is_sword:
+                    player.sword_attack()
+
+            # 마우스 떼서 무기 취소
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 3:
                     pygame.mouse.set_visible(True)
-                    if is_sword:
-                        player.is_charging = False
+                    if is_gun:
+                        player.isAiming = False
 
                     player.state = 0
-                    player.isAiming = False
 
             if event.type == pygame.KEYUP:
                 if not (player.state == 3 or player.state == 4):
@@ -291,4 +311,4 @@ def player_die(): #죽으면 뜨는 함수
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    main()
+    part2()

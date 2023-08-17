@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
 
-        # 걷기 6 ~ 18
+        # 걷기 6 ~ 17
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_1.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_1.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_2.png'))
@@ -41,16 +41,16 @@ class Player(pygame.sprite.Sprite):
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_6.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_6.png'))
 
-        # 앉는 상태 19
+        # 앉는 상태 18
         images.append(pygame.image.load('./../Images/sprites/player/player_sit.png'))
 
-        # 서서 공격하는 상태 20
+        # 서서 공격하는 상태 19
         images.append(pygame.image.load('./../Images/sprites/player/player_stand_attack.png'))
 
-        # 앉아서 공격하는 상태 21
+        # 앉아서 공격하고 상태 20
         images.append(pygame.image.load('./../Images/sprites/player/player_sit_attack.png'))
 
-        #stage2 _ sword attack 22~25
+        #stage2 _ sword attack 21~24
         images.append(pygame.image.load('./../Images/sprites/player/player_sword1.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_sword2.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_sword3.png'))
@@ -123,9 +123,9 @@ class Player(pygame.sprite.Sprite):
         self.dash_speed = 50
 
         #stage2 _ sword
-        self.is_sword = False
-        self.is_charging = True
-        self.power = 1
+        self.is_charging = False
+        self.charging = 0
+
     # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
     def update(self, mt):
         #키보드로 player 이동
@@ -179,12 +179,12 @@ class Player(pygame.sprite.Sprite):
         #sword 충전
         elif self.state ==5:
             count = 1
-            start_Index = 22
+            start_Index = 21
             self.velocity_x = 0
         #sword 휘두르기
         elif self.state == 6:
             count = 3
-            start_Index = 23
+            start_Index = 22
             self.velocity_x = 0
 
         # 방향이 오른쪽이면, 오른쪽 이미지 선택
@@ -202,8 +202,6 @@ class Player(pygame.sprite.Sprite):
             self.current_time = 0
 
             # 상태에 따라 이미지 index 범위를 다르게 설정한다.
-
-            # idle 상태는 0 ~ 6, 걷기 상태는 7 ~ 13
             self.index = (self.index % count) + start_Index
 
             self.image = self.images[self.index]
@@ -214,7 +212,6 @@ class Player(pygame.sprite.Sprite):
 
             if self.is_sword:
                 self.sword()
-                
     def hit(self):
         if self.is_hitable:
             self.health -= 1
@@ -242,19 +239,21 @@ class Player(pygame.sprite.Sprite):
 
     # --- 여기부터 part2에 쓰입니다. --- #
     def dash(self):
-        if self.direction == "right":
-            self.rect.x += self.dash_speed
-            self.rect.x+= self.dash_speed
+        if not self.is_dash:
+            if self.direction == "right":
+                self.rect.x += self.dash_speed
+                self.rect.x+= self.dash_speed
 
-        elif self.direction == "left":
-            self.rect.x -= self.dash_speed
-            self.rect.x -= self.dash_speed
-
-        self.is_dash = True
-        for cool_time in range(0, 10):
-            continue
+            elif self.direction == "left":
+                self.rect.x -= self.dash_speed
+                self.rect.x -= self.dash_speed
 
 
-    def sword(self):
-        pass
+        self.is_dash = False
 
+    def sword_charging(self):
+        self.state =5
+
+    def sword_attack(self):
+        for i in range(22,25):
+            self.image = self.images[i]
