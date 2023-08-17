@@ -17,7 +17,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (160, 160))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(50, screen_width - 50), random.randint(0, screen_height - 600))
-        self.speed = random.randint(4, 6)
+        self.speed = random.randint(1, 2)
         self.original_speed = self.speed
         self.direction = random.choice(["right", "left"])
         self.is_on_ground = False
@@ -29,15 +29,8 @@ class Enemy(pygame.sprite.Sprite):
         self.is_hit = False
         self.hit_alpha = 100
         self.hit_timer = 0
-        self.frame = 0
-        self.blood_particles = []
-        #kill_msg
-        self.need_kill = 100
-        self.now_kill = self.need_kill
         
     def update(self, player_is_move, player_rect_x, player_speed):
-        from main import screen
-
         if not self.is_on_ground:
             self.rect.y += self.speed
 
@@ -48,12 +41,12 @@ class Enemy(pygame.sprite.Sprite):
             self.is_on_ground = True
 
         if self.is_on_ground:
-            self.speed = random.randint(5, 7)
+            self.speed = random.randint(8, 10)
 
             if random.random() < 0.02 and not self.is_jump:
                 self.direction = random.choice(["right", "left"])
 
-            if random.random() < 0.02:
+            if random.random() < 0.001:
                 self.is_jump = True
 
             if self.direction == "right":
@@ -81,22 +74,12 @@ class Enemy(pygame.sprite.Sprite):
                 self.hit_alpha = 100
                 self.image.set_alpha(255)
 
-        #kill mesage print on screen
-        font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 30)
-        kill_text = font.render("{0}/{1}".format(self.need_kill, self.now_kill), True, (255, 255, 255))
-        screen.blit(kill_text, (1000,100))
-
     def hit(self):
-        from main import screen
-        hit_x, hit_y = pygame.mouse.get_pos()
         if not self.is_hit:     #is_hit로 상태 감지 False를 감지하는 이유는 False일 때 감지하고 True로 바꿔서 update에서 작용. 
             self.health -= 1
 
-            #피 파티클
-
             if self.health <= 0:    #health가 0이하면 죽이고 아니면 is_hit를 True로 바꾸고 alpha = 100.
                 self.kill()
-                self.now_kill -= 1
 
             else:
                 self.is_hit = True

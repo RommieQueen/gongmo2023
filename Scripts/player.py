@@ -214,6 +214,7 @@ class Player(pygame.sprite.Sprite):
 
             if self.is_sword:
                 self.sword()
+                
     def hit(self):
         if self.is_hitable:
             self.health -= 1

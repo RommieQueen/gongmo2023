@@ -87,6 +87,15 @@ def main():
                     player.state = 4
                 else:
                     player.state = 3
+                    
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    pos = pygame.mouse.get_pos()  #마우스 위치가 필요함
+                    
+                    #clicked_enemies에 enemy_group에 enemy를 enemy에 저장. 만약 마우스와 enemy가 닿았다면 밑에 코드 실행.
+                    clicked_enemies = [enemy for enemy in enemy_group if enemy.rect.collidepoint(pos)]
+                    #clicked_enemies 만큼 enemy에 hit 확인.
+                    for enemy in clicked_enemies:
+                        enemy.hit()
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 3:
@@ -128,14 +137,6 @@ def main():
             # 충돌확인
             if scope_collision:
                 scope.collide_enemy()
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    pos = pygame.mouse.get_pos()  #마우스 위치가 필요함
-                    
-                    #clicked_enemies에 enemy_group에 enemy를 enemy에 저장. 만약 마우스와 enemy가 닿았다면 밑에 코드 실행.
-                    clicked_enemies = [enemy for enemy in enemy_group if enemy.rect.collidepoint(pos)]
-                    #clicked_enemies 만큼 enemy에 hit 확인.
-                    for enemy in clicked_enemies:
-                        enemy.hit()
             else:
                 scope.normal()
                 enemy.is_collide_scope = False
@@ -152,10 +153,6 @@ def main():
         #플레이어가 적에 닿으면 체력-
         if collision_entity(player, enemy_group):
             player.hit()
-
-        #할당치 채우면 다음스테이지로
-        if enemy.now_kill < 1:
-            middle_scene()
 
         pygame.display.update()
 
