@@ -2,9 +2,8 @@ import time
 import pygame
 import sys
 import random
-import scope as s
-import stage as stage
-import game_manager as manager
+
+
 
 screen_width, screen_height = 1280, 720
 
@@ -15,6 +14,7 @@ class BossCat(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load('./../Images/sprites/enemy/boss/part_1_boss.png').convert_alpha()
         self.rect = self.image.get_rect()
+        self.rect = (0, -101)
         self.mask = pygame.mask.from_surface(self.image)  
         self.masks = [self.mask]  # Boss 클래스에도 masks 속성 추가
         self.health = 1500

@@ -124,7 +124,8 @@ def main():
                     if event.key == pygame.K_d or event.key == pygame.K_a or event.key == pygame.K_s:
                         player.state = 0
                         player.velocity_x = 0
-                        
+
+        e.current_die = 100
         if e.current_die >= 100:
             boss_group.update()
         else:
@@ -150,6 +151,7 @@ def main():
 
         # 적 그리기
         enemy_group.draw(SCREEN)
+        boss_group.draw(SCREEN)
         
         # 모든 sprite 화면에 그려주기
         player_sprites.draw(SCREEN)
@@ -162,7 +164,6 @@ def main():
                 scope.collide_enemy()
             else:
                 scope.normal()
-                enemy.is_collide_scope = False
             # scope, scopepoint를 마우스 좌표로 이동
             scope.draw(SCREEN, mouse_x, mouse_y)
             scope_point.draw_point(SCREEN)
