@@ -7,6 +7,7 @@ import player as p
 import enemy as e
 import ground as g
 import scope as s
+import boss as b
 import import_image as images
 import game_manager as manager
 
@@ -51,15 +52,19 @@ def main():
     # 적(Enemy) 그룹 생성
     enemy_group = pygame.sprite.Group()
 
+    # Boss 생성
+    boss = b.BossCat()
+    boss_group = pygame.sprite.Group(boss)
+    
+
     # player 생성
     player = p.Player(position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
 
     # 생성된 player를 그룹에 넣기
     player_sprites = pygame.sprite.Group(player)
 
-    # 다른 모듈 클래스 인스턴스s
+    # 다른 모듈 클래스 인스턴스
     scope = s.Scope()
-    enemy = e.Enemy()
 
     # scope_point 생성
     scope_point = s.ScopePoint(scope)
@@ -121,7 +126,7 @@ def main():
                         player.velocity_x = 0
                         
         if e.current_die >= 100:
-            
+            boss_group.update()
         else:
 
             #적 처치 관여 점수
