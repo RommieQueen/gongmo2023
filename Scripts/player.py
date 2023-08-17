@@ -123,6 +123,7 @@ class Player(pygame.sprite.Sprite):
         self.dash_speed = 50
 
         #stage2 _ sword
+        self.is_sword = None
         self.is_charging = False
         self.charging = 0
 

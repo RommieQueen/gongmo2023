@@ -37,6 +37,14 @@ def collision_entity(entity_1, entity_2):
         return True
     return False
 
+def scoreboard(screen, score):
+    MAX_ENEMY = 100
+    font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 40)
+    scoreboard_text = font.render(f"{score} / {MAX_ENEMY}", True, (255,255,255))
+    screen.blit(scoreboard_text, (1090, 10))
+    
+    
+
 def main():
     ground = g.Ground(images.stage1_ground)
 
@@ -59,6 +67,8 @@ def main():
     #배경색
     SKYBLUE = (178, 235, 244)
 
+    current_score = 0
+
     running = True
     while running:
 
@@ -68,6 +78,7 @@ def main():
         ground.draw(SCREEN)
 
         player.heart(SCREEN)
+        
         # 각 loop를 도는 시간. clock.tick()은 밀리초를 반환하므로
         # 1000을 나누어줘서 초단위로 변경한다.
         mt = clock.tick(60) / 1000
@@ -107,14 +118,21 @@ def main():
                 if not(player.state == 3 or player.state == 4):
                     if event.key == pygame.K_d or event.key == pygame.K_a or event.key == pygame.K_s:
                         player.state = 0
-                        player.velocity_x = 0     
-
-        # 적 생성 및 업데이트         
-        if len(enemy_group) < 10 and random.random() < 0.01:
-            enemy = e.Enemy()
-            enemy_group.add(enemy)
+                        player.velocity_x = 0
+                        
+        if e.current_die >= 100:
             
-        enemy_group.update(player.isMove, player.rect.right, player.velocity_x)
+        else:
+
+            #적 처치 관여 점수
+            scoreboard(SCREEN, e.current_die)
+            
+            # 적 생성 및 업데이트         
+            if len(enemy_group) < 10 and random.random() < 0.01:
+                enemy = e.Enemy()
+                enemy_group.add(enemy)
+                
+            enemy_group.update(player.isMove, player.rect.right, player.velocity_x)
 
         # player의 위치와 마우스 포인터의 위치 사이의 라디안 각도를 계산
         angle = math.atan2(mouse_y - 0, mouse_x - player.rect.x)
@@ -311,4 +329,4 @@ def player_die(): #죽으면 뜨는 함수
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    part2()
+    main()

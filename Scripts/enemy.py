@@ -9,6 +9,9 @@ import game_manager as manager
 screen_width, screen_height = 1280, 720
 
 RED = (219,0,0)
+
+current_die = 0
+
 # 적(Enemy) 클래스 정의
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -17,7 +20,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (160, 160))
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(50, screen_width - 50), random.randint(0, screen_height - 600))
-        self.speed = random.randint(1, 2)
+        self.speed = random.randint(2, 3)
         self.original_speed = self.speed
         self.direction = random.choice(["right", "left"])
         self.is_on_ground = False
@@ -29,6 +32,7 @@ class Enemy(pygame.sprite.Sprite):
         self.is_hit = False
         self.hit_alpha = 100
         self.hit_timer = 0
+        self.score = 1
         
     def update(self, player_is_move, player_rect_x, player_speed):
         if not self.is_on_ground:
@@ -79,6 +83,8 @@ class Enemy(pygame.sprite.Sprite):
             self.health -= 1
 
             if self.health <= 0:    #health가 0이하면 죽이고 아니면 is_hit를 True로 바꾸고 alpha = 100.
+                global current_die
+                current_die += self.score
                 self.kill()
 
             else:
