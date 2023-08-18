@@ -30,7 +30,6 @@ class Enemy(pygame.sprite.Sprite):
         self.masks = [self.mask]  # Enemy 클래스에도 masks 속성 추가
         self.health = 3
         self.is_hit = False
-        self.hit_alpha = 100
         self.hit_timer = 0
         self.score = 1
         

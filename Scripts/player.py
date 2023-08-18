@@ -3,6 +3,7 @@ import stage as s
 import enemy as e
 import time
 import import_image as imgs
+import game_manager as manager
 pygame.init()
 
 enemy = e.Enemy()
@@ -118,14 +119,17 @@ class Player(pygame.sprite.Sprite):
         self.pos3 = (150,10)
 
         #stage2 _ dash
-        self.interval = 200
         self.is_dash = False
+        self.dash_time = 0
         self.dash_speed = 50
 
         #stage2 _ sword
-        self.is_sword = None
         self.is_charging = False
         self.charging = 0
+        self.is_sword = True
+        self.power = 1
+        self.sword_x = 0
+        self.sword_y = 0
 
     # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
     def update(self, mt):
@@ -198,7 +202,7 @@ class Player(pygame.sprite.Sprite):
         # loop 시간 더하기
         self.current_time += mt
 
-        # loop time 경과가 animation_time을 넘어서면 새로운 이미지 출력 
+        # loop time 경과가 animation_time을 넘어서면 새로운 이미지 출력
         if self.current_time >= self.animation_time:
             self.current_time = 0
 
@@ -211,8 +215,6 @@ class Player(pygame.sprite.Sprite):
             if self.index >= len(self.images):
                 self.index = 0
 
-            if self.is_sword:
-                self.sword()
     def hit(self):
         if self.is_hitable:
             self.health -= 1
@@ -224,7 +226,7 @@ class Player(pygame.sprite.Sprite):
             self.is_hitable = True
 
     def heart(self,screen): #죽을때 나머지 하트 안바뀜 ㅜ
-        
+
         if self.health <= 2:
             self.heart3_img = imgs.heart_bin
         if self.health <=1:
@@ -239,8 +241,10 @@ class Player(pygame.sprite.Sprite):
         screen.blit(self.heart3_img, self.pos3)
 
     # --- 여기부터 part2에 쓰입니다. --- #
-    def dash(self):
+    def dash(self): # 로직 완성, 애니메이션 넣기
         if not self.is_dash:
+            self.is_dash = True
+
             if self.direction == "right":
                 self.rect.x += self.dash_speed
                 self.rect.x+= self.dash_speed
@@ -249,12 +253,56 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x -= self.dash_speed
                 self.rect.x -= self.dash_speed
 
+        if pygame.time.get_ticks() - self.dash_time > 2500:
+            self.is_dash = False
 
-        self.is_dash = False
+            self.dash_time = pygame.time.get_ticks()
 
     def sword_charging(self):
-        self.state =5
+        from main import screen
+        self.state = 5
+        self.is_sword = False
 
     def sword_attack(self):
-        for i in range(22,25):
-            self.image = self.images[i]
+        from main import screen
+
+        if self.is_sword == False:
+
+            for i in range(22,25):
+                self.image = self.images[i]
+
+        # effect 생성
+
+        if self.direction == "right":
+           self.sword_x = self.images[24].get_rect().right
+        elif self.direction == "left":
+            self.sword_x = self.images_left[24].get_rect().left
+        self.sword_y = self.images_left[24].get_rect().top
+
+class SwordEffect(pygame.sprite.Sprite):
+    def __init__(self, power, pos_x, pos_y):
+        super().__init__()
+        self.image = imgs.power1
+        self.power = power
+        self.kill_time = pygame.time.get_ticks()
+        self.rect = self.image.get_rect()
+        self.rect.center = [pos_x, pos_y]
+        self.mask = pygame.mask.from_surface(self.image)
+
+        # animation
+        self.images = []
+
+        if self.power == 1:
+            self.image = imgs.power1
+        elif self.power == 2:
+            self.image = imgs.power2
+        elif self.power == 3:
+            self.image = imgs.power3
+    def update(self):
+        # animation
+
+        # kill
+        # is_collide = manager.collision_entity(self,) : 적에 닿음
+        if self.kill_time > 500:
+            self.kill_time -= pygame.time.get_ticks()
+            self.kill()

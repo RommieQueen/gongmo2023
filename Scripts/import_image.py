@@ -16,6 +16,10 @@ alien_left1 = pygame.image.load('./../Images/sprites/enemy/alien_left1.png')
 alien_left2 = pygame.image.load('./../Images/sprites/enemy/alien_left2.png')
 alien_left3 = pygame.image.load('./../Images/sprites/enemy/alien_left3.png')
 
+part2_boss = pygame.image.load('./../Images/sprites/enemy/boss/part_2_boss.png')
+part2_boss = pygame.transform.scale(part2_boss, (960,540))
+part2_boss_hand = pygame.image.load('./../Images/sprites/enemy/boss/part_2_boss_hand.png')
+
 # ui #
 dialog_box = pygame.image.load('./../Images/ui/dialog_box.png')
 mark_box = pygame.image.load('./../Images/ui/ImanorBalloon.png')
@@ -64,9 +68,6 @@ shadow_tree_back1 = pygame.transform.scale(shadow_tree_back1, (1280, 720))
 shadow_tree_back2 = pygame.image.load('./../Images/background/shadow_trees_background2.png')
 shadow_tree_back2 = pygame.transform.scale(shadow_tree_back2, (1280,720))
 start_button = pygame.image.load('./../Images/ui/start_button.png')
-
-stage2_mountain = pygame.image.load('./../Images/background/stage2_mountain.png')
-stage2_mountain = pygame.transform.scale(stage2_mountain,(1280,720))
 
 # effect #
 power1 = pygame.image.load('./../Images/sprites/power1.png')

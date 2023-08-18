@@ -5,6 +5,7 @@ import time
 import math
 import player as p
 import enemy as e
+import part2_enemy as e2
 import ground as g
 import scope as s
 import boss as b
@@ -32,11 +33,6 @@ clock = pygame.time.Clock()
 FPS = 60
 
 # 충돌 확인 함수
-def collision_entity(entity_1, entity_2):
-    collisions = pygame.sprite.spritecollide(entity_1, entity_2, False, pygame.sprite.collide_mask)
-    if collisions:
-        return True
-    return False
 
 def scoreboard(screen, score):
     MAX_ENEMY = 100
@@ -55,7 +51,6 @@ def main():
     # Boss 생성
     boss = b.BossCat()
     boss_group = pygame.sprite.Group(boss)
-    
 
     # player 생성
     player = p.Player(position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
@@ -158,7 +153,7 @@ def main():
 
         # player가 조준중인지 확인
         if player.isAiming == True:
-            scope_collision = collision_entity(scope_point, enemy_group)
+            scope_collision = manager.collision_entity(scope_point, enemy_group)
             # 충돌확인
             if scope_collision:
                 scope.collide_enemy()
@@ -175,7 +170,7 @@ def main():
                 player.direction = "left"
 
         #플레이어가 적에 닿으면 체력-
-        if collision_entity(player, enemy_group):
+        if manager.collision_entity(player, enemy_group):
             player.hit()
 
         pygame.display.update()
@@ -202,11 +197,13 @@ def part2():
     ground = g.Ground(images.stage2_ground)
     player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
     power_bar_pos = (SCREEN_WIDTH/2-images.power1.get_rect().right, 600)
-    # 생성된 player를 그룹에 넣기
-    player_sprites = pygame.sprite.Group(player)
-
     scope = s.Scope()
     scope_point = s.ScopePoint(scope)
+    boss = e2.Boss()
+    boss_group = pygame.sprite.Group(boss)
+
+    # 생성된 player를 그룹에 넣기
+    player_sprites = pygame.sprite.Group(player)
 
     #main에 없는 sword 처리를 위해
     is_sword = False
@@ -218,8 +215,9 @@ def part2():
     running = True
     while running:
 
-        # 땅
+        # 땅 & 보스 & 플레이어 그리기
         SCREEN.fill(SKY)
+        boss_group.draw(SCREEN)
         ground.update(player.isMove, player.rect.right,player.velocity_x)
         ground.draw(SCREEN)
         mt = clock.tick(60) / 1000
@@ -235,18 +233,39 @@ def part2():
         elif is_sword:
             SCREEN.blit(images.sword_ui, (20,20))
 
-        #scope 그리기
+        # scope 그리기
         if player.isAiming and is_gun:
             scope.draw(SCREEN, mouse_x, mouse_y)
             scope_point.draw_point(SCREEN)
 
+        # sword charging
+        if player.is_charging:
+            player.charging += 0.5
+            if player.charging > 60:
+                player.charging = 0
+
+        if player.charging > 60 or player.charging == 0:
+            player.power = 0
+        elif player.charging > 40:
+            player.power = 3
+        elif player.charging > 20:
+            player.power = 2
+        elif player.charging > 0:
+            player.power = 1
+
         # draw power_bar
-        if player.charging ==1 :
-            SCREEN.blit(images.sword_charging1, power_bar_pos)
-        elif player.charging == 2 :
-            SCREEN.blit(images.sword_charging2, power_bar_pos)
-        elif player.charging == 3:
-            SCREEN.blit(images.sword_charging3, power_bar_pos)
+        if player.is_charging:
+            if player.power == 1:
+                SCREEN.blit(images.sword_charging1, power_bar_pos)
+            if player.power == 2:
+                SCREEN.blit(images.sword_charging2, power_bar_pos)
+            if player.power == 3:
+                SCREEN.blit(images.sword_charging3, power_bar_pos)
+        # sword_effect
+        if player.is_sword:
+            sword = p.SwordEffect(player.power, player.sword_x, player.sword_y)
+            sword_group = pygame.sprite.Group(sword)
+            sword.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -255,7 +274,7 @@ def part2():
             MOUSE_RIGHT = event.type == pygame.MOUSEBUTTONDOWN and event.button == 3
             MOUSE_LEFT = event.type == pygame.MOUSEBUTTONDOWN and event.button == 1
 
-            #대쉬, 무기변경
+            # 대쉬, 무기변경
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     player.dash()
@@ -278,15 +297,15 @@ def part2():
                 else:
                     player.state = 3
 
-            # sword
-            elif is_sword:
+            elif is_sword: # sword
                 if MOUSE_RIGHT:
                     pygame.mouse.set_visible(False)
-                    player.sword_charging()
                     player.is_charging = True
+                    player.sword_charging()
 
-            if MOUSE_LEFT:
-                if is_sword:
+                if MOUSE_LEFT:
+                    player.is_charging = False
+                    player.charging = 0
                     player.sword_attack()
 
             # 마우스 떼서 무기 취소
@@ -295,11 +314,12 @@ def part2():
                     pygame.mouse.set_visible(True)
                     if is_gun:
                         player.isAiming = False
-
+                    if is_sword:
+                        player.is_charging = False
                     player.state = 0
 
             if event.type == pygame.KEYUP:
-                if not (player.state == 3 or player.state == 4):
+                if not (player.state == 3 or player.state == 4 or player.state == 5):
                     if event.key == pygame.K_d or event.key == pygame.K_a or event.key == pygame.K_s:
                         player.state = 0
                         player.velocity_x = 0
@@ -335,4 +355,4 @@ def player_die(): #죽으면 뜨는 함수
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':
-    main()
+    part2()

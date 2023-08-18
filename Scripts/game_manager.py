@@ -33,3 +33,9 @@ class Particle():
         pygame.draw.circle(screen, self.color,(self.x,self.y),self.radius)
 
 particles = []
+
+def collision_entity(entity_1, entity_2):
+    collisions = pygame.sprite.spritecollide(entity_1, entity_2, False, pygame.sprite.collide_mask)
+    if collisions:
+        return True
+    return False
