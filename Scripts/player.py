@@ -101,22 +101,12 @@ class Player(pygame.sprite.Sprite):
         # player가 조준중인지 확인
         self.isAiming = False
 
-         #플레이어 체력
-        self.health = 3
-
-        #적과 닿았는지
-        self.is_hitable = True
-
-        self.time = 0
-
-        #heart
-        self.heart1_img = imgs.heart_full
-        self.heart2_img = imgs.heart_full
-        self.heart3_img = imgs.heart_full
-
-        self.pos1 = (10,10)
-        self.pos2 = (80,10)
-        self.pos3 = (150,10)
+        # player 체력 관리
+        self.is_hit = False
+        self.hit_timer = 0
+        self.is_die = False
+        self.player_health = 100
+        self.max_health = 100
 
         #stage2 _ dash
         self.is_dash = False
@@ -215,30 +205,30 @@ class Player(pygame.sprite.Sprite):
             if self.index >= len(self.images):
                 self.index = 0
 
+        if self.is_hit:  #is_hit로 상태 감지. 현재 True인 상태를 감지.
+            if pygame.time.get_ticks() - self.hit_timer > 500:  # 0.5초 동안 유지
+                self.is_hit = False
+
     def hit(self):
-        if self.is_hitable:
-            self.health -= 1
-            self.is_hitable = False
+        if not self.is_hit:
+            self.player_health -= 20
+            
 
-        self.time += 1
-        if self.time > 17:
-            self.time = 0
-            self.is_hitable = True
+        if self.player_health <= 0:
+            self.is_die = True
+        else:
+            self.is_hit = True
+            self.hit_timer = pygame.time.get_ticks()
 
-    def heart(self,screen): #죽을때 나머지 하트 안바뀜 ㅜ
-
-        if self.health <= 2:
-            self.heart3_img = imgs.heart_bin
-        if self.health <=1:
-            self.heart2_img = imgs.heart_bin
-        if self.health <=0:
-            self.heart1_img = imgs.heart_bin
-            time.sleep(1.3)
-            s.player_die()
-
-        screen.blit(self.heart1_img, self.pos1)
-        screen.blit(self.heart2_img, self.pos2)
-        screen.blit(self.heart3_img, self.pos3)
+    def hp(self, screen):
+        health_bar_width = 80
+        health_bar_height = 10
+        health_bar_x = self.rect.x + 7
+        health_bar_y = self.rect.y - 15
+        pygame.draw.rect(screen, (255, 0, 0), (health_bar_x, health_bar_y, health_bar_width, health_bar_height))
+        
+        current_health_width = (self.player_health / self.max_health) * health_bar_width
+        pygame.draw.rect(screen, (0, 255, 0), (health_bar_x, health_bar_y, current_health_width, health_bar_height))
 
     # --- 여기부터 part2에 쓰입니다. --- #
     def dash(self): # 로직 완성, 애니메이션 넣기
