@@ -138,15 +138,17 @@ def part1():
                         player.state = 0
                         player.velocity_x = 0
 
-        #e.current_die = 100
+        e.current_die = 100
         if e.current_die >= 100:
+            for enemy in enemy_group:
+                enemy.kill()
             boss.is_awake = True
             boss_group.update()
             boss_group.draw(SCREEN)
             boss.hp(SCREEN)
 
             # BossAttack 생성 및 업데이트         
-            if len(boss_attack_group) < 15 and random.random() < 0.03:
+            if len(boss_attack_group) < 15 and random.random() < 0.07:
                 boss_attack = b.BossCatAttack()
                 boss_attack_group.add(boss_attack)
 
