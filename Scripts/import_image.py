@@ -19,6 +19,9 @@ alien_left3 = pygame.image.load('./../Images/sprites/enemy/alien_left3.png')
 part2_boss = pygame.image.load('./../Images/sprites/enemy/boss/part_2_boss.png')
 part2_boss = pygame.transform.scale(part2_boss, (960,540))
 part2_boss_hand = pygame.image.load('./../Images/sprites/enemy/boss/part_2_boss_hand.png')
+long_branch = pygame.image.load('./../Images/sprites/enemy/boss/long_branch.png')
+long_branch = pygame.transform.scale(long_branch, (630,630))
+short_branch = pygame.image.load('./../Images/sprites/enemy/boss/short_branch.png')
 
 # ui #
 dialog_box = pygame.image.load('./../Images/ui/dialog_box.png')
@@ -43,6 +46,9 @@ gun_ui = pygame.transform.scale(gun_ui, (100,100))
 sword_charging1 = pygame.image.load('./../Images/ui/sword1.png')
 sword_charging2 = pygame.image.load('./../Images/ui/sword2.png')
 sword_charging3 = pygame.image.load('./../Images/ui/sword3.png')
+warning = pygame.image.load('./../Images/ui/warning_mark')
+warning = pygame.transform.scale(warning, (400,400))
+
 # 배경 #
 intro1_background = pygame.image.load('./../Images/background/spaceship.jpg')
 intro2_background = pygame.image.load('./../Images/background/intro2_1.png')
