@@ -137,7 +137,7 @@ def part1():
                         player.state = 0
                         player.velocity_x = 0
 
-        e.current_die = 100
+        #e.current_die = 100
         if e.current_die >= 100:
             for enemy in enemy_group:
                 enemy.kill()
