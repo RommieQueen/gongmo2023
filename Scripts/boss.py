@@ -59,7 +59,7 @@ class BossCatAttack(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.image.load('./../Images/sprites/enemy/boss/part_1_boss_attack.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (200, 200))        
+        self.image = pygame.transform.scale(self.image, (250, 250))        
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(50, screen_width - 50), random.randint(0, screen_height - 600))
         self.speed = 20
