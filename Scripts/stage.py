@@ -229,6 +229,7 @@ def part2():
     # 좌표, ui, 인스턴스 등 생성
     SKY = (225,128,72)
     player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
+    scope_collide = False
     power_bar_pos = (SCREEN_WIDTH/2-images.power1.get_rect().right, 600)
     scope = s.Scope()
     scope_point = s.ScopePoint(scope)
@@ -327,14 +328,18 @@ def part2():
 
             # ** 무기는 우클릭 시 player.무기함수 호출 ** #
             # gun
-            if is_gun and MOUSE_RIGHT:
-                pygame.mouse.set_visible(False)
-                player.isAiming = True
+            if is_gun:
+                if MOUSE_RIGHT:
+                    pygame.mouse.set_visible(False)
+                    player.isAiming = True
 
-                if player.state == 2:
-                    player.state = 4
-                else:
-                    player.state = 3
+                    if player.state == 2:
+                        player.state = 4
+                    else:
+                        player.state = 3
+
+                elif MOUSE_LEFT and scope_collide:
+                    boss.hit(5)
 
             elif is_sword: # sword
                 if MOUSE_RIGHT:
@@ -375,13 +380,14 @@ def part2():
 
         # --!! Boss Attack !!------------------------------------------- #
         if not is_attack:
-            attack_num = random.randint(1,1) # 1 ~ 2
+            attack_num = random.randint(1,2) # 1 ~ 2
             is_attack = True
 
         current_time1 = pygame.time.get_ticks()
         current_time2 = pygame.time.get_ticks()
 
         if attack_num == 1:
+            is_attack = True
             if current_time1 - attack1_time > 4500:
                 long_branch = b.Long_Branch()
                 long_branch_group.add(long_branch)
@@ -392,13 +398,13 @@ def part2():
             long_branch_group.update()
 
         elif attack_num == 2:
+            #short_branch.warning(SCREEN)
+
             if current_time2 - attack2_time > 1000:
                 short_branch = b.Short_Branch()
                 short_branch_group.add(short_branch)
-                short_branch.warning(SCREEN)
-                attack2_time = current_time2
                 is_attack = False
-
+                attack2_time = current_time2
             short_branch_group.update()
             short_branch_group.draw(SCREEN)
 
@@ -410,6 +416,13 @@ def part2():
         # 플레이어 - 적 충돌 : - hp
         if manager.collision_entity(player, long_branch_group):
             player.hit()
+
+        # 스코프 - 적 충돌
+        scope_collide = manager.collision_entity(scope_point, long_branch_group)
+        if scope_collide:
+            scope.collide_enemy()
+        else:
+            scope.normal()
 
         # 플레이어 사망
         if player.is_die == True:

@@ -175,19 +175,23 @@ class Short_Branch(pygame.sprite.Sprite):
         self.warning = images.warning
         self.warning_rect = self.warning.get_rect()
         self.rand_x = random.randrange(50,1220)
+        self.y = 720 - 512 + 400
         self.rect = self.image.get_rect()
         self.rect.center = [self.rand_x,720]
         self.mask = pygame.mask.from_surface(self.image)
         self.is_warning = True
+        self.wait_time = pygame.time.get_ticks()
         self.warning_time = pygame.time.get_ticks()
-    def warning(self,SCREEN):
-        SCREEN.blit(self.warning, (self.rand_x,320))
-
-        if pygame.time.get_ticks() - self.warning_time > 600:
-            self.update()
-            self.warning_time = pygame.time.get_ticks()
+        self.attack_time = pygame.time.get_ticks()
+    """def warning(self,SCREEN):
+        SCREEN.blit(self.warning, (100,120))"""
 
     def update(self):
-        self.rect.center[1] += 20
-        if self.y >= 0:
-            self.y = 0
+        if pygame.time.get_ticks() - self.wait_time > 500:
+            self.y += 20
+            if self.y >= 720 - 300:
+                self.y = 720 - 300
+                if pygame.time.get_ticks() - self.attack_time > 2000:
+                    self.kill()
+                    self.attack_time = pygame.time.get_ticks()
+

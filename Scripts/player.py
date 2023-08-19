@@ -254,7 +254,6 @@ class Player(pygame.sprite.Sprite):
         self.is_effect = False
 
     def sword_attack(self):
-
         if self.is_sword == False:
             self.is_effect = True
             for i in range(22,25):
@@ -262,10 +261,9 @@ class Player(pygame.sprite.Sprite):
 
         # effect 생성
         if self.direction == "right":
-           self.sword_x = self.images[24].get_rect().right + 430
+            self.sword_x = self.images[23].get_rect().right
         elif self.direction == "left":
-            self.sword_x = self.images_left[24].get_rect().left + 400
-
+            self.sword_x = self.images_left[23].get_rect().left
 
 # --------- SWORD EFFECT --------------------- #
 class SwordEffect(pygame.sprite.Sprite):
@@ -291,7 +289,7 @@ class SwordEffect(pygame.sprite.Sprite):
         if player_direction == "left":
             self.image = pygame.transform.flip(self.image,True, False)
     def update(self):
-        # animation
-        # kill
-       if pygame.time.get_ticks() - self.kill_time > 1000:
+
+       if pygame.time.get_ticks() - self.kill_time > 500:
            self.kill()
+       self.rect.x += 10
