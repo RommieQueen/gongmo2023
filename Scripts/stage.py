@@ -5,7 +5,6 @@ import time
 import math
 import player as p
 import enemy as e
-import part2_enemy as e2
 import ground as g
 import scope as s
 import boss as b
@@ -229,13 +228,22 @@ def part2():
 
     # 좌표, ui, 인스턴스 등 생성
     SKY = (225,128,72)
-    ground = g.Ground(images.stage2_ground)
     player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
     power_bar_pos = (SCREEN_WIDTH/2-images.power1.get_rect().right, 600)
     scope = s.Scope()
     scope_point = s.ScopePoint(scope)
-    boss = e2.Boss()
+    sword_group = pygame.sprite.Group()
+    damage = 0
+
+    # boss 요소 그룹이나 필요요소 선언
+    boss = b.TreeBoss()
     boss_group = pygame.sprite.Group(boss)
+    long_branch_group = pygame.sprite.Group()
+    short_branch_group = pygame.sprite.Group()
+    attack1_time = pygame.time.get_ticks()
+    attack2_time = pygame.time.get_ticks()
+    is_attack = False
+    attack_num = 0
 
     # 생성된 player를 그룹에 넣기
     player_sprites = pygame.sprite.Group(player)
@@ -244,6 +252,7 @@ def part2():
     is_sword = False
     is_gun = True
 
+    # 현재 스테이지 넘버
     global now_stage
     now_stage = 2
 
@@ -252,12 +261,14 @@ def part2():
 
         # 땅 & 보스 & 플레이어 그리기
         SCREEN.fill(SKY)
+        boss.update()
         boss_group.draw(SCREEN)
-        ground.update(player.isMove, player.rect.right,player.velocity_x)
-        ground.draw(SCREEN)
+        SCREEN.blit(images.stage2_ground, (0,0))
         mt = clock.tick(60) / 1000
         player_sprites.draw(SCREEN)
         player_sprites.update(mt)
+        player.hp(SCREEN)
+        boss.hp(SCREEN)
 
         #좌표 가져오기
         mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -268,22 +279,17 @@ def part2():
         elif is_sword:
             SCREEN.blit(images.sword_ui, (20,20))
 
-        # scope 그리기
-        if player.isAiming and is_gun:
-            scope.draw(SCREEN, mouse_x, mouse_y)
-            scope_point.draw_point(SCREEN)
-
         # sword charging
         if player.is_charging:
             player.charging += 0.5
             if player.charging > 60:
                 player.charging = 0
 
-        if player.charging > 60 or player.charging == 0:
+        if player.charging > 45 or player.charging == 0:
             player.power = 0
-        elif player.charging > 40:
+        elif player.charging > 30:
             player.power = 3
-        elif player.charging > 20:
+        elif player.charging > 15:
             player.power = 2
         elif player.charging > 0:
             player.power = 1
@@ -291,16 +297,14 @@ def part2():
         # draw power_bar
         if player.is_charging:
             if player.power == 1:
+                damage = 7
                 SCREEN.blit(images.sword_charging1, power_bar_pos)
             if player.power == 2:
+                damage = 15
                 SCREEN.blit(images.sword_charging2, power_bar_pos)
             if player.power == 3:
+                damage = 30
                 SCREEN.blit(images.sword_charging3, power_bar_pos)
-        # sword_effect
-        if player.is_sword:
-            sword = p.SwordEffect(player.power, player.sword_x, player.sword_y)
-            sword_group = pygame.sprite.Group(sword)
-            sword.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -339,9 +343,18 @@ def part2():
                     player.sword_charging()
 
                 if MOUSE_LEFT:
-                    player.is_charging = False
-                    player.charging = 0
-                    player.sword_attack()
+                    if player.is_charging:
+                        player.is_charging = False
+                        player.charging = 0
+                        player.sword_attack()
+
+                        if player.is_effect:
+                            sword_effect = p.SwordEffect(player.power, player.sword_x, player.sword_y, player.direction)
+                            sword_group.add(sword_effect)
+                            sword_group.update()
+                            sword_group.draw(SCREEN)
+                            if manager.collision_entity(sword_effect, long_branch_group):  # 칼과 충돌
+                                boss.hit(damage)
 
             # 마우스 떼서 무기 취소
             if event.type == pygame.MOUSEBUTTONUP:
@@ -350,6 +363,7 @@ def part2():
                     if is_gun:
                         player.isAiming = False
                     if is_sword:
+                        player.charging =0
                         player.is_charging = False
                     player.state = 0
 
@@ -359,8 +373,51 @@ def part2():
                         player.state = 0
                         player.velocity_x = 0
 
+        # --!! Boss Attack !!------------------------------------------- #
+        if not is_attack:
+            attack_num = random.randint(1,1) # 1 ~ 2
+            is_attack = True
+
+        current_time1 = pygame.time.get_ticks()
+        current_time2 = pygame.time.get_ticks()
+
+        if attack_num == 1:
+            if current_time1 - attack1_time > 4500:
+                long_branch = b.Long_Branch()
+                long_branch_group.add(long_branch)
+                is_attack = False
+
+                attack1_time = current_time1
+            long_branch_group.draw(SCREEN)
+            long_branch_group.update()
+
+        elif attack_num == 2:
+            if current_time2 - attack2_time > 1000:
+                short_branch = b.Short_Branch()
+                short_branch_group.add(short_branch)
+                short_branch.warning(SCREEN)
+                attack2_time = current_time2
+                is_attack = False
+
+            short_branch_group.update()
+            short_branch_group.draw(SCREEN)
+
+        # scope 그리기
+        if player.isAiming and is_gun:
+            scope.draw(SCREEN, mouse_x, mouse_y)
+            scope_point.draw_point(SCREEN)
+
+        # 플레이어 - 적 충돌 : - hp
+        if manager.collision_entity(player, long_branch_group):
+            player.hit()
+
+        # 플레이어 사망
+        if player.is_die == True:
+            retry(part2)
+
         pygame.display.update()
+
     pygame.quit()
 
 if __name__ == '__main__':
-    part1()
+    part2()
