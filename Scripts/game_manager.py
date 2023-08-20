@@ -1,5 +1,5 @@
 import pygame
-from main import screen
+
 pygame.init()
 
 class Button:
@@ -15,6 +15,7 @@ class Button:
 
 class Particle():
     def __init__(self,x,y,dx,dy, radius,color,gravity_scale):
+        from main import screen
         self.x = x
         self.y = y
         self.dx = dx

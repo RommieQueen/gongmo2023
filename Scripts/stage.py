@@ -10,6 +10,7 @@ import scope as s
 import boss as b
 import import_image as images
 import game_manager as manager
+import part1_story as story
 
 # 스크린 전체 크기 지정
 SCREEN_WIDTH = 1280
@@ -51,6 +52,7 @@ def retry(now_stage): #죽으면 뜨는 함수
     manager.Button(SCREEN, WIDTH_CENTER - 160, HEIGHT_CENTER, images.Restart_normal, 250, 180, now_stage)
 
 def part1():
+    
     ground = g.Ground(images.stage1_ground)
 
     # 적(Enemy) 그룹 생성
@@ -115,14 +117,14 @@ def part1():
                         clicked_enemies = [enemy for enemy in enemy_group if enemy.rect.collidepoint(pos)]
                         #clicked_enemies 만큼 enemy에 hit 확인.
                         for enemy in clicked_enemies:
-                            if enemy.is_hit == False:
+                            if not enemy.is_hit:
                                 enemy.hit()
                                 
                     if boss.is_awake:
                         if boss_collision:
                             clicked_boss = [boss for boss in boss_group if boss.rect.collidepoint(pos)]
                             for boss in clicked_boss:
-                                if boss.is_hit == False:
+                                if not boss.is_hit:
                                     boss.hit()
 
             if event.type == pygame.MOUSEBUTTONUP:
@@ -137,7 +139,7 @@ def part1():
                         player.state = 0
                         player.velocity_x = 0
 
-        #e.current_die = 100
+        e.current_die = 100
         if e.current_die >= 100:
             for enemy in enemy_group:
                 enemy.kill()
@@ -150,6 +152,11 @@ def part1():
             if len(boss_attack_group) < 15 and random.random() < 0.07:
                 boss_attack = b.BossCatAttack()
                 boss_attack_group.add(boss_attack)
+
+            if boss.boss_health <= 0:
+                boss.is_awake = False
+                pygame.mouse.set_visible(True)
+                story.part1_story()
 
             boss_attack_group.update()
             boss_attack_group.draw(SCREEN)
@@ -433,4 +440,4 @@ def part2():
     pygame.quit()
 
 if __name__ == '__main__':
-    part2()
+    part1()

@@ -1,5 +1,4 @@
 import pygame
-from intro_part import intro
 
 pygame.init()
 
@@ -23,6 +22,7 @@ BLUE = (0, 0, 255)
 running = True
 
 def main():
+    from intro_part import intro
     start_background = pygame.image.load('../Images/background/start_background.png')
 
     title_font = pygame.font.Font('../Fonts/NeoDunggeunmoPro-Regular.ttf', 60)

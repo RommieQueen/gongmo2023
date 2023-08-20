@@ -18,8 +18,8 @@ class BossCat(pygame.sprite.Sprite):
         self.rect.center = (screen_width // 2, screen_height // 2 -29)
         self.mask = pygame.mask.from_surface(self.image)  
         self.masks = [self.mask]  # Boss 클래스에도 masks 속성 추가
-        self.boss_health = 700
-        self.max_health = 700
+        self.boss_health = 50
+        self.max_health = 50
         self.is_hit = False
         self.is_die = False
         self.hit_alpha = 100
