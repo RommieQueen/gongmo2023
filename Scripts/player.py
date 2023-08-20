@@ -210,6 +210,13 @@ class Player(pygame.sprite.Sprite):
             if pygame.time.get_ticks() - self.hit_timer > 500:  # 0.5초 동안 유지
                 self.is_hit = False
 
+        # effect 생성
+        if self.direction == "right":
+            self.sword_x = self.rect.right + 50
+        elif self.direction == "left":
+            self.sword_x = self.rect.left - 50
+
+
     def hit(self):
         if not self.is_hit:
             self.player_health -= 20
@@ -237,7 +244,7 @@ class Player(pygame.sprite.Sprite):
 
             if self.direction == "right":
                 self.rect.x += self.dash_speed
-                self.rect.x+= self.dash_speed
+                self.rect.x += self.dash_speed
 
             elif self.direction == "left":
                 self.rect.x -= self.dash_speed
@@ -258,12 +265,6 @@ class Player(pygame.sprite.Sprite):
             self.is_effect = True
             for i in range(22,25):
                 self.image = self.images[i]
-
-        # effect 생성
-        if self.direction == "right":
-            self.sword_x = self.images[23].get_rect().right
-        elif self.direction == "left":
-            self.sword_x = self.images_left[23].get_rect().left
 
 # --------- SWORD EFFECT --------------------- #
 class SwordEffect(pygame.sprite.Sprite):

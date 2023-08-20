@@ -95,7 +95,7 @@ class TreeBoss(pygame.sprite.Sprite):
         self.image = images.part2_boss
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
-        self.max_health = 1000
+        self.max_health = 1500
         self.boss_health = self.max_health
         self.is_hit = False
         self.hit_alpha = 100
@@ -103,7 +103,7 @@ class TreeBoss(pygame.sprite.Sprite):
 
     def hp(self, screen):
         health_bar_width = 1280
-        health_bar_height = 40
+        health_bar_height = 35
         health_bar_x = 0
         health_bar_y = 0
         pygame.draw.rect(screen, (255, 0, 0), (health_bar_x, health_bar_y, health_bar_width, health_bar_height))
@@ -146,12 +146,13 @@ class Long_Branch(pygame.sprite.Sprite):
         self.kill_time = pygame.time.get_ticks()
 
         if self.direction == "right":
-            self.rect.center = [1280+200, 500]
+            self.rect.center = [1280+100, 500]
             self.image = self.right_image
         elif self.direction == "left":
-            self.rect.center = [-200,500]
+            self.rect.center = [-100,500]
             self.image = self.left_image
     def update(self):
+
         # 드러나기 & kill
         if pygame.time.get_ticks() - self.wait_time > 500:
             if self.direction == "right":
@@ -175,7 +176,7 @@ class Short_Branch(pygame.sprite.Sprite):
         self.warning = images.warning
         self.warning_rect = self.warning.get_rect()
         self.rand_x = random.randrange(50,1220)
-        self.y = 720 - 512 + 400
+        self.y = 720 - 512 + 300
         self.rect = self.image.get_rect()
         self.rect.center = [self.rand_x,720]
         self.mask = pygame.mask.from_surface(self.image)
@@ -188,10 +189,9 @@ class Short_Branch(pygame.sprite.Sprite):
 
     def update(self):
         if pygame.time.get_ticks() - self.wait_time > 500:
-            self.y += 20
+            self.y -= 20
             if self.y >= 720 - 300:
                 self.y = 720 - 300
                 if pygame.time.get_ticks() - self.attack_time > 2000:
                     self.kill()
-                    self.attack_time = pygame.time.get_ticks()
 

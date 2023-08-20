@@ -40,6 +40,7 @@ def scoreboard(screen, score):
     screen.blit(scoreboard_text, (1090, 10))
 
 def retry(now_stage): #죽으면 뜨는 함수
+    time.sleep(0.5)
     pygame.mouse.set_visible(True)
 
     font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 40)
@@ -298,13 +299,13 @@ def part2():
         # draw power_bar
         if player.is_charging:
             if player.power == 1:
-                damage = 7
+                damage = 5
                 SCREEN.blit(images.sword_charging1, power_bar_pos)
             if player.power == 2:
-                damage = 15
+                damage = 12
                 SCREEN.blit(images.sword_charging2, power_bar_pos)
             if player.power == 3:
-                damage = 30
+                damage = 40
                 SCREEN.blit(images.sword_charging3, power_bar_pos)
 
         for event in pygame.event.get():
@@ -338,8 +339,10 @@ def part2():
                     else:
                         player.state = 3
 
-                elif MOUSE_LEFT and scope_collide:
+                elif MOUSE_LEFT and scope_collide and player.isAiming:
                     boss.hit(5)
+                    if boss.is_hit == False:
+                        boss.hit()
 
             elif is_sword: # sword
                 if MOUSE_RIGHT:
@@ -380,33 +383,32 @@ def part2():
 
         # --!! Boss Attack !!------------------------------------------- #
         if not is_attack:
-            attack_num = random.randint(1,2) # 1 ~ 2
+            attack_num = random.randint(1,1) # 1 ~ 2
             is_attack = True
 
         current_time1 = pygame.time.get_ticks()
         current_time2 = pygame.time.get_ticks()
 
         if attack_num == 1:
-            is_attack = True
-            if current_time1 - attack1_time > 4500:
+            if current_time1 - attack1_time > 4000:
                 long_branch = b.Long_Branch()
                 long_branch_group.add(long_branch)
                 is_attack = False
-
                 attack1_time = current_time1
+
             long_branch_group.draw(SCREEN)
             long_branch_group.update()
 
         elif attack_num == 2:
             #short_branch.warning(SCREEN)
-
-            if current_time2 - attack2_time > 1000:
+            if current_time2 - attack2_time > 4000:
                 short_branch = b.Short_Branch()
                 short_branch_group.add(short_branch)
                 is_attack = False
                 attack2_time = current_time2
-            short_branch_group.update()
+
             short_branch_group.draw(SCREEN)
+            short_branch_group.update()
 
         # scope 그리기
         if player.isAiming and is_gun:
