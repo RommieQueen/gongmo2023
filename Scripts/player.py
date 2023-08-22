@@ -126,11 +126,11 @@ class Player(pygame.sprite.Sprite):
     def update(self, mt):
         #키보드로 player 이동
         self.keys = pygame.key.get_pressed()
-<<<<<<< HEAD
+
         if self.isAiming == False and self.is_sword == False:
-=======
+
         if not self.isAiming and not self.is_charging:
->>>>>>> 00f56ea2ada5a3a836f55d4a170da7369c2d9002
+
             # 왼쪽으로 이동가능
             if self.keys[pygame.K_a]:
 
