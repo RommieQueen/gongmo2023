@@ -1,6 +1,5 @@
 import pygame
 import import_image as images
-import stage as s
 pygame.init()
 
 def intro():
@@ -282,7 +281,8 @@ def intro2():
 
 def intro3():
     from main import WIDTH_SCREEN, HEIGHT_SCREEN, screen, BLACK, WHITE, WIDTH_CENTER, HEIGHT_CENTER, FPS, running
-    from game_manager import button
+    import stage as s
+    import game_manager as manager
 
     intro3_background = pygame.transform.scale(images.intro3_background, (1280, 720))
 
@@ -398,12 +398,8 @@ def intro3():
         elif alpha >= 0 and story == 20:
             alpha = 255
             intro_load('./../Images/intro/intro3_21.jpg')
-            alpha = 1000
-        elif alpha >= 0 and story == 21:
-            alpha = 255
-            intro_load('./../Images/intro/intro3_22.jpg')
             # input_screen, x_pos, y_pos, input_image, image_width, image_height, action = None #
-            button(screen, WIDTH_CENTER - 128, HEIGHT_CENTER + 170, images.start_button, 256, 134, s.main)
+            manager.Button(screen, WIDTH_CENTER - 128, HEIGHT_CENTER + 170, images.start_button, 256, 134, s.part1)
             alpha = 999        
         
         pygame.display.update()
