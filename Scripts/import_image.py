@@ -22,7 +22,7 @@ part2_boss_hand = pygame.image.load('./../Images/sprites/enemy/boss/part_2_boss_
 long_branch = pygame.image.load('./../Images/sprites/enemy/boss/long_branch.png')
 long_branch = pygame.transform.scale(long_branch, (630,630))
 short_branch = pygame.image.load('./../Images/sprites/enemy/boss/short_branch.png')
-short_branch = pygame.transform.scale(short_branch, (300,300))
+short_branch = pygame.transform.scale(short_branch, (250,250))
 
 # ui #
 dialog_box = pygame.image.load('./../Images/ui/dialog_box.png')

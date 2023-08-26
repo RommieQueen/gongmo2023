@@ -159,14 +159,14 @@ class Long_Branch(pygame.sprite.Sprite):
                 self.rect.x -= self.speed
                 if self.rect.x <= 1280-630:
                     self.rect.x = 1280-630
-                    if pygame.time.get_ticks() - self.kill_time > 4000:
+                    if pygame.time.get_ticks() - self.kill_time > 2000:
                         self.kill()
 
             elif self.direction == "left":
                 self.rect.x += self.speed
                 if self.rect.x >= 0:
                     self.rect.x = 0
-                    if pygame.time.get_ticks() - self.kill_time > 4000:
+                    if pygame.time.get_ticks() - self.kill_time > 2000:
                         self.kill()
 
 class Short_Branch(pygame.sprite.Sprite):
@@ -182,16 +182,13 @@ class Short_Branch(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.is_warning = True
         self.wait_time = pygame.time.get_ticks()
-        self.warning_time = pygame.time.get_ticks()
-        self.attack_time = pygame.time.get_ticks()
-    """def warning(self,SCREEN):
-        SCREEN.blit(self.warning, (100,120))"""
-
+        self.kill_time = pygame.time.get_ticks()
     def update(self):
         if pygame.time.get_ticks() - self.wait_time > 500:
             self.y -= 20
             if self.y >= 720 - 300:
                 self.y = 720 - 300
-                if pygame.time.get_ticks() - self.attack_time > 2000:
+                if pygame.time.get_ticks() - self.kill_time > 2000:
                     self.kill()
+                    print(pygame.time.get_ticks(), self.kill_time)
 

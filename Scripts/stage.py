@@ -236,7 +236,7 @@ def part2():
 
     # 좌표, ui, 인스턴스 등 생성
     SKY = (225,128,72)
-    player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 280))
+    player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 340))
     scope_collide = False
     power_bar_pos = (SCREEN_WIDTH/2-images.power1.get_rect().right, 600)
     scope = s.Scope()
@@ -291,14 +291,14 @@ def part2():
         # sword charging
         if player.is_charging:
             player.charging += 0.5
-            if player.charging > 60:
+            if player.charging > 21:
                 player.charging = 0
 
-        if player.charging > 45 or player.charging == 0:
-            player.power = 0
-        elif player.charging > 30:
+        if player.charging > 21 or player.charging == 0:
+            player.power = 1
+        elif player.charging > 14:
             player.power = 3
-        elif player.charging > 15:
+        elif player.charging > 7:
             player.power = 2
         elif player.charging > 0:
             player.power = 1
@@ -390,7 +390,7 @@ def part2():
 
         # --!! Boss Attack !!------------------------------------------- #
         if not is_attack:
-            attack_num = random.randint(1,1) # 1 ~ 2
+            attack_num = random.randint(1,2) # 1 ~ 2
             is_attack = True
 
         current_time1 = pygame.time.get_ticks()
@@ -406,9 +406,9 @@ def part2():
             long_branch_group.draw(SCREEN)
             long_branch_group.update()
 
-        elif attack_num == 2:
+        if attack_num == 2:
             #short_branch.warning(SCREEN)
-            if current_time2 - attack2_time > 4000:
+            if current_time2 - attack2_time > 2500:
                 short_branch = b.Short_Branch()
                 short_branch_group.add(short_branch)
                 is_attack = False
@@ -442,4 +442,4 @@ def part2():
     pygame.quit()
 
 if __name__ == '__main__':
-    part1()
+    part2()

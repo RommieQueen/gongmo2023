@@ -127,7 +127,7 @@ class Player(pygame.sprite.Sprite):
         #키보드로 player 이동
         self.keys = pygame.key.get_pressed()
 
-        if not self.isAiming and not self.is_sword:
+        if not self.isAiming and not self.is_charging:
 
             # 왼쪽으로 이동가능
             if self.keys[pygame.K_a]:
@@ -255,7 +255,6 @@ class Player(pygame.sprite.Sprite):
         if pygame.time.get_ticks() - self.dash_time > 3000:
             self.is_dash = False
             self.dash_time = pygame.time.get_ticks()
-
     def sword_charging(self):
         from main import screen
         self.state = 5
