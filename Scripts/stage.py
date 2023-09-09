@@ -236,7 +236,8 @@ def part2():
 
     # 좌표, ui, 인스턴스 등 생성
     SKY = (225,128,72)
-    player = p.Player(position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 340))
+    player_y = SCREEN_HEIGHT - 340
+    player = p.Player(position=(SCREEN_WIDTH // 2, player_y))
     scope_collide = False
     power_bar_pos = (SCREEN_WIDTH/2-images.power1.get_rect().right, 600)
     scope = s.Scope()
@@ -347,9 +348,8 @@ def part2():
                         player.state = 3
 
                 elif MOUSE_LEFT and scope_collide and player.isAiming:
-                    boss.hit(5)
-                    if boss.is_hit == False:
-                        boss.hit()
+                    if not boss.is_hit:
+                        boss.hit(5)
 
             elif is_sword and not sword_group: # sword
                 if MOUSE_RIGHT:
@@ -359,9 +359,11 @@ def part2():
 
                 if MOUSE_LEFT and player.is_charging:
                     player.is_charging = False
+                    player.is_sword = False
                     player.charging = 0
                     player.sword_attack()
                     player.is_effect = True
+
             # 검 사용 이펙트
             if player.is_effect and not sword_group:
                 sword_effect = p.SwordEffect(player.power, player)
@@ -418,9 +420,9 @@ def part2():
             player.hit()
 
         # 스코프 - 적 충돌
-        scope_collide1 = manager.collision_entity(scope_point, long_branch_group)
+        scope_collide = manager.collision_entity(scope_point, long_branch_group)
 
-        if scope_collide1:
+        if scope_collide:
             scope.collide_enemy()
         else:
             scope.normal()

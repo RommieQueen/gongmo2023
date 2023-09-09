@@ -129,7 +129,6 @@ class Player(pygame.sprite.Sprite):
         self.keys = pygame.key.get_pressed()
 
         if not self.isAiming and not self.is_charging:
-
             # 왼쪽으로 이동가능
             if self.keys[pygame.K_a]:
 
@@ -256,8 +255,9 @@ class Player(pygame.sprite.Sprite):
     def sword_charging(self):
         self.state = 5
         self.is_sword = False
+
     def sword_attack(self):
-        if self.is_sword == False:
+        if not self.is_sword:
             for i in range(22,25):
                 self.image = self.images[i]
 

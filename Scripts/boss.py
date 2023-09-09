@@ -94,6 +94,7 @@ class TreeBoss(pygame.sprite.Sprite):
         super().__init__()
         self.image = images.part2_boss
         self.rect = self.image.get_rect()
+        self.rect.y = 30
         self.mask = pygame.mask.from_surface(self.image)
         self.max_health = 1500
         self.boss_health = self.max_health
