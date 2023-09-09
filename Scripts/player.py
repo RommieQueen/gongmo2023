@@ -12,15 +12,15 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, position):
         super(Player, self).__init__()
 
-        # ì´ë¯¸ì§€ë¥¼ Rectì•ˆì— ë„£ê¸° ìœ„í•´ Rectì˜ í¬ê¸° ì§€ì •
-        # ì´ë¯¸ì§€ì˜ í¬ê¸°ì™€ ê°™ê²Œ í•˜ê±°ë‚˜, í¬ê¸°ë¥¼ ë‹¤ë¥´ê²Œ í•œë‹¤ë©´ pygame.transform.scaleì„ ì‚¬ìš©í•˜ì—¬ rect ì•ˆì—
-        # ì´ë¯¸ì§€ë¥¼ ë§žì¶”ë„ë¡ í•œë‹¤.
+        # ?´ë¯¸ì??ë¥? Rect?•ˆ?— ?„£ê¸? ?œ„?•´ Rect?˜ ?¬ê¸? ì§?? •
+        # ?´ë¯¸ì???˜ ?¬ê¸°ì?? ê°™ê²Œ ?•˜ê±°ë‚˜, ?¬ê¸°ë?? ?‹¤ë¥´ê²Œ ?•œ?‹¤ë©? pygame.transform.scale?„ ?‚¬?š©?•˜?—¬ rect ?•ˆ?—
+        # ?´ë¯¸ì??ë¥? ë§žì¶”?„ë¡? ?•œ?‹¤.
         size = (92, 184) 
 
-        # ì—¬ëŸ¬ìž¥ì˜ ì´ë¯¸ì§€ë¥¼ ë¦¬ìŠ¤íŠ¸ë¡œ ì €ìž¥í•œë‹¤. ì´ë¯¸ì§€ ê²½ë¡œëŠ” ìžì‹ ë“¤ì˜ ê²½ë¡œë¥¼ ì‚¬ìš©í•œë‹¤.
+        # ?—¬?Ÿ¬?ž¥?˜ ?´ë¯¸ì??ë¥? ë¦¬ìŠ¤?Š¸ë¡? ????ž¥?•œ?‹¤. ?´ë¯¸ì?? ê²½ë¡œ?Š” ?ž?‹ ?“¤?˜ ê²½ë¡œë¥? ?‚¬?š©?•œ?‹¤.
         images = []
 
-        # ì„œìžˆëŠ” ìƒíƒœ 0 ~ 5
+        # ?„œ?žˆ?Š” ?ƒ?ƒœ 0 ~ 5
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_idle.png'))
@@ -42,13 +42,13 @@ class Player(pygame.sprite.Sprite):
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_6.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_walk_6.png'))
 
-        # ì•‰ëŠ” ìƒíƒœ 18
+        # ?•‰?Š” ?ƒ?ƒœ 18
         images.append(pygame.image.load('./../Images/sprites/player/player_sit.png'))
 
-        # ì„œì„œ ê³µê²©í•˜ëŠ” ìƒíƒœ 19
+        # ?„œ?„œ ê³µê²©?•˜?Š” ?ƒ?ƒœ 19
         images.append(pygame.image.load('./../Images/sprites/player/player_stand_attack.png'))
 
-        # ì•‰ì•„ì„œ ê³µê²©í•˜ê³  ìƒíƒœ 20
+        # ?•‰?•„?„œ ê³µê²©?•˜ê³? ?ƒ?ƒœ 20
         images.append(pygame.image.load('./../Images/sprites/player/player_sit_attack.png'))
 
         #stage2 _ sword attack 21~24
@@ -57,51 +57,51 @@ class Player(pygame.sprite.Sprite):
         images.append(pygame.image.load('./../Images/sprites/player/player_sword3.png'))
         images.append(pygame.image.load('./../Images/sprites/player/player_sword4.png'))
 
-        # Rect í¬ê¸°ì™€ Image í¬ê¸° ë§žì¶”ê¸°. pygame.transform.scale
+        # Rect ?¬ê¸°ì?? Image ?¬ê¸? ë§žì¶”ê¸?. pygame.transform.scale
         self.images = [pygame.transform.scale(image, size) for image in images]
 
-        # rect ë§Œë“¤ê¸°
+        # rect ë§Œë“¤ê¸?
         self.rect = pygame.Rect(position, size)
 
-        # masks ë§Œë“¤ê¸°
+        # masks ë§Œë“¤ê¸?
         self.masks = [pygame.mask.from_surface(image) for image in self.images]
 
-        # ì›ë³¸ ìºë¦­í„° ì´ë¯¸ì§€ë“¤
+        # ?›ë³? ìºë¦­?„° ?´ë¯¸ì???“¤
         self.images_right = images
         
-        # ìºë¦­í„° ì´ë¯¸ì§€ê°€ ì˜¤ë¥¸ìª½ì„ ë³´ê³  ìžˆëŠ”ë°, ì™¼ìª½ìœ¼ë¡œ ë³´ë„ë¡ í•˜ê¸° ìœ„í•´ì„œëŠ”
-        # ì´ë¯¸ì§€ë¥¼ ì„¸ë¡œ ê¸°ì¤€ìœ¼ë¡œ ì¢Œìš°ë¡œ ë’¤ì§‘ì´ ì¤€ë‹¤. pygame.transform.flip ë©”ì„œë“œ ì‚¬ìš©
+        # ìºë¦­?„° ?´ë¯¸ì??ê°? ?˜¤ë¥¸ìª½?„ ë³´ê³  ?žˆ?Š”?°, ?™¼ìª½ìœ¼ë¡? ë³´ë„ë¡? ?•˜ê¸? ?œ„?•´?„œ?Š”
+        # ?´ë¯¸ì??ë¥? ?„¸ë¡? ê¸°ì???œ¼ë¡? ì¢Œìš°ë¡? ?’¤ì§‘ì´ ì¤??‹¤. pygame.transform.flip ë©”ì„œ?“œ ?‚¬?š©
         self.images_left = [pygame.transform.flip(image, True, False) for image in images]
 
-        # ìºë¦­í„°ì˜ í˜„ìž¬ ìƒíƒœ
+        # ìºë¦­?„°?˜ ?˜„?ž¬ ?ƒ?ƒœ
         self.keys = pygame.key.get_pressed()
-        # 0 - idle ìƒíƒœ, 1 - ê±·ê³  ìžˆëŠ” ìƒíƒœ
+        # 0 - idle ?ƒ?ƒœ, 1 - ê±·ê³  ?žˆ?Š” ?ƒ?ƒœ
         self.state = 0
         self.keys = pygame.key.get_pressed()
         
         # ë°©í–¥
         self.direction = 'right'
         
-        # ì†ë„
+        # ?†?„
         self.velocity_x = 0
 
-        # ìºë¦­í„°ì˜ ì²«ë²ˆì§¸ ì´ë¯¸ì§€
+        # ìºë¦­?„°?˜ ì²«ë²ˆì§? ?´ë¯¸ì??
         self.index = 0
         self.image = images[self.index]
 
-        # 1ì´ˆì— ë³´ì—¬ì¤„ 1ìž¥ì˜ ì´ë¯¸ì§€ ì‹œê°„ì„ ê³„ì‚°, ì†Œìˆ˜ì  3ìžë¦¬ê¹Œì§€ ë°˜ì˜¬ë¦¼
+        # 1ì´ˆì— ë³´ì—¬ì¤? 1?ž¥?˜ ?´ë¯¸ì?? ?‹œê°„ì„ ê³„ì‚°, ?†Œ?ˆ˜?  3?žë¦¬ê¹Œì§? ë°˜ì˜¬ë¦?
         self.animation_time = round(100 / len(self.images * 100), 2)
 
-        # mtì™€ ê²°í•©í•˜ì—¬ animation_timeì„ ê³„ì‚°í•  ì‹œê°„ ì´ˆê¸°í™”
+        # mt??? ê²°í•©?•˜?—¬ animation_time?„ ê³„ì‚°?•  ?‹œê°? ì´ˆê¸°?™”
         self.current_time = 0
 
-        # playerê°€ ì›€ì§ì´ëŠ” í™•ì¸
+        # playerê°? ???ì§ì´?Š” ?™•?¸
         self.isMove = False
 
-        # playerê°€ ì¡°ì¤€ì¤‘ì¸ì§€ í™•ì¸
+        # playerê°? ì¡°ì??ì¤‘ì¸ì§? ?™•?¸
         self.isAiming = False
 
-        # player ì²´ë ¥ ê´€ë¦¬
+        # player ì²´ë ¥ ê´?ë¦?
         self.is_hit = False
         self.hit_timer = 0
         self.is_die = False
@@ -123,13 +123,13 @@ class Player(pygame.sprite.Sprite):
         self.is_effect = False
         self.effect_time = pygame.time.get_ticks()
 
-    # updateë¥¼ í†µí•´ ìºë¦­í„°ì˜ ì´ë¯¸ì§€ê°€ ê³„ì† ë°˜ë³µí•´ì„œ ë‚˜íƒ€ë‚˜ë„ë¡ í•œë‹¤.
+    # updateë¥? ?†µ?•´ ìºë¦­?„°?˜ ?´ë¯¸ì??ê°? ê³„ì† ë°˜ë³µ?•´?„œ ?‚˜????‚˜?„ë¡? ?•œ?‹¤.
     def update(self, mt):
-        #í‚¤ë³´ë“œë¡œ player ì´ë™
+        #?‚¤ë³´ë“œë¡? player ?´?™
         self.keys = pygame.key.get_pressed()
 
         if not self.isAiming and not self.is_charging:
-            # ì™¼ìª½ìœ¼ë¡œ ì´ë™ê°€ëŠ¥
+            # ?™¼ìª½ìœ¼ë¡? ?´?™ê°??Š¥
             if self.keys[pygame.K_a]:
 
                 self.direction = "left"
@@ -139,7 +139,7 @@ class Player(pygame.sprite.Sprite):
                     self.isMove = False
                 else:
                     self.isMove = True
-            # ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™ê°€ëŠ¥
+            # ?˜¤ë¥¸ìª½?œ¼ë¡? ?´?™ê°??Š¥
             if self.keys[pygame.K_d]:
                 self.direction = "right"
                 self.state = 1
@@ -148,11 +148,11 @@ class Player(pygame.sprite.Sprite):
                     self.isMove = False
                 else:
                     self.isMove = True
-            # ì•‰ê¸° ê°€ëŠ¥
+            # ?•‰ê¸? ê°??Š¥
             if self.keys[pygame.K_s]:
                 self.state = 2
 
-        # í˜„ìž¬ ìƒíƒœì— ë”°ë¼ ë°˜ë³µí•´ì¤„ ì´ë¯¸ì§€ì˜ index ì„¤ì •ê³¼ ì†ë„
+        # ?˜„?ž¬ ?ƒ?ƒœ?— ?”°?¼ ë°˜ë³µ?•´ì¤? ?´ë¯¸ì???˜ index ?„¤? •ê³? ?†?„
         if self.state == 0:
             count = 6
             start_Index = 0
@@ -179,27 +179,27 @@ class Player(pygame.sprite.Sprite):
             count = 1
             start_Index = 21
             self.velocity_x = 0
-        #sword íœ˜ë‘ë¥´ê¸°
+        #sword ?œ˜?‘ë¥´ê¸°
         elif self.state == 6:
             count = 3
             start_Index = 22
             self.velocity_x = 0
 
-        # ë°©í–¥ì´ ì˜¤ë¥¸ìª½ì´ë©´, ì˜¤ë¥¸ìª½ ì´ë¯¸ì§€ ì„ íƒ
+        # ë°©í–¥?´ ?˜¤ë¥¸ìª½?´ë©?, ?˜¤ë¥¸ìª½ ?´ë¯¸ì?? ?„ ?ƒ
         if self.direction == 'right':
             self.images = self.images_right
-        # ë°©í–¥ì´ ì™¼ìª½ì´ë©´ ì™¼ìª½ ì´ë¯¸ì§€ ì„ íƒ
+        # ë°©í–¥?´ ?™¼ìª½ì´ë©? ?™¼ìª? ?´ë¯¸ì?? ?„ ?ƒ
         elif self.direction == 'left':
             self.images = self.images_left
 
-        # loop ì‹œê°„ ë”í•˜ê¸°
+        # loop ?‹œê°? ?”?•˜ê¸?
         self.current_time += mt
 
-        # loop time ê²½ê³¼ê°€ animation_timeì„ ë„˜ì–´ì„œë©´ ìƒˆë¡œìš´ ì´ë¯¸ì§€ ì¶œë ¥
+        # loop time ê²½ê³¼ê°? animation_time?„ ?„˜?–´?„œë©? ?ƒˆë¡œìš´ ?´ë¯¸ì?? ì¶œë ¥
         if self.current_time >= self.animation_time:
             self.current_time = 0
 
-            # ìƒíƒœì— ë”°ë¼ ì´ë¯¸ì§€ index ë²”ìœ„ë¥¼ ë‹¤ë¥´ê²Œ ì„¤ì •í•œë‹¤.
+            # ?ƒ?ƒœ?— ?”°?¼ ?´ë¯¸ì?? index ë²”ìœ„ë¥? ?‹¤ë¥´ê²Œ ?„¤? •?•œ?‹¤.
             self.index = (self.index % count) + start_Index
 
             self.image = self.images[self.index]
@@ -208,8 +208,8 @@ class Player(pygame.sprite.Sprite):
             if self.index >= len(self.images):
                 self.index = 0
 
-        if self.is_hit:  #is_hitë¡œ ìƒíƒœ ê°ì§€. í˜„ìž¬ Trueì¸ ìƒíƒœë¥¼ ê°ì§€.
-            if pygame.time.get_ticks() - self.hit_timer > 500:  # 0.5ì´ˆ ë™ì•ˆ ìœ ì§€
+        if self.is_hit:  #is_hitë¡? ?ƒ?ƒœ ê°ì??. ?˜„?ž¬ True?¸ ?ƒ?ƒœë¥? ê°ì??.
+            if pygame.time.get_ticks() - self.hit_timer > 500:  # 0.5ì´? ?™?•ˆ ?œ ì§?
                 self.is_hit = False
 
         if self.is_effect:
@@ -236,8 +236,8 @@ class Player(pygame.sprite.Sprite):
         current_health_width = (self.player_health / self.max_health) * health_bar_width
         pygame.draw.rect(screen, (0, 255, 0), (health_bar_x, health_bar_y, current_health_width, health_bar_height))
 
-    # ------- ì—¬ê¸°ë¶€í„° part2ì— ì“°ìž…ë‹ˆë‹¤. ------- #
-    def dash(self): # ë¡œì§ ì™„ì„±, ì• ë‹ˆë©”ì´ì…˜ ë„£ê¸°
+    # ------- ?—¬ê¸°ë???„° part2?— ?“°?ž…?‹ˆ?‹¤. ------- #
+    def dash(self): # ë¡œì§ ?™„?„±, ?• ?‹ˆë©”ì´?…˜ ?„£ê¸?
         if not self.is_dash:
             self.is_dash = True
 
@@ -272,7 +272,7 @@ class SwordEffect(pygame.sprite.Sprite):
         self.direction = player.direction
         self.mask = pygame.mask.from_surface(self.image)
         self.is_effect = False
-        self.accel_speed = 5 # ê°€ì†ë„
+        self.accel_speed = 5 # ê°??†?„
         self.rect.y  = player.rect.y
 
         if self.direction == "right":
@@ -303,5 +303,3 @@ class SwordEffect(pygame.sprite.Sprite):
         if pygame.time.get_ticks() - self.kill_time > 300:
            self.kill()
            self.is_effect = False
-
-
