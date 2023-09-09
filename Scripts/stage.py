@@ -247,10 +247,10 @@ def part2():
     # boss 요소 그룹이나 필요요소 선언
     boss = b.TreeBoss()
     boss_group = pygame.sprite.Group(boss)
+
     long_branch_group = pygame.sprite.Group()
     short_branch_group = pygame.sprite.Group()
-    attack1_time = pygame.time.get_ticks()
-    attack2_time = pygame.time.get_ticks()
+
     is_attack = False
     attack_num = 0
 
@@ -357,19 +357,20 @@ def part2():
                     player.is_charging = True
                     player.sword_charging()
 
-                if MOUSE_LEFT:
-                    if player.is_charging:
-                        player.is_charging = False
-                        player.charging = 0
-                        player.sword_attack()
+                if MOUSE_LEFT and player.is_charging:
+                    player.is_charging = False
+                    player.charging = 0
+                    player.sword_attack()
+                    player.is_effect = True
 
-                        if player.is_effect:
-                            sword_effect = p.SwordEffect(player.power, player.sword_x, player.sword_y, player.direction)
-                            sword_group.add(sword_effect)
-                            sword_group.update()
-                            sword_group.draw(SCREEN)
-                            if manager.collision_entity(sword_effect, long_branch_group):  # 칼과 충돌
-                                boss.hit(damage)
+            if player.is_effect:
+                sword_effect = p.SwordEffect(player.power, player.rect.x+150, player.rect.y, player.direction)
+                sword_group.add(sword_effect)
+                sword_group.update()
+                sword_group.draw(SCREEN)
+                if manager.collision_entity(sword_effect, long_branch_group):  # 칼과 충돌
+                    boss.hit(damage)
+                player.is_effect = False
 
             # 마우스 떼서 무기 취소
             if event.type == pygame.MOUSEBUTTONUP:
@@ -388,34 +389,23 @@ def part2():
                         player.state = 0
                         player.velocity_x = 0
 
-        # --!! Boss Attack !!------------------------------------------- #
-        if not is_attack:
-            attack_num = random.randint(1,2) # 1 ~ 2
-            is_attack = True
+        # --!! Boss Attack !!----------------------------- #
 
-        current_time1 = pygame.time.get_ticks()
-        current_time2 = pygame.time.get_ticks()
+        if not long_branch_group and not short_branch_group:
+            attack_num = random.randint(1, 2)
 
-        if attack_num == 1:
-            if current_time1 - attack1_time > 4000:
-                long_branch = b.Long_Branch()
-                long_branch_group.add(long_branch)
-                is_attack = False
-                attack1_time = current_time1
+        if not long_branch_group and attack_num==1: # long
+            long_branch = b.Long_Branch()
+            long_branch_group.add(long_branch)
 
-            long_branch_group.draw(SCREEN)
-            long_branch_group.update()
+        elif attack_num == 2 and not short_branch_group:  # short
+            short_branch = b.Short_Branch()
+            short_branch_group.add(short_branch)
 
-        if attack_num == 2:
-            #short_branch.warning(SCREEN)
-            if current_time2 - attack2_time > 2500:
-                short_branch = b.Short_Branch()
-                short_branch_group.add(short_branch)
-                is_attack = False
-                attack2_time = current_time2
-
-            short_branch_group.draw(SCREEN)
-            short_branch_group.update()
+        long_branch_group.update()
+        long_branch_group.draw(SCREEN)
+        short_branch_group.update()
+        short_branch_group.draw(SCREEN)
 
         # scope 그리기
         if player.isAiming and is_gun:
@@ -423,12 +413,15 @@ def part2():
             scope_point.draw_point(SCREEN)
 
         # 플레이어 - 적 충돌 : - hp
-        if manager.collision_entity(player, long_branch_group):
+        is_long_hit = manager.collision_entity(player, long_branch_group)
+        is_short_hit = manager.collision_entity(player,short_branch_group)
+        if is_short_hit or is_long_hit:
             player.hit()
 
         # 스코프 - 적 충돌
-        scope_collide = manager.collision_entity(scope_point, long_branch_group)
-        if scope_collide:
+        scope_collide1 = manager.collision_entity(scope_point, long_branch_group)
+
+        if scope_collide1:
             scope.collide_enemy()
         else:
             scope.normal()

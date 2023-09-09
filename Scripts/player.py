@@ -256,14 +256,10 @@ class Player(pygame.sprite.Sprite):
             self.is_dash = False
             self.dash_time = pygame.time.get_ticks()
     def sword_charging(self):
-        from main import screen
         self.state = 5
         self.is_sword = False
-        self.is_effect = False
-
     def sword_attack(self):
         if self.is_sword == False:
-            self.is_effect = True
             for i in range(22,25):
                 self.image = self.images[i]
 
@@ -277,6 +273,7 @@ class SwordEffect(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = [pos_x, pos_y]
         self.mask = pygame.mask.from_surface(self.image)
+        self.is_effect = False
 
         # animation
         self.images = []
@@ -291,7 +288,8 @@ class SwordEffect(pygame.sprite.Sprite):
         if player_direction == "left":
             self.image = pygame.transform.flip(self.image,True, False)
     def update(self):
-
-       if pygame.time.get_ticks() - self.kill_time > 500:
+        self.rect.x += 10
+        if pygame.time.get_ticks() - self.kill_time > 700:
            self.kill()
-       self.rect.x += 10
+           self.is_effect = False
+    

@@ -88,7 +88,7 @@ class BossCatAttack(pygame.sprite.Sprite):
         if self.rect.bottom >= screen_height - 100:
             self.kill()
 
- # ---------- PART 2 ------------------------------------------------ #
+ # ---------- PART 2 ------------------------------------------ #
 class TreeBoss(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -142,6 +142,7 @@ class Long_Branch(pygame.sprite.Sprite):
         self.directions = ["left","right"]
         self.direction = random.choice(self.directions)
         self.speed = 40
+        self.is_attack = True
         self.wait_time = pygame.time.get_ticks()
         self.kill_time = pygame.time.get_ticks()
 
@@ -159,36 +160,39 @@ class Long_Branch(pygame.sprite.Sprite):
                 self.rect.x -= self.speed
                 if self.rect.x <= 1280-630:
                     self.rect.x = 1280-630
-                    if pygame.time.get_ticks() - self.kill_time > 2000:
+                    if pygame.time.get_ticks() - self.kill_time > 1500:
+                        self.is_attack = False
                         self.kill()
 
             elif self.direction == "left":
                 self.rect.x += self.speed
                 if self.rect.x >= 0:
                     self.rect.x = 0
-                    if pygame.time.get_ticks() - self.kill_time > 2000:
+                    if pygame.time.get_ticks() - self.kill_time > 1500:
                         self.kill()
+                        self.is_attack = False
 
 class Short_Branch(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = images.short_branch
-        self.warning = images.warning
-        self.warning_rect = self.warning.get_rect()
         self.rand_x = random.randrange(50,1220)
-        self.y = 720 - 512 + 300
+        self.y = 720 - 512 + 300 #508
+        self.to_y = 508-35
+        self.speed = -18
         self.rect = self.image.get_rect()
         self.rect.center = [self.rand_x,720]
         self.mask = pygame.mask.from_surface(self.image)
-        self.is_warning = True
         self.wait_time = pygame.time.get_ticks()
         self.kill_time = pygame.time.get_ticks()
     def update(self):
-        if pygame.time.get_ticks() - self.wait_time > 500:
-            self.y -= 20
-            if self.y >= 720 - 300:
-                self.y = 720 - 300
-                if pygame.time.get_ticks() - self.kill_time > 2000:
+        self.is_attack = True
+        if pygame.time.get_ticks() - self.wait_time > 700:
+            self.rect.y += self.speed
+            if self.rect.y <= self.to_y:
+                self.rect.y = self.to_y
+                if pygame.time.get_ticks() - self.kill_time > 1500:
                     self.kill()
                     print(pygame.time.get_ticks(), self.kill_time)
+
 
