@@ -302,9 +302,4 @@ class SwordEffect(pygame.sprite.Sprite):
 
         if pygame.time.get_ticks() - self.kill_time > 300:
            self.kill()
-<<<<<<< HEAD
            self.is_effect = False
-
-=======
-    
->>>>>>> 058ca51efc8ae1692647b12bf40280508f9560ea

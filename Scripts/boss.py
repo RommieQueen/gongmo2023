@@ -99,6 +99,7 @@ class TreeBoss(pygame.sprite.Sprite):
         self.max_health = 1500
         self.boss_health = self.max_health
         self.is_hit = False
+        self.is_awake = False
         self.hit_alpha = 100
         self.hit_timer = pygame.time.get_ticks()
 

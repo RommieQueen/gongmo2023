@@ -11,6 +11,7 @@ import boss as b
 import import_image as images
 import game_manager as manager
 import part1_story as story
+import ending_part as end
 
 # 스크린 전체 크기 지정
 SCREEN_WIDTH = 1280
@@ -24,7 +25,7 @@ pygame.init()
 
 # 스크린 객체 저장
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("player ex") 
+pygame.display.set_caption("본격! 외계인 침공은 있던적이 없던거야!") 
 
 SKY = (124,150,201)
 BLACK = (0,0,0)
@@ -41,7 +42,6 @@ def scoreboard(screen, score):
     screen.blit(scoreboard_text, (1090, 10))
 
 def retry(now_stage): #죽으면 뜨는 함수
-    time.sleep(0.5)
     pygame.mouse.set_visible(True)
 
     font = pygame.font.Font('./../Fonts/NeoDunggeunmoPro-Regular.ttf', 40)
@@ -140,7 +140,6 @@ def part1():
                         player.state = 0
                         player.velocity_x = 0
 
-        e.current_die = 100
         if e.current_die >= 100:
             for enemy in enemy_group:
                 enemy.kill()
@@ -247,6 +246,7 @@ def part2():
 
     # boss 요소 그룹이나 필요요소 선언
     boss = b.TreeBoss()
+    boss.is_awake = True
     boss_group = pygame.sprite.Group(boss)
 
     long_branch_group = pygame.sprite.Group()
@@ -313,7 +313,7 @@ def part2():
                 damage = 12
                 SCREEN.blit(images.sword_charging2, power_bar_pos)
             if player.power == 3:
-                damage = 40
+                damage = 50
                 SCREEN.blit(images.sword_charging3, power_bar_pos)
 
         for event in pygame.event.get():
@@ -389,6 +389,19 @@ def part2():
 
         # --!! Boss Attack !!----------------------------- #
 
+        # player의 위치와 마우스 포인터의 위치 사이의 라디안 각도를 계산
+        angle = math.atan2(mouse_y - 0, mouse_x - player.rect.x)
+
+        # 라디안 값을 각도로 변환
+        angle = math.degrees(angle)
+
+        if player.isAiming:
+            # player를 기준으로 마우스 포인터가 오른쪽에 있는지 왼쪽에 있는지를 확인
+            if -90 <= angle <= 90:
+                player.direction = "right"
+            else:
+                player.direction = "left"
+
         if not long_branch_group and not short_branch_group:
             attack_num = random.randint(1, 2)
 
@@ -407,6 +420,11 @@ def part2():
 
         sword_group.update()
         sword_group.draw(SCREEN)
+
+        if boss.boss_health <= 0:
+                boss.is_awake = False
+                pygame.mouse.set_visible(True)
+                end.ending_part()
 
         # scope 그리기
         if player.isAiming and is_gun:
@@ -443,3 +461,4 @@ def part2():
 
 if __name__ == '__main__':
     part2()
+
