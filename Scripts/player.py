@@ -121,6 +121,7 @@ class Player(pygame.sprite.Sprite):
         self.sword_x = 0
         self.sword_y = 500
         self.is_effect = False
+        self.effect_time = pygame.time.get_ticks()
 
     # update를 통해 캐릭터의 이미지가 계속 반복해서 나타나도록 한다.
     def update(self, mt):
@@ -212,12 +213,9 @@ class Player(pygame.sprite.Sprite):
             if pygame.time.get_ticks() - self.hit_timer > 500:  # 0.5초 동안 유지
                 self.is_hit = False
 
-        # effect 생성
-        if self.direction == "right":
-            self.sword_x = self.rect.right + 50
-        elif self.direction == "left":
-            self.sword_x = self.rect.left - 50
-
+        if self.is_effect:
+            if pygame.time.get_ticks() - self.effect_time > 700:
+                self.is_effect = False
 
     def hit(self):
         if not self.is_hit:
@@ -265,15 +263,22 @@ class Player(pygame.sprite.Sprite):
 
 # --------- SWORD EFFECT --------------------- #
 class SwordEffect(pygame.sprite.Sprite):
-    def __init__(self, power, pos_x, pos_y,player_direction):
+    def __init__(self, power, player):
         super().__init__()
         self.image = imgs.power1
         self.power = power
         self.kill_time = pygame.time.get_ticks()
         self.rect = self.image.get_rect()
-        self.rect.center = [pos_x, pos_y]
+        self.direction = player.direction
         self.mask = pygame.mask.from_surface(self.image)
         self.is_effect = False
+        self.accel_speed = 5 # 가속도
+        self.rect.y  = player.rect.y
+
+        if self.direction == "right":
+            self.rect.x = player.rect.right
+        elif self.direction =="left":
+            self.rect.x = player.rect.left - 50
 
         # animation
         self.images = []
@@ -285,11 +290,16 @@ class SwordEffect(pygame.sprite.Sprite):
         elif self.power == 3:
             self.image = imgs.power3
 
-        if player_direction == "left":
+        if self.direction == "left":
             self.image = pygame.transform.flip(self.image,True, False)
     def update(self):
-        self.rect.x += 10
-        if pygame.time.get_ticks() - self.kill_time > 700:
+        self.accel_speed += 1
+        self.is_effect = True
+        if self.direction == "right":
+            self.rect.x += self.accel_speed
+        elif self.direction =="left":
+            self.rect.x -= self.accel_speed
+
+        if pygame.time.get_ticks() - self.kill_time > 300:
            self.kill()
-           self.is_effect = False
     

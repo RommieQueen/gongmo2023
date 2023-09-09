@@ -351,7 +351,7 @@ def part2():
                     if boss.is_hit == False:
                         boss.hit()
 
-            elif is_sword: # sword
+            elif is_sword and not sword_group: # sword
                 if MOUSE_RIGHT:
                     pygame.mouse.set_visible(False)
                     player.is_charging = True
@@ -362,15 +362,11 @@ def part2():
                     player.charging = 0
                     player.sword_attack()
                     player.is_effect = True
-
-            if player.is_effect:
-                sword_effect = p.SwordEffect(player.power, player.rect.x+150, player.rect.y, player.direction)
+            # 검 사용 이펙트
+            if player.is_effect and not sword_group:
+                sword_effect = p.SwordEffect(player.power, player)
                 sword_group.add(sword_effect)
-                sword_group.update()
-                sword_group.draw(SCREEN)
-                if manager.collision_entity(sword_effect, long_branch_group):  # 칼과 충돌
-                    boss.hit(damage)
-                player.is_effect = False
+                player.is_effect_running = True
 
             # 마우스 떼서 무기 취소
             if event.type == pygame.MOUSEBUTTONUP:
@@ -407,6 +403,9 @@ def part2():
         short_branch_group.update()
         short_branch_group.draw(SCREEN)
 
+        sword_group.update()
+        sword_group.draw(SCREEN)
+
         # scope 그리기
         if player.isAiming and is_gun:
             scope.draw(SCREEN, mouse_x, mouse_y)
@@ -425,6 +424,12 @@ def part2():
             scope.collide_enemy()
         else:
             scope.normal()
+
+        # sword_effect - 적 충돌
+        sword_collide = pygame.sprite.groupcollide(sword_group, long_branch_group, False, False)
+
+        if sword_collide:
+            boss.hit(damage)
 
         # 플레이어 사망
         if player.is_die == True:
