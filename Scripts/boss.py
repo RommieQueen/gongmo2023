@@ -160,7 +160,7 @@ class Long_Branch(pygame.sprite.Sprite):
                 self.rect.x -= self.speed
                 if self.rect.x <= 1280-630:
                     self.rect.x = 1280-630
-                    if pygame.time.get_ticks() - self.kill_time > 1500:
+                    if pygame.time.get_ticks() - self.kill_time > 3000:
                         self.is_attack = False
                         self.kill()
 
@@ -168,7 +168,7 @@ class Long_Branch(pygame.sprite.Sprite):
                 self.rect.x += self.speed
                 if self.rect.x >= 0:
                     self.rect.x = 0
-                    if pygame.time.get_ticks() - self.kill_time > 1500:
+                    if pygame.time.get_ticks() - self.kill_time > 3000:
                         self.kill()
                         self.is_attack = False
 
@@ -176,7 +176,7 @@ class Short_Branch(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = images.short_branch
-        self.rand_x = random.randrange(50,1220)
+        self.rand_x = random.randrange(300,800)
         self.y = 720 - 512 + 300 #508
         self.to_y = 508-35
         self.speed = -18
