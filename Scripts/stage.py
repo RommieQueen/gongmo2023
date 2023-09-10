@@ -140,7 +140,7 @@ def part1():
                         player.state = 0
                         player.velocity_x = 0
 
-        if e.current_die >= 100:
+        if e.current_die >= 5:
             for enemy in enemy_group:
                 enemy.kill()
             boss.is_awake = True
@@ -304,18 +304,6 @@ def part2():
         elif player.charging > 0:
             player.power = 1
 
-        # draw power_bar
-        if player.is_charging:
-            if player.power == 1:
-                damage = 5
-                SCREEN.blit(images.sword_charging1, power_bar_pos)
-            if player.power == 2:
-                damage = 12
-                SCREEN.blit(images.sword_charging2, power_bar_pos)
-            if player.power == 3:
-                damage = 50
-                SCREEN.blit(images.sword_charging3, power_bar_pos)
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -403,9 +391,9 @@ def part2():
                 player.direction = "left"
 
         if not long_branch_group and not short_branch_group:
-            attack_num = random.randint(1, 2)
+            attack_num = random.randint(0, 2)
 
-        if not long_branch_group and attack_num==1: # long
+        if attack_num == 1 and not long_branch_group: # long
             long_branch = b.Long_Branch()
             long_branch_group.add(long_branch)
 
@@ -425,6 +413,18 @@ def part2():
                 boss.is_awake = False
                 pygame.mouse.set_visible(True)
                 end.ending_part()
+
+        # draw power_bar
+        if player.is_charging:
+            if player.power == 1:
+                damage = 5
+                SCREEN.blit(images.sword_charging1, power_bar_pos)
+            if player.power == 2:
+                damage = 12
+                SCREEN.blit(images.sword_charging2, power_bar_pos)
+            if player.power == 3:
+                damage = 50
+                SCREEN.blit(images.sword_charging3, power_bar_pos)
 
         # scope 그리기
         if player.isAiming and is_gun:
@@ -460,5 +460,5 @@ def part2():
     pygame.quit()
 
 if __name__ == '__main__':
-    part2()
+    part1()
 

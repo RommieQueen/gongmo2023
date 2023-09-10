@@ -45,7 +45,7 @@ def main():
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    running = intro()
+                    running = intdddddddro()
                      
         screen.blit(start_background, (0, 0))
         screen.blit(title_text, title_text_rect)

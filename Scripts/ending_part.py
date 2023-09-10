@@ -48,3 +48,4 @@ def ending_part():
         
         pygame.display.update()
     pygame.quit()
+
